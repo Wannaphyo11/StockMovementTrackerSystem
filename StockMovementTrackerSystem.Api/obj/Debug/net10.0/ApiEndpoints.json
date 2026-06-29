@@ -1,0 +1,436 @@
+[
+  {
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.Auth.AuthController",
+    "Method": "GetAllUser",
+    "RelativePath": "api/auth/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [],
+    "Description": "Fetches a list of all users in the system along with their associated roles. This endpoint is useful for administrative purposes, allowing administrators to view and manage user accounts and their roles.",
+    "Summary": "List"
+  },
+  {
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.Auth.AuthController",
+    "Method": "CreateClaim",
+    "RelativePath": "api/auth/claims",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ],
+    "Description": "Add a claim to the currently authenticated user. This can be used to assign specific permissions or roles to the user.",
+    "Summary": "User Claims"
+  },
+  {
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.Auth.AuthController",
+    "Method": "AccessToken",
+    "RelativePath": "api/auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "StockMovementTrackerSystem.Application.Models.LoginModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.LoginModel",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 404
+      },
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 500
+      }
+    ],
+    "Description": "Generates an access token for the requested user. ... ",
+    "Summary": "Access Token"
+  },
+  {
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.Auth.AuthController",
+    "Method": "RefreshToken",
+    "RelativePath": "api/auth/refresh-token",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "StockMovementTrackerSystem.Application.Models.RefreshTokenModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.LoginModel",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 404
+      },
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 500
+      }
+    ],
+    "Description": "Generates a new access token and refresh token for the requesting user who has a valid previous refresh token. \u003C/br\u003E\r\nThis new refresh token will be valid for 30 days, while the new access token will be valid for 1 day.",
+    "Summary": "Refresh Token"
+  },
+  {
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.Auth.AuthController",
+    "Method": "Revoke",
+    "RelativePath": "api/auth/revoke-token/{username}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "username",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 500
+      }
+    ],
+    "Description": "Revoking token for the specified user. This will log out the user from the current device.",
+    "Summary": "Revoke Token"
+  },
+  {
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.Auth.AuthController",
+    "Method": "StatusAsync",
+    "RelativePath": "api/auth/status",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [],
+    "Description": "Check if the user is authorized or not. This endpoint can be used to verify the validity of the access token.",
+    "Summary": "Authorize Status"
+  },
+  {
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.Master.StocksMovementController",
+    "Method": "CreatedAsync",
+    "RelativePath": "api/stocksmovement",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "StockMovementTrackerSystem.Application.Models.StockMovementModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Description": "Create a new Stocks Movement transaction.",
+    "Summary": "Create"
+  },
+  {
+    "ContainingType": "ES_LAB.Server.Controllers.UserManage.UserInfoController",
+    "Method": "PostAsync",
+    "RelativePath": "api/user/userinfo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "StockMovementTrackerSystem.Application.Models.UserInfoEntryModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel\u00601[[System.Collections.Generic.List\u00601[[StockMovementTrackerSystem.Domain.Entities.UserInformation, StockMovementTrackerSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "Description": "Creates a new user with the provided information, including username, email, phone number, role, and other details. This endpoint allows for the creation of user accounts and assigns them to specific roles.",
+    "Summary": "Create"
+  },
+  {
+    "ContainingType": "ES_LAB.Server.Controllers.UserManage.UserInfoController",
+    "Method": "UpdateAsync",
+    "RelativePath": "api/user/userinfo",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "StockMovementTrackerSystem.Application.Models.UserInfoEntryModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Description": "Updates existing user information based on the provided details, allowing modifications to user attributes such as username, email, phone number, role, and other relevant information. This endpoint facilitates the management and maintenance of user accounts by enabling updates to their information.",
+    "Summary": "Update"
+  },
+  {
+    "ContainingType": "ES_LAB.Server.Controllers.UserManage.UserInfoController",
+    "Method": "CheckByEmpUserName",
+    "RelativePath": "api/user/userinfo/by-username",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "Description": "Checks if a user with the specified username already exists, allowing validation of username availability during user creation or updates.",
+    "Summary": "Check-User name"
+  },
+  {
+    "ContainingType": "ES_LAB.Server.Controllers.UserManage.UserInfoController",
+    "Method": "GetAsync",
+    "RelativePath": "api/user/userinfo/get-role",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "role",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel\u00601[[System.Collections.Generic.List\u00601[[StockMovementTrackerSystem.Domain.Entities.ViUserInformation, StockMovementTrackerSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "Description": "Fetches user information based on the specified role, allowing retrieval of users with a specific role such as Admin or Cashier.",
+    "Summary": "Role"
+  },
+  {
+    "ContainingType": "ES_LAB.Server.Controllers.UserManage.UserInfoController",
+    "Method": "ResetPassword",
+    "RelativePath": "api/user/userinfo/reset",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "newPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ],
+    "Summary": "Reset Password"
+  },
+  {
+    "ContainingType": "ES_LAB.Server.Controllers.UserManage.UserInfoController",
+    "Method": "TermianteChangeAsync",
+    "RelativePath": "api/user/userinfo/terminate",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "StockMovementTrackerSystem.Application.Models.DefaultResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Description": "Updates the termination status of a user based on the provided user ID and status, allowing for the management of user accounts by marking them as terminated or active. This endpoint facilitates the control of user access and account status within the system.",
+    "Summary": "Terminated"
+  }
+]

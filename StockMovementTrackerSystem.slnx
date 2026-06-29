@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="StockMovementTrackerSystem.Api/StockMovementTrackerSystem.Api.csproj" />
+    <Project Path="StockMovementTrackerSystem.Application/StockMovementTrackerSystem.Application.csproj" />
+    <Project Path="StockMovementTrackerSystem.Domain/StockMovementTrackerSystem.Domain.csproj" />
+    <Project Path="StockMovementTrackerSystem.Infrastructure/StockMovementTrackerSystem.Infrastructure.csproj" />
+  </Folder>
+</Solution>
