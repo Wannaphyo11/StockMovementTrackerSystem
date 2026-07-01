@@ -171,3 +171,5 @@ C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\StockMovementTrackerSystem.Api.genruntimeconfig.cache
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\ref\StockMovementTrackerSystem.Api.dll
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
+C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\StockMovementTrackerSystem.Api.sourcelink.json
+C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\bin\Debug\net10.0\System.Linq.Dynamic.Core.dll

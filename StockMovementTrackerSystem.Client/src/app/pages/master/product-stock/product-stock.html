@@ -1,0 +1,178 @@
+<section
+  class="p-6 bg-surface-0 dark:bg-surface-200 rounded-xl border border-surface-200 dark:border-surface-200 shadow-sm space-y-6">
+  <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-surface-900 dark:text-surface-0">Product Stock</h1>
+      <p class="mt-1 text-sm text-surface-500">Track stock movement transactions and current balances.</p>
+    </div>
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center w-full md:w-auto">
+      <div class="w-full sm:w-80">
+        <p-iconfield iconPosition="left" class="w-full">
+          <p-inputIcon>
+            <i class="pi pi-search text-surface-400"></i>
+          </p-inputIcon>
+          <input #search pInputText class="w-full" (input)="dt1.filterGlobal(search.value, 'contains')"
+            [placeholder]="'SEARCH_KEYWORD' | translate" />
+        </p-iconfield>
+      </div>
+      <div class="flex flex-wrap gap-2 justify-end w-full sm:w-auto">
+        <p-button label="Refresh" icon="pi pi-refresh" severity="secondary" class="p-button-outlined"
+          (onClick)="productStockStore$.loadAll()"></p-button>
+        <p-button label="Create" icon="pi pi-plus" class="p-button-raised" (onClick)="create()"></p-button>
+      </div>
+    </div>
+  </div>
+  <p-toast></p-toast>
+  <p-table #dt1 [value]="productStockStore$.getAll$()" [paginator]="true" [rows]="20"
+    [loading]="productStockStore$.isLoading()" sortField="movementDate" [sortOrder]="-1"
+    styleClass="p-datatable-striped" [showCurrentPageReport]="true"
+    [globalFilterFields]="['movementId', 'productId', 'productName', 'currentStock', 'quantity', 'type']"
+    [tableStyle]="{ 'min-width': '70rem' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[20, 50, 100]"
+    selectionMode="single" dataKey="movementId" (onRowSelect)="selectProductStock($event.data)">
+    <ng-template #header>
+      <tr class="whitespace-nowrap">
+        <th pFrozenColumn [style]="{ width: '10px' }">#</th>
+        <th pSortableColumn="movementId">
+          Movement Id
+          <p-sortIcon field="movementId"></p-sortIcon>
+        </th>
+        <th pSortableColumn="productName">
+          Product
+          <p-sortIcon field="productName"></p-sortIcon>
+        </th>
+        <th pSortableColumn="currentStock" class="text-right">
+          Current Stock
+          <p-sortIcon field="currentStock"></p-sortIcon>
+        </th>
+        <th pSortableColumn="quantity" class="text-right">
+          Quantity
+          <p-sortIcon field="quantity"></p-sortIcon>
+        </th>
+        <th pSortableColumn="type">
+          Type
+          <p-sortIcon field="type"></p-sortIcon>
+        </th>
+        <th pSortableColumn="movementDate">
+          Movement Date
+          <p-sortIcon field="movementDate"></p-sortIcon>
+        </th>
+        <th style="width: 5rem"></th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-productStock let-rowIndex="rowIndex">
+      <tr class="whitespace-nowrap" [pSelectableRow]="productStock">
+        <td>
+          <span class="pi pi-circle" [class.pi-check-circle]="selectedValue === productStock"></span>
+        </td>
+        <td>{{ productStock.movementId }}</td>
+        <td>
+          <div class="flex flex-col gap-1">
+            <span>{{ productStock.productName || '-' }}</span>
+          </div>
+        </td>
+        <td>{{ productStock.currentStock ?? 0 }}
+        </td>
+        <td [class.text-red-500]="productStock.type === 'OUT'" [class.text-green-500]="productStock.type === 'IN'">{{
+          productStock.quantity ?? 0 }}</td>
+        <td>
+          <p-tag [value]="productStock.type" [rounded]="true"
+            [severity]="productStock.type === 'OUT' ? 'danger' : 'success'"></p-tag>
+        </td>
+        <td>{{ productStock.movementDate | date: 'dd/MMM/yyyy
+          hh:mm a' }}</td>
+        <td class="text-right p-0">
+          <p-button label="Audit" icon="pi pi-clock" severity="success" [rounded]="true" size="small" type="button"
+            (onClick)="auditLog()"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="7" class="py-8 text-center text-surface-500">No stock movement records found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</section>
+
+<p-dialog [header]="productStockStore$.isEdit() ? 'Edit Product Stock' : 'Create Product Stock'"
+  [(visible)]="isModalVisible" maskStyleClass="backdrop-blur-sm" [breakpoints]="{
+    '1920px': '36vw',
+    '1440px': '42vw',
+    '1024px': '60vw',
+    '768px': '80vw',
+    '425px': '100vw',
+    '375px': '100vw',
+    '320px': '100vw',
+
+  }" [modal]="true" [style]="{ 'min-width': '38vw' }" [draggable]="false" [resizable]="false"
+  (onHide)="onDialogHide()">
+
+  <form [formGroup]="productStockForm" (ngSubmit)="submit()" class="space-y-4">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12 md:col-span-6">
+        <div class="flex flex-col gap-2">
+          <label for="movementId" class="font-medium">Movement Id</label>
+          <input id="movementId" formControlName="movementId" pInputText placeholder="MOV-001" required />
+          @if (
+          productStockForm.get('movementId')?.hasError('required') &&
+          productStockForm.get('movementId')?.dirty
+          ) {
+          <p-message severity="error" size="small" variant="simple">Movement Id is required.</p-message>
+          }
+        </div>
+      </div>
+
+      <!-- Product Id -->
+      <div class="col-span-12 md:col-span-6">
+        <div class="flex flex-col gap-2">
+          <label for="productId" class="font-medium">Product Id</label>
+          <input id="productId" formControlName="productId" pInputText placeholder="Product Id" required />
+          @if (
+          productStockForm.get('productId')?.hasError('required') &&
+          productStockForm.get('productId')?.dirty
+          ) {
+          <p-message severity="error" size="small" variant="simple">Product Id is required.</p-message>
+          }
+        </div>
+      </div>
+
+      <!-- Quantity -->
+      <div class="col-span-12 md:col-span-6">
+        <div class="flex flex-col gap-2">
+          <label for="quantity" class="font-medium">Quantity</label>
+          <input id="quantity" formControlName="quantity" pInputText type="number" min="1" placeholder="0" required />
+          @if (
+          productStockForm.get('quantity')?.hasError('required') &&
+          productStockForm.get('quantity')?.dirty
+          ) {
+          <p-message severity="error" size="small" variant="simple">Quantity is required.</p-message>
+          }
+        </div>
+      </div>
+
+      <!-- Movement Type -->
+      <div class="col-span-12 md:col-span-6">
+        <div class="flex flex-col gap-2">
+          <label for="type" class="font-medium">Movement Type</label>
+          <p-select inputId="type" formControlName="type" [options]="typeOptions" optionLabel="label"
+            optionValue="value" placeholder="Choose type" appendTo="body" class="w-full"></p-select>
+          @if (
+          productStockForm.get('type')?.hasError('required') &&
+          productStockForm.get('type')?.dirty
+          ) {
+          <p-message severity="error" size="small" variant="simple">Movement Type is required.</p-message>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-3 sm:flex-row sm:justify-end sm:items-center pt-2">
+      <p-button label="Cancel" severity="secondary" type="button" [outlined]="true" class="w-full sm:w-auto"
+        (onClick)="onDialogHide()"></p-button>
+      <p-button icon="pi pi-check" label="{{ (productStockStore$.isEdit() ? 'UPDATE' : 'SAVE') | translate }}"
+        type="submit" class="w-full sm:w-auto" [loading]="productStockStore$.isSubmitting()"></p-button>
+    </div>
+  </form>
+</p-dialog>

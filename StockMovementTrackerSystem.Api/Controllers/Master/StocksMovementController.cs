@@ -4,6 +4,7 @@ using StockMovementTrackerSystem.Api.Helper;
 using StockMovementTrackerSystem.Application.Models;
 using StockMovementTrackerSystem.Domain.Entities;
 using StockMovementTrackerSystem.Infrastructure.Persistence;
+using System.Linq.Dynamic.Core;
 
 namespace StockMovementTrackerSystem.Api.Controllers.Master;
 
@@ -13,8 +14,29 @@ namespace StockMovementTrackerSystem.Api.Controllers.Master;
 public class StocksMovementController(
     StockMovementTrackerSystemDbContext context) : ControllerBase
 {
-    [HttpPost]
-    [EndpointSummary("Create")]
+    [HttpGet]
+    [EndpointSummary("List")]
+    [EndpointDescription("Create a new Stocks Movement transaction.")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetProductStockAsync()
+    {
+        var productStock = await context.ViProductStockSummaries.AsNoTracking().ToListAsync();
+        return ResponseHelper.Ok_Result(productStock, null);
+    }
+
+    [HttpGet("auditlogs")]
+    [EndpointSummary("AuditLog - List")]
+    [EndpointDescription("AuditLog - List.")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetAuditLogAsync(string productId)
+    {
+        var audit = await context.StockAuditLogs.Where(x=>x.ProductId == productId).ToListAsync();
+        return ResponseHelper.Ok_Result(audit, null);
+    }
+
+
+    [HttpPost("stock")]
+    [EndpointSummary("Create StockProduct")]
     [EndpointDescription("Create a new Stocks Movement transaction.")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreatedAsync(StockMovementModel model)
@@ -27,7 +49,7 @@ public class StocksMovementController(
 
         int inputQuantity = Convert.ToInt32(model.Quantity);
         int oldStock = productStock.CurrentStock ?? 0;
-        int newStock = oldStock; 
+        int newStock = oldStock;
         int totalTrx = productStock.TotalTransactionsCount ?? 0;
 
         if (model.Type == "IN")
@@ -66,9 +88,9 @@ public class StocksMovementController(
             AuditLogId = Guid.NewGuid().ToString(),
             ProductId = model.ProductId,
             MovementType = model.Type,
-            QuantityChanged = inputQuantity, 
-            OldStock = oldStock,             
-            NewStock = newStock,             
+            QuantityChanged = inputQuantity,
+            OldStock = oldStock,
+            NewStock = newStock,
             ActionByUserId = User.Identity?.Name ?? "System",
             LogTimestamp = DateTime.Now
         };

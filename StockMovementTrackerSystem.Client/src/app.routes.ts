@@ -1,0 +1,26 @@
+import { Routes } from '@angular/router';
+import { AppLayout } from './app/layout/component/app.layout';
+import { Home } from './app/pages/home/home';
+import { Dashboard } from './app/pages/dashboard/dashboard';
+import { AuthGuardService } from './app/shared/services/auth-guard.service';
+
+export const routes: Routes = [
+  { path: '', component: Home },
+  { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
+  {
+    path: '',
+    component: AppLayout,
+    children: [
+      {
+        path: 'dashboard',
+        component: Dashboard,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'master',
+        loadChildren: () => import('./app/pages/master/master.routes'),
+        canActivate: [AuthGuardService],
+      },
+    ],
+  },
+];

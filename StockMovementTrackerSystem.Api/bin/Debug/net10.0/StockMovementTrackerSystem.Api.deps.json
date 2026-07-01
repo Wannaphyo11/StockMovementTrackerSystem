@@ -17,7 +17,8 @@
           "Newtonsoft.Json": "13.0.4",
           "Scalar.AspNetCore": "2.16.5",
           "StockMovementTrackerSystem.Application": "1.0.0",
-          "StockMovementTrackerSystem.Infrastructure": "1.0.0"
+          "StockMovementTrackerSystem.Infrastructure": "1.0.0",
+          "System.Linq.Dynamic.Core": "1.7.2"
         },
         "runtime": {
           "StockMovementTrackerSystem.Api.dll": {}
@@ -834,6 +835,14 @@
           }
         }
       },
+      "System.Linq.Dynamic.Core/1.7.2": {
+        "runtime": {
+          "lib/net10.0/System.Linq.Dynamic.Core.dll": {
+            "assemblyVersion": "1.7.2.0",
+            "fileVersion": "1.7.2.0"
+          }
+        }
+      },
       "System.Memory.Data/8.0.1": {
         "runtime": {
           "lib/net8.0/System.Memory.Data.dll": {
@@ -1252,6 +1261,13 @@
       "sha512": "sha512-GJw3bYkWpOgvN3tJo5X4lYUeIFA2HD293FPUhKmp7qxS+g5ywAb34Dnd3cDAFLkcMohy5XTpoaZ4uAHuw0uSPQ==",
       "path": "system.identitymodel.tokens.jwt/8.0.1",
       "hashPath": "system.identitymodel.tokens.jwt.8.0.1.nupkg.sha512"
+    },
+    "System.Linq.Dynamic.Core/1.7.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-11SGBy8DCywOVElSs2J+Cd4WFHruFrBnaaQ86q2HWHBGcCAQDLnbA0ivpFvMeXGPqcEPE+Q3HZtXaXN4F8JLQg==",
+      "path": "system.linq.dynamic.core/1.7.2",
+      "hashPath": "system.linq.dynamic.core.1.7.2.nupkg.sha512"
     },
     "System.Memory.Data/8.0.1": {
       "type": "package",

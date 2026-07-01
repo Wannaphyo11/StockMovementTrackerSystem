@@ -9,3 +9,4 @@ C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Domain\obj\Debug\
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Domain\obj\Debug\net10.0\refint\StockMovementTrackerSystem.Domain.dll
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Domain\obj\Debug\net10.0\StockMovementTrackerSystem.Domain.pdb
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Domain\obj\Debug\net10.0\ref\StockMovementTrackerSystem.Domain.dll
+C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Domain\obj\Debug\net10.0\StockMovementTrackerSystem.Domain.sourcelink.json

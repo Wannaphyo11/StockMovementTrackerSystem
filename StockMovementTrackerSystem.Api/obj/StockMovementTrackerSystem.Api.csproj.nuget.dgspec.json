@@ -98,6 +98,10 @@
             "Scalar.AspNetCore": {
               "target": "Package",
               "version": "[2.16.5, )"
+            },
+            "System.Linq.Dynamic.Core": {
+              "target": "Package",
+              "version": "[1.7.2, )"
             }
           },
           "imports": [

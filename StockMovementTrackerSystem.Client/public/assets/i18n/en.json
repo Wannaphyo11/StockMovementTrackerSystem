@@ -1,0 +1,45 @@
+{
+  "HELLO": "Hello",
+  "SIGN_IN_TO_CONTINUE": "Sign in to continue",
+  "SIGN_IN": "Sign In",
+  "EMAIL_OR_USERNAME": "Email or Username",
+  "EMAIL_ADDRESS": "Email Address",
+  "LOGIN": "Login",
+  "USERNAME": "Username",
+  "PASSWORD": "Password",
+  "REMEMBER_ME": "Remember me",
+  "FORGOT_PASSWORD": "Forgot Password?",
+
+  "CREATE": "Create",
+  "UPDATE": "Update",
+  "DELETE": "Delete",
+  "EXCEL": "Excel",
+  "CANCEL": "Cancel",
+  "SEARCH": "Search",
+  "SEARCH_KEYWORD": "Search keyword",
+  "RESET": "Reset",
+  "SUBMIT": "Submit",
+  "SAVE": "Save",
+  "EDIT": "Edit",
+  "VIEW": "View",
+  "BACK": "Back",
+  "ACTIONS": "Actions",
+  "SETTINGS": "Settings",
+  "PROFILE": "Profile",
+  "LOGOUT": "Logout",
+
+  "YES": "Yes",
+  "NO": "No",
+  "ACTIVE": "Active",
+  "INACTIVE": "Inactive",
+  "STATUS": "Status",
+
+  "MENU": {
+    "HOME": "Home",
+    "DASHBOARD": "Dashboard",
+    "STOCK": "Stock",
+    "STOCK.STOCK_ITEM": "Stock Item",
+    "STOCK.STOCK_PRICE": "Stock Price",
+    "STOCK.STOCK_FORMULA": "Stock Formula"
+  }
+}

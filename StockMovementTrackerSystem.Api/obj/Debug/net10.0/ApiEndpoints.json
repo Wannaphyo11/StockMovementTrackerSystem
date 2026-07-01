@@ -204,8 +204,58 @@
   },
   {
     "ContainingType": "StockMovementTrackerSystem.Api.Controllers.Master.StocksMovementController",
-    "Method": "CreatedAsync",
+    "Method": "GetProductStockAsync",
     "RelativePath": "api/stocksmovement",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Description": "Create a new Stocks Movement transaction.",
+    "Summary": "List"
+  },
+  {
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.Master.StocksMovementController",
+    "Method": "GetAuditLogAsync",
+    "RelativePath": "api/stocksmovement/auditlogs",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Description": "AuditLog - List.",
+    "Summary": "AuditLog - List"
+  },
+  {
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.Master.StocksMovementController",
+    "Method": "CreatedAsync",
+    "RelativePath": "api/stocksmovement/stock",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -228,7 +278,7 @@
       }
     ],
     "Description": "Create a new Stocks Movement transaction.",
-    "Summary": "Create"
+    "Summary": "Create StockProduct"
   },
   {
     "ContainingType": "ES_LAB.Server.Controllers.UserManage.UserInfoController",
