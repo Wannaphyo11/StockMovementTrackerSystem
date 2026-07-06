@@ -17,16 +17,19 @@ export const NAVIGATION_MENU: Readonly<any[]> = [
         label: 'MENU.MASTER',
         items: [
             {
-                label: 'MENU.MASTER.PRODUCT-STOCK',
+                label: 'MENU.MASTER.PRODUCT_STOCK',
                 icon: 'pi pi-box',
                 routerLink: ['/master/product-stock'],
 
             },
+             {
+                label: 'MENU.MASTER.STOCK_MOVEMENT',
+                icon: 'pi pi-box',
+                routerLink: ['/process/stock-movement'],
 
-            // {
-            //     label: 'MENU.MASTER.FORMULA_OUTPUT',
-            //     routerLink: ['/master/formula-output'],
-            // },
+            },
+
+            
             // {
             //     label: 'MENU.MASTER.FORMULA_COMPONENT',
             //     routerLink: ['/master/formula-component'],
