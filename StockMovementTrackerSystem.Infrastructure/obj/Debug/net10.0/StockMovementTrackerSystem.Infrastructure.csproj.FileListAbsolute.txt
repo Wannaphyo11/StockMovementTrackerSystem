@@ -11,10 +11,10 @@ C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Infrastructure\ob
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Infrastructure\obj\Debug\net10.0\StockMovementTrackerSystem.Infrastructure.AssemblyInfoInputs.cache
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Infrastructure\obj\Debug\net10.0\StockMovementTrackerSystem.Infrastructure.AssemblyInfo.cs
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Infrastructure\obj\Debug\net10.0\StockMovementTrackerSystem.Infrastructure.csproj.CoreCompileInputs.cache
+C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Infrastructure\obj\Debug\net10.0\StockMovementTrackerSystem.Infrastructure.sourcelink.json
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Infrastructure\obj\Debug\net10.0\StockMov.FDE0F9A7.Up2Date
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Infrastructure\obj\Debug\net10.0\StockMovementTrackerSystem.Infrastructure.dll
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Infrastructure\obj\Debug\net10.0\refint\StockMovementTrackerSystem.Infrastructure.dll
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Infrastructure\obj\Debug\net10.0\StockMovementTrackerSystem.Infrastructure.pdb
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Infrastructure\obj\Debug\net10.0\StockMovementTrackerSystem.Infrastructure.genruntimeconfig.cache
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Infrastructure\obj\Debug\net10.0\ref\StockMovementTrackerSystem.Infrastructure.dll
-C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Infrastructure\obj\Debug\net10.0\StockMovementTrackerSystem.Infrastructure.sourcelink.json
