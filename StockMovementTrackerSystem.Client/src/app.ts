@@ -12,7 +12,7 @@ import { ToastModule } from 'primeng/toast';
   templateUrl: './app.html',
 })
 export class App implements OnInit {
-  protected readonly title = signal('Agri Burma');
+  protected readonly title = signal('StockMovementTrackerSystem');
 
   translationsLoaded: boolean = false;
 
