@@ -380,7 +380,7 @@
         ]
       }
     },
-    "/api/stocksmovement": {
+    "/api/process/stocksmovement": {
       "get": {
         "tags": [
           "StocksMovement"
@@ -411,7 +411,7 @@
         }
       }
     },
-    "/api/stocksmovement/auditlogs": {
+    "/api/process/stocksmovement/auditlogs": {
       "get": {
         "tags": [
           "StocksMovement"
@@ -451,7 +451,7 @@
         }
       }
     },
-    "/api/stocksmovement/stock": {
+    "/api/process/stocksmovement/stock": {
       "post": {
         "tags": [
           "StocksMovement"
@@ -473,6 +473,208 @@
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/StockMovementModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/process/stocksmovement/update-stockmove": {
+      "put": {
+        "tags": [
+          "StocksMovement"
+        ],
+        "summary": "Update StockMovement",
+        "description": "Update StockMovement",
+        "parameters": [
+          {
+            "name": "movementId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockMovementModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockMovementModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockMovementModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/master/productstocks": {
+      "get": {
+        "tags": [
+          "ProductStocks"
+        ],
+        "summary": "List of ProductStock.",
+        "description": "List of ProductStock.",
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/master/productstocks/product": {
+      "post": {
+        "tags": [
+          "ProductStocks"
+        ],
+        "summary": "Create Product",
+        "description": "Create a new Product.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductStocksModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductStocksModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductStocksModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/master/productstocks/update": {
+      "put": {
+        "tags": [
+          "ProductStocks"
+        ],
+        "summary": "Create Product",
+        "description": "Create a new Product.",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductStocksModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductStocksModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductStocksModel"
               }
             }
           },
@@ -972,6 +1174,38 @@
           }
         }
       },
+      "ProductStocksModel": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string",
+            "nullable": true
+          },
+          "currentStock": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "format": "int32",
+            "nullable": true
+          },
+          "totalTransactionsCount": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "format": "int32",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastUpdatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
       "RefreshTokenModel": {
         "required": [
           "access_Token",
@@ -1186,6 +1420,9 @@
     },
     {
       "name": "StocksMovement"
+    },
+    {
+      "name": "ProductStocks"
     },
     {
       "name": "Auth"
