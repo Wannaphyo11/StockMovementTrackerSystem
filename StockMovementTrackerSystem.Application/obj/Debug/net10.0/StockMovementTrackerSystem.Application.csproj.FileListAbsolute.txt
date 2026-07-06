@@ -8,9 +8,9 @@ C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Application\obj\D
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Application\obj\Debug\net10.0\StockMovementTrackerSystem.Application.AssemblyInfoInputs.cache
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Application\obj\Debug\net10.0\StockMovementTrackerSystem.Application.AssemblyInfo.cs
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Application\obj\Debug\net10.0\StockMovementTrackerSystem.Application.csproj.CoreCompileInputs.cache
+C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Application\obj\Debug\net10.0\StockMovementTrackerSystem.Application.sourcelink.json
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Application\obj\Debug\net10.0\StockMov.CA80266C.Up2Date
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Application\obj\Debug\net10.0\StockMovementTrackerSystem.Application.dll
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Application\obj\Debug\net10.0\refint\StockMovementTrackerSystem.Application.dll
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Application\obj\Debug\net10.0\StockMovementTrackerSystem.Application.pdb
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Application\obj\Debug\net10.0\ref\StockMovementTrackerSystem.Application.dll
-C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Application\obj\Debug\net10.0\StockMovementTrackerSystem.Application.sourcelink.json
