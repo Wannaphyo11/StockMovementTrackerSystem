@@ -56,6 +56,7 @@ C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\bin\Debug\net
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\bin\Debug\net10.0\System.Composition.TypedParts.dll
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\bin\Debug\net10.0\System.Configuration.ConfigurationManager.dll
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
+C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\bin\Debug\net10.0\System.Linq.Dynamic.Core.dll
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\bin\Debug\net10.0\System.Memory.Data.dll
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\bin\Debug\net10.0\System.Security.Cryptography.ProtectedData.dll
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.resources.dll
@@ -155,6 +156,7 @@ C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\StockMovementTrackerSystem.Api.csproj.CoreCompileInputs.cache
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\StockMovementTrackerSystem.Api.MvcApplicationPartsAssemblyInfo.cs
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\StockMovementTrackerSystem.Api.MvcApplicationPartsAssemblyInfo.cache
+C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\StockMovementTrackerSystem.Api.sourcelink.json
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\rjimswa.dswa.cache.json
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
@@ -164,12 +166,10 @@ C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\staticwebassets.development.json
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\staticwebassets.build.endpoints.json
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\swae.build.ex.cache
+C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\StockMov.A177D1B7.Up2Date
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\StockMovementTrackerSystem.Api.dll
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\refint\StockMovementTrackerSystem.Api.dll
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\StockMovementTrackerSystem.Api.pdb
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\StockMovementTrackerSystem.Api.genruntimeconfig.cache
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\ref\StockMovementTrackerSystem.Api.dll
-C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
-C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\StockMovementTrackerSystem.Api.sourcelink.json
-C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\bin\Debug\net10.0\System.Linq.Dynamic.Core.dll
