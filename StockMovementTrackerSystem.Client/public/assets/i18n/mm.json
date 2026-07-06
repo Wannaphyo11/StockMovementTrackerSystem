@@ -40,6 +40,8 @@
     "STOCK": "စတော့",
     "STOCK.STOCK_ITEM": "စတော့ပစ္စည်း",
     "STOCK.STOCK_PRICE": "စတော့ဈေးနှုန်း",
-    "STOCK.STOCK_FORMULA": "စတော့ပုံသေနည်း"
+    "STOCK.STOCK_FORMULA": "စတော့ပုံသေနည်း",
+    "MENU": "မူလ",
+    "MENU.MASTER.PRODUCT-STOCK": "ထုတ်ကုန်စတော့"
   }
 }
