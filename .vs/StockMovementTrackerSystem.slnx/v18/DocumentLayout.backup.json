@@ -3,16 +3,28 @@
   "WorkspaceRootPath": "C:\\repos\\StockMovementTrackerSystem\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|c:\\repos\\stockmovementtrackersystem\\stockmovementtrackersystem.api\\controllers\\master\\stocksmovementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|solutionrelative:stockmovementtrackersystem.api\\controllers\\master\\stocksmovementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|c:\\repos\\stockmovementtrackersystem\\stockmovementtrackersystem.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|solutionrelative:stockmovementtrackersystem.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|c:\\repos\\stockmovementtrackersystem\\stockmovementtrackersystem.api\\controllers\\usermanager\\userinfocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|solutionrelative:stockmovementtrackersystem.api\\controllers\\usermanager\\userinfocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{303F344C-7AF3-6811-140A-29AB49DE3BFF}|StockMovementTrackerSystem.Infrastructure\\StockMovementTrackerSystem.Infrastructure.csproj|c:\\repos\\stockmovementtrackersystem\\stockmovementtrackersystem.infrastructure\\services\\idgenerationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{303F344C-7AF3-6811-140A-29AB49DE3BFF}|StockMovementTrackerSystem.Infrastructure\\StockMovementTrackerSystem.Infrastructure.csproj|solutionrelative:stockmovementtrackersystem.infrastructure\\services\\idgenerationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F9119E9D-F873-EF31-377B-E13EED56C520}|StockMovementTrackerSystem.Application\\StockMovementTrackerSystem.Application.csproj|c:\\repos\\stockmovementtrackersystem\\stockmovementtrackersystem.application\\models\\auditlogmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9119E9D-F873-EF31-377B-E13EED56C520}|StockMovementTrackerSystem.Application\\StockMovementTrackerSystem.Application.csproj|solutionrelative:stockmovementtrackersystem.application\\models\\auditlogmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F9119E9D-F873-EF31-377B-E13EED56C520}|StockMovementTrackerSystem.Application\\StockMovementTrackerSystem.Application.csproj|c:\\repos\\stockmovementtrackersystem\\stockmovementtrackersystem.application\\interfaces\\iidgenerationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9119E9D-F873-EF31-377B-E13EED56C520}|StockMovementTrackerSystem.Application\\StockMovementTrackerSystem.Application.csproj|solutionrelative:stockmovementtrackersystem.application\\interfaces\\iidgenerationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9119E9D-F873-EF31-377B-E13EED56C520}|StockMovementTrackerSystem.Application\\StockMovementTrackerSystem.Application.csproj|c:\\repos\\stockmovementtrackersystem\\stockmovementtrackersystem.application\\interfaces\\irandomizer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9119E9D-F873-EF31-377B-E13EED56C520}|StockMovementTrackerSystem.Application\\StockMovementTrackerSystem.Application.csproj|solutionrelative:stockmovementtrackersystem.application\\interfaces\\irandomizer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|c:\\repos\\stockmovementtrackersystem\\stockmovementtrackersystem.api\\controllers\\master\\productstockscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|solutionrelative:stockmovementtrackersystem.api\\controllers\\master\\productstockscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|c:\\repos\\stockmovementtrackersystem\\stockmovementtrackersystem.api\\controllers\\process\\stocksmovementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|solutionrelative:stockmovementtrackersystem.api\\controllers\\process\\stocksmovementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,41 +42,80 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AuditLogModel.cs",
-              "DocumentMoniker": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Application\\Models\\AuditLogModel.cs",
-              "RelativeDocumentMoniker": "StockMovementTrackerSystem.Application\\Models\\AuditLogModel.cs",
-              "ToolTip": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Application\\Models\\AuditLogModel.cs",
-              "RelativeToolTip": "StockMovementTrackerSystem.Application\\Models\\AuditLogModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAmAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Program.cs",
+              "RelativeDocumentMoniker": "StockMovementTrackerSystem.Api\\Program.cs",
+              "ToolTip": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Program.cs",
+              "RelativeToolTip": "StockMovementTrackerSystem.Api\\Program.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAACUAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T09:46:48.707Z",
+              "WhenOpened": "2026-07-06T10:15:06.179Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UserInfoController.cs",
-              "DocumentMoniker": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Controllers\\UserManager\\UserInfoController.cs",
-              "RelativeDocumentMoniker": "StockMovementTrackerSystem.Api\\Controllers\\UserManager\\UserInfoController.cs",
-              "ToolTip": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Controllers\\UserManager\\UserInfoController.cs",
-              "RelativeToolTip": "StockMovementTrackerSystem.Api\\Controllers\\UserManager\\UserInfoController.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAAAgwBwAAAAcAAAAAAAAAA==",
+              "Title": "IdGenerationService.cs",
+              "DocumentMoniker": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Infrastructure\\Services\\IdGenerationService.cs",
+              "RelativeDocumentMoniker": "StockMovementTrackerSystem.Infrastructure\\Services\\IdGenerationService.cs",
+              "ToolTip": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Infrastructure\\Services\\IdGenerationService.cs",
+              "RelativeToolTip": "StockMovementTrackerSystem.Infrastructure\\Services\\IdGenerationService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAsAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T07:31:33.836Z",
+              "WhenOpened": "2026-07-06T09:50:01.351Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "StocksMovementController.cs",
-              "DocumentMoniker": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Controllers\\Master\\StocksMovementController.cs",
-              "RelativeDocumentMoniker": "StockMovementTrackerSystem.Api\\Controllers\\Master\\StocksMovementController.cs",
-              "ToolTip": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Controllers\\Master\\StocksMovementController.cs",
-              "RelativeToolTip": "StockMovementTrackerSystem.Api\\Controllers\\Master\\StocksMovementController.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAQwBgAAAAFAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "IIdGenerationService.cs",
+              "DocumentMoniker": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Application\\Interfaces\\IIdGenerationService.cs",
+              "RelativeDocumentMoniker": "StockMovementTrackerSystem.Application\\Interfaces\\IIdGenerationService.cs",
+              "ToolTip": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Application\\Interfaces\\IIdGenerationService.cs",
+              "RelativeToolTip": "StockMovementTrackerSystem.Application\\Interfaces\\IIdGenerationService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAkAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T05:21:44.178Z",
+              "WhenOpened": "2026-07-06T09:46:35.482Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IRandomizer.cs",
+              "DocumentMoniker": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Application\\Interfaces\\IRandomizer.cs",
+              "RelativeDocumentMoniker": "StockMovementTrackerSystem.Application\\Interfaces\\IRandomizer.cs",
+              "ToolTip": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Application\\Interfaces\\IRandomizer.cs",
+              "RelativeToolTip": "StockMovementTrackerSystem.Application\\Interfaces\\IRandomizer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-06T09:46:18.436Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ProductStocksController.cs",
+              "DocumentMoniker": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Controllers\\Master\\ProductStocksController.cs",
+              "RelativeDocumentMoniker": "StockMovementTrackerSystem.Api\\Controllers\\Master\\ProductStocksController.cs",
+              "ToolTip": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Controllers\\Master\\ProductStocksController.cs",
+              "RelativeToolTip": "StockMovementTrackerSystem.Api\\Controllers\\Master\\ProductStocksController.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAawB8AAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T08:21:04.123Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "StocksMovementController.cs",
+              "DocumentMoniker": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Controllers\\process\\StocksMovementController.cs",
+              "RelativeDocumentMoniker": "StockMovementTrackerSystem.Api\\Controllers\\process\\StocksMovementController.cs",
+              "ToolTip": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Controllers\\process\\StocksMovementController.cs",
+              "RelativeToolTip": "StockMovementTrackerSystem.Api\\Controllers\\process\\StocksMovementController.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAQwEMAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T08:23:03.658Z",
               "EditorCaption": ""
             }
           ]
