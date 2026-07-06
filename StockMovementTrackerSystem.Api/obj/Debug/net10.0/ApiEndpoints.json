@@ -203,9 +203,92 @@
     "Summary": "Authorize Status"
   },
   {
-    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.Master.StocksMovementController",
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.Master.ProductStocksController",
+    "Method": "GetProductAsync",
+    "RelativePath": "api/master/productstocks",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Description": "List of ProductStock.",
+    "Summary": "List of ProductStock."
+  },
+  {
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.Master.ProductStocksController",
+    "Method": "CreateProductAsync",
+    "RelativePath": "api/master/productstocks/product",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "StockMovementTrackerSystem.Application.Models.ProductStocksModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Description": "Create a new Product.",
+    "Summary": "Create Product"
+  },
+  {
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.Master.ProductStocksController",
+    "Method": "UpdateProductAsync",
+    "RelativePath": "api/master/productstocks/update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "model",
+        "Type": "StockMovementTrackerSystem.Application.Models.ProductStocksModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Description": "Create a new Product.",
+    "Summary": "Create Product"
+  },
+  {
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.process.StocksMovementController",
     "Method": "GetProductStockAsync",
-    "RelativePath": "api/stocksmovement",
+    "RelativePath": "api/process/stocksmovement",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -225,9 +308,9 @@
     "Summary": "List"
   },
   {
-    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.Master.StocksMovementController",
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.process.StocksMovementController",
     "Method": "GetAuditLogAsync",
-    "RelativePath": "api/stocksmovement/auditlogs",
+    "RelativePath": "api/process/stocksmovement/auditlogs",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -253,9 +336,9 @@
     "Summary": "AuditLog - List"
   },
   {
-    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.Master.StocksMovementController",
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.process.StocksMovementController",
     "Method": "CreatedAsync",
-    "RelativePath": "api/stocksmovement/stock",
+    "RelativePath": "api/process/stocksmovement/stock",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -279,6 +362,39 @@
     ],
     "Description": "Create a new Stocks Movement transaction.",
     "Summary": "Create StockProduct"
+  },
+  {
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.process.StocksMovementController",
+    "Method": "UpdateStockMoveAsync",
+    "RelativePath": "api/process/stocksmovement/update-stockmove",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "movementId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "model",
+        "Type": "StockMovementTrackerSystem.Application.Models.StockMovementModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Description": "Update StockMovement",
+    "Summary": "Update StockMovement"
   },
   {
     "ContainingType": "ES_LAB.Server.Controllers.UserManage.UserInfoController",
