@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StockMovementTrackerSystem.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0938edb30b5910b021154942fc7ada827b37b80d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b82b5efda82863158cbafcfc358c0afdaf54475")]
 [assembly: System.Reflection.AssemblyProductAttribute("StockMovementTrackerSystem.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StockMovementTrackerSystem.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
