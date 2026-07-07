@@ -28,6 +28,12 @@ export const NAVIGATION_MENU: Readonly<any[]> = [
                 routerLink: ['/process/stock-movement'],
 
             },
+            {
+                label: 'MENU.MASTER.PRODUCT_STOCK_SUMMARY',
+                icon: 'pi pi-box',
+                routerLink: ['/process/product-stock-summary'],
+
+            },
 
             
             // {

@@ -66,7 +66,6 @@ export const ProductStockStore = signalStore(
                         productStockService.get().pipe(
                             tap((res) => {
                                 const created = res.data as ProductStocksModel[];
-
                                 created.forEach((item) => {
                                     item.menuItems = [
                                         {

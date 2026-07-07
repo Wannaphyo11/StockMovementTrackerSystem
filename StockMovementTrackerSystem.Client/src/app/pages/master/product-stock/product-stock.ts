@@ -65,7 +65,7 @@ export class ProductStock implements OnInit {
   //#region FormBuilder
   private formBuilder = inject(FormBuilder);
   productStockForm = this.formBuilder.group({
-    productId: ['', { validators: [Validators.required] }],
+    productId: [''],
     productName: ['', { validators: [Validators.required] }],
     currentStock: [0, { validators: [Validators.required] }],
     totalTransactionsCount: [0, { validators: [Validators.required] }],
@@ -75,10 +75,8 @@ export class ProductStock implements OnInit {
 
   ngOnInit(): void {
     this.loadMenu();
-
     // refresh labels when language changes
     this.translateService.onLangChange.subscribe(() => this.loadMenu());
-
     this.productStockStore$.loadAll();
   }
 

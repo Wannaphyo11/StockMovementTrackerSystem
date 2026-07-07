@@ -6,6 +6,7 @@ export interface StockMovementModel {
     quantity: number | null;
     type: string | null;
     movementDate: string | null;
+    menuItems: MenuItem[];
 }
 
 export interface ProductStocksModel {
@@ -27,5 +28,4 @@ export interface ViProductStockSummaryModel {
     type: string | null;
     totalTransactionsCount: number | null;
     movementDate: string | null;
-    menuItems: MenuItem[];
 }

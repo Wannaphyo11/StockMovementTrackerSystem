@@ -85,29 +85,6 @@
             <!-- Product Name-->
             <div class="col-span-6">
                 <div class="flex flex-col gap-2">
-                    <label>Product Id </label>
-                    <input formControlName="productId" pInputText placeholder="Enter Product Id.." required />
-                    @if (
-                    productStockForm.get('productId')?.hasError('required') &&
-                    productStockForm.get('productId')?.dirty
-                    ) {
-                    <p-message severity="error" size="small" variant="simple">
-                        Product Id is required .</p-message>
-                    }
-                    @if (
-                    productStockForm.get('productId')?.hasError('duplicate') &&
-                    productStockForm.get('productId')?.dirty
-                    ) {
-                    <p-message severity="error" size="small" variant="simple">Product Id already exists. Please use a
-                        different ID.
-                    </p-message>
-                    }
-                </div>
-            </div>
-
-            <!-- Product Name-->
-            <div class="col-span-6">
-                <div class="flex flex-col gap-2">
                     <label>Product Name </label>
                     <input formControlName="productName" pInputText placeholder="Enter Product Name.." required />
                     @if (

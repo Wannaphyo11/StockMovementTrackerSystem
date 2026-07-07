@@ -380,13 +380,13 @@
         ]
       }
     },
-    "/api/process/stocksmovement": {
+    "/api/process/productstocksummary": {
       "get": {
         "tags": [
-          "StocksMovement"
+          "ProductStockSummary"
         ],
         "summary": "List",
-        "description": "Create a new Stocks Movement transaction.",
+        "description": "List of a ProductStockSummary.",
         "responses": {
           "400": {
             "description": "Bad Request",
@@ -411,10 +411,10 @@
         }
       }
     },
-    "/api/process/stocksmovement/auditlogs": {
+    "/api/process/productstocksummary/auditlogs": {
       "get": {
         "tags": [
-          "StocksMovement"
+          "ProductStockSummary"
         ],
         "summary": "AuditLog - List",
         "description": "AuditLog - List.",
@@ -427,6 +427,37 @@
             }
           }
         ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/process/stocksmovement": {
+      "get": {
+        "tags": [
+          "StocksMovement"
+        ],
+        "summary": "List",
+        "description": "List of a ProductStockSummary.",
         "responses": {
           "400": {
             "description": "Bad Request",
@@ -1417,6 +1448,9 @@
   "tags": [
     {
       "name": "UserInfo"
+    },
+    {
+      "name": "ProductStockSummary"
     },
     {
       "name": "StocksMovement"

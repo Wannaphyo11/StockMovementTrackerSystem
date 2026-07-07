@@ -14,11 +14,6 @@ export class StockMovementService {
   get(): Observable<RootModel> {
     return this.httpClient.get<RootModel>(`${environment.main_url}/process/stocksmovement`);
   }
-  getAuditLog(productId: string): Observable<RootModel> {
-    return this.httpClient.get<RootModel>(
-      `${environment.main_url}/process/stocksmovement/auditlogs?productId=${productId}`,
-    );
-  }
   create(model: StockMovementModel): Observable<RootModel> {
     return this.httpClient.post<RootModel>(`${environment.main_url}/process/stocksmovement/stock`, model);
   }

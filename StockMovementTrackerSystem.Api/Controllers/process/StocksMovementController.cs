@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using StockMovementTrackerSystem.Api.Helper;
+using StockMovementTrackerSystem.Application.Interfaces;
 using StockMovementTrackerSystem.Application.Models;
 using StockMovementTrackerSystem.Domain.Entities;
 using StockMovementTrackerSystem.Infrastructure.Persistence;
@@ -13,26 +14,17 @@ namespace StockMovementTrackerSystem.Api.Controllers.process;
 [Route("api/process/[controller]")]
 [ApiController]
 public class StocksMovementController(
-    StockMovementTrackerSystemDbContext context) : ControllerBase
+    StockMovementTrackerSystemDbContext context,
+    IIdGenerationService idGenerationService) : ControllerBase
 {
     [HttpGet]
     [EndpointSummary("List")]
-    [EndpointDescription("Create a new Stocks Movement transaction.")]
+    [EndpointDescription("List of a ProductStockSummary.")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetProductStockAsync()
+    public async Task<IActionResult> GetStockMovementAsync()
     {
-        var productStock = await context.ViProductStockSummaries.AsNoTracking().ToListAsync();
-        return ResponseHelper.Ok_Result(productStock, null);
-    }
-
-    [HttpGet("auditlogs")]
-    [EndpointSummary("AuditLog - List")]
-    [EndpointDescription("AuditLog - List.")]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetAuditLogAsync(string productId)
-    {
-        var audit = await context.StockAuditLogs.Where(x=>x.ProductId == productId).ToListAsync();
-        return ResponseHelper.Ok_Result(audit, null);
+        var stockMovement = await context.StockMovements.AsNoTracking().ToListAsync();
+        return ResponseHelper.Ok_Result(stockMovement, null);
     }
 
 
@@ -73,6 +65,8 @@ public class StocksMovementController(
         productStock.CreatedDate = DateTime.Now;
         productStock.LastUpdatedDate = DateTime.Now;
 
+        model.MovementId = idGenerationService.GetJounerId();
+
         var stockMove = new StockMovement
         {
             MovementId = model.MovementId,
@@ -111,13 +105,13 @@ public class StocksMovementController(
     [EndpointSummary("Update StockMovement")]
     [EndpointDescription("Update StockMovement")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateStockMoveAsync(string movementId,StockMovementModel model)
+    public async Task<IActionResult> UpdateStockMoveAsync(string movementId, StockMovementModel model)
     {
         var productStock = await context.ProductStocks.FirstOrDefaultAsync(x => x.ProductId == model.ProductId);
 
-        var stockMove = await context.StockMovements.FirstOrDefaultAsync(x=>x.MovementId == movementId);
+        var stockMove = await context.StockMovements.FirstOrDefaultAsync(x => x.MovementId == movementId);
 
-        if (stockMove == null || productStock==null)
+        if (stockMove == null || productStock == null)
         {
             return NotFound("ProductStock not found in system.");
         }
@@ -126,7 +120,7 @@ public class StocksMovementController(
         int newStock = oldStock;
         int totalTrx = productStock.TotalTransactionsCount ?? 0;
 
-        stockMove.Quantity= model.Quantity;
+        stockMove.Quantity = model.Quantity;
         stockMove.Type = model.Type;
 
         context.StockMovements.Update(stockMove);
@@ -165,7 +159,7 @@ public class StocksMovementController(
 
         await context.SaveChangesAsync();
         return ResponseHelper.Ok_Result(new { stockMove, productStock, auditlog }, null);
-         
+
 
     }
 

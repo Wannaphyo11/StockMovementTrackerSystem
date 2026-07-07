@@ -286,9 +286,9 @@
     "Summary": "Create Product"
   },
   {
-    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.process.StocksMovementController",
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.process.ProductStockSummaryController",
     "Method": "GetProductStockAsync",
-    "RelativePath": "api/process/stocksmovement",
+    "RelativePath": "api/process/productstocksummary",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -304,13 +304,13 @@
         "StatusCode": 400
       }
     ],
-    "Description": "Create a new Stocks Movement transaction.",
+    "Description": "List of a ProductStockSummary.",
     "Summary": "List"
   },
   {
-    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.process.StocksMovementController",
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.process.ProductStockSummaryController",
     "Method": "GetAuditLogAsync",
-    "RelativePath": "api/process/stocksmovement/auditlogs",
+    "RelativePath": "api/process/productstocksummary/auditlogs",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -334,6 +334,28 @@
     ],
     "Description": "AuditLog - List.",
     "Summary": "AuditLog - List"
+  },
+  {
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.process.StocksMovementController",
+    "Method": "GetStockMovementAsync",
+    "RelativePath": "api/process/stocksmovement",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Description": "List of a ProductStockSummary.",
+    "Summary": "List"
   },
   {
     "ContainingType": "StockMovementTrackerSystem.Api.Controllers.process.StocksMovementController",

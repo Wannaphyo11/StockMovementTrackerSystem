@@ -30,6 +30,11 @@
                 "input": "public"
               }
             ],
+            "allowedCommonJsDependencies": [
+              "exceljs",
+              "file-saver",
+              "crypto-js"
+            ],
             "styles": [
               "src/styles.scss"
             ]
@@ -39,13 +44,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1.5mb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ],
               "outputHashing": "all"

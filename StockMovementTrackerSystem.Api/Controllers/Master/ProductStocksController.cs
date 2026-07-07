@@ -15,7 +15,7 @@ namespace StockMovementTrackerSystem.Api.Controllers.Master;
 [Route("api/master/[controller]")]
 [ApiController]
 public class ProductStocksController(StockMovementTrackerSystemDbContext context,
-    IIdGenerationService idGenerateService) : ControllerBase
+    IIdGenerationService idGenerationService) : ControllerBase
 {
     [HttpGet]
     [EndpointSummary("List of ProductStock.")]
@@ -33,7 +33,7 @@ public class ProductStocksController(StockMovementTrackerSystemDbContext context
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateProductAsync(ProductStocksModel model)
     {
-        model.ProductId = idGenerateService.GetJounerId();
+        model.ProductId = idGenerationService.GetJounerId();
 
         var productStock = new ProductStock
         {

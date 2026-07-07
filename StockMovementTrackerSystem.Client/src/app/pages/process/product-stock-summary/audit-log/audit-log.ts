@@ -16,6 +16,7 @@ import { TagModule } from 'primeng/tag';
 import { Toast } from "primeng/toast";
 import { StockMovementService } from '../../../../core/services/process/stock-movement.service';
 import { ProductStocksModel } from '../../../../core/models/master/stock-movement.model';
+import { ProductStockSummaryService } from '../../../../core/services/process/product-stock-summary.service';
 
 @Component({
     selector: 'app-audit-log',
@@ -55,12 +56,12 @@ export class AuditLog implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private StockMovementService: StockMovementService,
+        private productStockSummaryService: ProductStockSummaryService,
         private loggerService: LoggerService,
     ) { }
     ngOnInit(): void {
         this.route.paramMap.subscribe((params) => {
-            this.productid = params.get('productId') ?? params.get('productid') ?? '';
+            this.productid = params.get('productId') ??'';
             if (this.productid) {
                 this.loadData();
             }
@@ -70,7 +71,7 @@ export class AuditLog implements OnInit {
     loadData(): void {
         this.loading = true;
 
-        this.StockMovementService.getAuditLog(this.productid).subscribe({
+        this.productStockSummaryService.getAuditLog(this.productid).subscribe({
             next: (res) => {
                 this.loading = false;
                 this.auditLogs.set(res.data as AuditLogModel[]);

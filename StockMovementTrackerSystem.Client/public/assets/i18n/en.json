@@ -42,6 +42,7 @@
     "STOCK.STOCK_PRICE": "Stock Price",
     "STOCK.STOCK_FORMULA": "Stock Formula",
     "MENU": "Menu",
-    "MENU.MASTER.PRODUCT-STOCK": "Product Stock"
+    "MENU.MASTER.PRODUCT-STOCK": "Product Stock",
+    "MENU.MASTER.PRODUCT-STOCK-SUMMARY": "Product Stock Summary"
   }
 }

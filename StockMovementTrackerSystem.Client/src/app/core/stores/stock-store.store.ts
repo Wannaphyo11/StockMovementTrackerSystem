@@ -29,12 +29,12 @@ const initialState: StockMovementState = {
     error: null
 };
 
-const selectId: SelectEntityId<ViProductStockSummaryModel> = (productStock) => productStock.movementId;
+const selectId: SelectEntityId<StockMovementModel> = (productStock) => productStock.movementId;
 
 export const StockMovementStore = signalStore(
     { providedIn: 'root' },
 
-    withEntities<ViProductStockSummaryModel>(),
+    withEntities<StockMovementModel>(),
     withState(initialState),
 
     // Computed selectors
@@ -56,11 +56,11 @@ export const StockMovementStore = signalStore(
         ) => ({
             loadAll: rxMethod<void>(
                 pipe(
-                    tap(() => patchState(store, { isLoading: true, error: null })),
+                    tap(() => patchState(store, { isLoading: true, error: null, selectedValue: null })),
                     switchMap(() =>
                         stockMovementService.get().pipe(
                             tap((res) => {
-                                const created = res.data as ViProductStockSummaryModel[];
+                                const created = res.data as StockMovementModel[];
                                 created.forEach((item) => {
                                     item.menuItems = [{
                                         label: translateService.instant('Update'),
@@ -112,7 +112,7 @@ export const StockMovementStore = signalStore(
                     switchMap((stockMovement) =>
                         stockMovementService.create(stockMovement).pipe(
                             tap((res) => {
-                                const created = res.data as ViProductStockSummaryModel;
+                                const created = res.data as StockMovementModel;
                                 patchState(store, addEntity(created, { selectId }));
                                 patchState(store, { isSubmitting: false, isModalVisible: false });
                                 messageService.add({
@@ -164,7 +164,7 @@ export const StockMovementStore = signalStore(
                     switchMap((stockMovement) =>
                         stockMovementService.update(stockMovement.movementId, stockMovement).pipe(
                             tap((res) => {
-                                const updated = res.data as ViProductStockSummaryModel;
+                                const updated = res.data as StockMovementModel;
                                 patchState(
                                     store,
                                     updateEntity(
@@ -217,7 +217,7 @@ export const StockMovementStore = signalStore(
             ),
 
             // SELECTED VALUE CHANGE
-            selectedChange: rxMethod<ViProductStockSummaryModel>(
+            selectedChange: rxMethod<StockMovementModel>(
                 switchMap((value) => {
                     patchState(store, { selectedValue: value });
                     return of(null);

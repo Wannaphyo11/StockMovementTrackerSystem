@@ -74,6 +74,7 @@ export class StockMovement implements OnInit {
         private translateService: TranslateService,
         private messageService: MessageService,
         private router: Router,
+        private cdr :ChangeDetectorRef
     ) {
         effect(() => {
             this.selectedValue = this.stockMovementStore$.selectedValue$();
@@ -83,7 +84,7 @@ export class StockMovement implements OnInit {
 
     private formBuilder = inject(FormBuilder);
     stockMovementForm = this.formBuilder.group({
-        movementId: ['', { validators: [Validators.required] }],
+        movementId: [''],
         productId: ['', { validators: [Validators.required] }],
         quantity: [0, { validators: [Validators.required] }],
         type: ['', { validators: [Validators.required] }],
@@ -128,13 +129,11 @@ export class StockMovement implements OnInit {
 
     create(): void {
         this.stockMovementForm.reset({
-            movementId: '',
             productId: '',
             quantity: 0,
             type: '',
             movementDate: null
         });
-        this.stockMovementForm.controls['movementId'].enable();
         this.stockMovementStore$.createDialog();
     }
 
@@ -145,7 +144,6 @@ export class StockMovement implements OnInit {
 
             // Assign value to form
             this.stockMovementForm.controls['movementId'].setValue(this.selectedValue.movementId);
-            this.stockMovementForm.controls['movementId'].disable();
             this.stockMovementForm.controls['productId'].setValue(this.selectedValue.productId);
             this.stockMovementForm.controls['quantity'].setValue(this.selectedValue.quantity);
             this.stockMovementForm.controls['type'].setValue(this.selectedValue.type);
@@ -160,19 +158,26 @@ export class StockMovement implements OnInit {
     }
 
     //#region audit log
-    auditLog(): void {
-        if (this.selectedValue) {
-            this.router
-                .navigate(['/process', 'stock-movement', 'auditlogs', this.selectedValue.productId])
-                .then((r) => { });
-        }
-    }
+    // auditLog(productStock?: any): void {
+    //     const selectedProduct = productStock || this.selectedValue;
+
+    //     if (selectedProduct && selectedProduct.productId) {
+    //         this.router
+    //             .navigate(['/process', 'stock-movement', 'auditlogs', selectedProduct.productId])
+    //             .then((r) => { });
+    //     }
+    // }
     //#endregion
 
     submit(): void {
         if (this.stockMovementForm.valid) {
             let model = this.stockMovementForm.value as StockMovementModel;
-            this.stockMovementStore$.add(model);
+            if (!this.stockMovementStore$.isEdit()) {
+                this.stockMovementStore$.add(model);
+            } else {
+                 model.productId = this.stockMovementStore$.selectedValue()?.productId ?? '';
+                this.stockMovementStore$.update(model);
+            }
         } else {
             Object.keys(this.stockMovementForm.controls).forEach((field) => {
                 const control = this.stockMovementForm.get(field);
