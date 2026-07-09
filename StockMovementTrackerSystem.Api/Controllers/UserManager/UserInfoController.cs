@@ -23,7 +23,7 @@ public class UserInfoController(
     [ProducesResponseType(typeof(DefaultResponseModel<List<ViUserInformation>>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAsync(string role)
     {
-        return ResponseHelper.Ok_Result(await context.ViUserInformations.FirstOrDefaultAsync(x => x.RoleName == role), null);
+        return ResponseHelper.Ok_Result(await context.ViUserInformations.Where(x => x.Name == role).ToListAsync(),null);
     }
 
     [HttpGet("by-username")]
@@ -66,7 +66,7 @@ public class UserInfoController(
 
         if (setRole.Succeeded)
         {
-            UserInformation userInfo = new()
+            var userInfo = new UserInformation()
             {
                 UserId = user.Id,
                 FullName = model.FullName,
@@ -95,7 +95,7 @@ public class UserInfoController(
     [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateAsync(UserInfoEntryModel model)
     {
-        UserInformation? userInfo = await context.UserInformations.FindAsync(model.UserId);
+        var userInfo = await context.UserInformations.FirstOrDefaultAsync(x=>x.UserId==model.UserId);
         IdentityUser? user = await userManager.FindByIdAsync(model.UserId);
         if (userInfo == null || user == null)
         {
@@ -127,7 +127,7 @@ public class UserInfoController(
         }
 
         context.UserInformations.Update(userInfo);
-        return await context.SaveChangesAsync() > 0
+        return await context.SaveChangesAsync()>0
             ? ResponseHelper.Ok_Result(null, new DefaultResponseMessageModel()
             {
                 EN = "User Info data have been updated!",
@@ -140,7 +140,7 @@ public class UserInfoController(
             });
     }
 
-    [HttpPost("reset")]
+    [HttpPut("reset")]
     [EndpointSummary("Reset Password")]
     [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status400BadRequest)]
@@ -181,7 +181,7 @@ public class UserInfoController(
     [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> TermianteChangeAsync(string userId, bool status)
     {
-        UserInformation? userInfo = await context.UserInformations.FindAsync(userId);
+        var userInfo = await context.UserInformations.FindAsync(userId);
         if (userInfo == null)
         {
             return ResponseHelper.NotFound_Request(null, new DefaultResponseMessageModel()
@@ -207,7 +207,7 @@ public class UserInfoController(
 
         context.UserInformations.Update(userInfo);
 
-        return await context.SaveChangesAsync() > 0
+        return await context.SaveChangesAsync()>0
             ? ResponseHelper.Ok_Result(null, new DefaultResponseMessageModel()
             {
                 EN = "Terminate status updated!",

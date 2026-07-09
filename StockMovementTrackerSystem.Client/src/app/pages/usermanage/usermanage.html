@@ -1,0 +1,231 @@
+<div class="card">
+    <div class="flex justify-content-between mb-3">
+        <div>
+            <p-splitbutton label="Create" icon="pi pi-plus" (onClick)="create()" [model]="items" size="small"
+                class="py-0.5" [disabled]="userManageStore$.isLoading$() || userManageStore$.isSubmitting$()" />
+            <p-selectButton unselectable [options]="roles" [ngModel]="userManageStore$.role$()"
+                (onChange)="onRoleChange($event.value)" size="small" class="ml-4" optionLabel="label"
+                optionValue="value"></p-selectButton>
+        </div>
+        <div class="flex mb-3 ml-auto">
+            <p-iconfield iconPosition="left" class="xl:ml-auto 2xl:ml-auto">
+                <p-inputicon>
+                    <i class="pi pi-search"></i>
+                </p-inputicon>
+                <input #search pInputText type="text" (input)="userTable.filterGlobal(search.value, 'contains')"
+                    size="small" placeholder="Search keyword" [style]="{ width: '100%' }" />
+            </p-iconfield>
+        </div>
+    </div>
+
+    <p-table #userTable [value]="userManageStore$.getAll$()" stripedRows [tableStyle]="{'min-width': '50rem'}"
+        [loading]="userManageStore$.isLoading$()" sortField="createdOn" [sortOrder]="-1" [(selection)]="selectedValue"
+        selectionMode="single" dataKey="userId" [paginator]="true" [rows]="20" [showCurrentPageReport]="true"
+        [globalFilterFields]="['userName', 'fullName', 'email','phoneNumber', 'address', 'createdBy', 'updatedBy']"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10,20,100]">
+
+        <ng-template #header>
+            <tr style="white-space: nowrap;">
+                <th>#</th>
+                <th>User Name</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>CreatedOn</th>
+                <th>CreatedBy</th>
+                <th>UpdatedOn</th>
+                <th>UpdatedBy</th>
+                <th>Status</th>
+                <th>Role</th>
+                <th>Terminate Action</th>
+                <th>Terminate Date</th>
+            </tr>
+        </ng-template>
+
+        <ng-template #body let-user>
+            <tr [pSelectableRow]="user" style="white-space:nowrap">
+                <td>
+                    <p-tableRadioButton [value]="user"></p-tableRadioButton>
+                </td>
+                <td>{{user.userName}}</td>
+                <td>{{user.fullName}}</td>
+                <td>{{user.email || "N/A"}}</td>
+                <td>{{user.phoneNumber || "N/A"}}</td>
+                <td>{{user.address || 'N/A'}}</td>
+                <td>{{user.createdOn ? (user.createdOn | date : 'dd/MMM/yyyy hh:mm a') : 'N/A'}}</td>
+                <td>{{user.createdBy || 'N/A'}}</td>
+                <td>{{user.updatedOn ? (user.updatedOn | date : 'dd/MMM/yyyy hh:mm a') : 'N/A'}}</td>
+                <td>{{user.updatedBy || 'N/A'}}</td>
+                <td>
+                    <p-tag [value]="user.status ? 'Active' : 'Inactive'" [severity]="user.status ? 'success' : 'danger'"
+                        [icon]="user.status  ? 'pi pi-check-circle' : 'pi pi-times-circle'" rounded="lg">
+                    </p-tag>
+                </td>
+                <td>
+                    <p-tag [value]="user.roleName" severity="info" icon="pi pi-user" rounded="lg">
+                    </p-tag>
+                </td>
+                <td>
+                    <div class="flex items-center gap-2">
+                        <p-toggleSwitch [(ngModel)]="user.status" (onChange)="onActiveChange(user, $event.checked)"
+                            [disabled]="userManageStore$.isSubmitting$()">
+                            <ng-template #handle let-checked="checked">
+                                <i [ngClass]="['!text-xs', 'pi', checked ? 'pi-check' : 'pi-times']"></i>
+                            </ng-template>
+                        </p-toggleSwitch>
+                    </div>
+                </td>
+                <td>{{user.terminateDate ? (user.terminateDate | date : 'dd/MMM/yyyy') : 'N/A'}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog header="User Info Form" [visible]="userManageStore$.isModalVisible$()" [modal]="true"
+    (onHide)="onDialogHide()" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '35vw' }"
+    [draggable]="false" [resizable]="false">
+
+    <form [formGroup]="userManageForm" (ngSubmit)="submit()" class="grid grid-cols-12 gap-4 ">
+
+        <div class="col-span-6">
+            <div class="flex flex-col gap-3">
+                <label for="userName">User Name</label>
+                <input pInputText id="userName" formControlName="userName" placeholder="Enter User Name"
+                    (blur)="checkUserName()" />
+            </div>
+            @if (userManageForm.controls['userName'].invalid && userManageForm.get('userName')?.dirty) {
+            <small class="text-sm text-red-500">User Name is Required</small>
+            }
+            @if (userManageForm.controls['userName'].errors?.['exists']) {
+            <small class="text-sm text-red-500">User Name already exists.</small>
+            }
+        </div>
+
+        <div class="col-span-6">
+            <div class="flex flex-col gap-3">
+                <label for="fullName">Name</label>
+                <input pInputText id="fullName" formControlName="fullName" placeholder="Enter name" />
+            </div>
+            @if (userManageForm.controls['fullName'].invalid && userManageForm.get('fullName')?.dirty) {
+            <small class="text-sm text-red-500">Name is Required</small>
+            }
+        </div>
+
+        <div class="col-span-6">
+            <div class="flex flex-col gap-2">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="text" formControlName="phoneNumber" pInputText placeholder="Please Type Phone No." />
+                @if (userManageForm.controls['phoneNumber'].invalid && userManageForm.get('phoneNumber')?.dirty){
+                <small class="text-sm text-red-500">Phone Number Is Required</small>
+                }
+            </div>
+        </div>
+
+        <div class="col-span-6">
+            <div class="flex flex-col gap-2">
+                <label for="email">Email</label>
+                <input type="text" formControlName="email" pInputText placeholder="Please Type Email." />
+                @if(userManageForm.controls['email'].invalid && userManageForm.get('email')?.dirty){
+                <small class="text-sm text-red-500">Email Is Required</small>
+                }
+            </div>
+        </div>
+
+        <div class="col-span-6">
+            <div class="flex flex-col gap-3">
+                <label for="password">Password</label>
+                <p-password formControlName="password" inputStyleClass="w-full" [toggleMask]="true"
+                    [style]="{width:'100%'}" [placeholder]="'Enter password ...'">
+                </p-password>
+            </div>
+            @if (userManageForm.controls['password'].invalid && userManageForm.get('password')?.dirty) {
+            <small class="text-sm text-red-500">Password is Required</small>
+            }
+        </div>
+
+        <div class="col-span-6">
+            <div class="flex flex-col gap-3">
+                <label for="roleName">Role</label>
+                <p-select inputId="roleName" formControlName="roleName" [options]="roles" placeholder="Select Role"
+                    optionLabel="label" optionValue="value">
+                </p-select>
+            </div>
+            @if (userManageForm.controls['roleName'].invalid && userManageForm.get('roleName')?.dirty) {
+            <small class="text-sm text-red-500">Role is Required</small>
+            }
+        </div>
+
+        <div class="col-span-12">
+            <div class="flex flex-col gap-3">
+                <label for="address">Address</label>
+                <input pInputText id="address" formControlName="address" placeholder="Enter Address" />
+            </div>
+            @if (userManageForm.controls['address'].invalid && userManageForm.get('address')?.dirty) {
+            <small class="text-sm text-red-500">Address is Required</small>
+            }
+        </div>
+
+        <div class="col-span-12">
+            <div class="flex flex-col gap-2">
+                <label for="status">Status</label>
+                <p-toggleSwitch class="flex mt-2 gap-2" formControlName="status"></p-toggleSwitch>
+            </div>
+        </div>
+
+        <div class="col-span-12 flex justify-end gap-2 mt-4">
+            <button pButton type="button" label="Cancel" class="p-button-text" (click)="onDialogHide()"
+                [disabled]="userManageStore$.isSubmitting$()"></button>
+            <button pButton type="submit" label="{{userManageStore$.isEdit$() ? 'Update' : 'Save'}}"
+                [loading]="userManageStore$.isSubmitting$()"
+                [disabled]="userManageForm.invalid || userManageStore$.isSubmitting$()"></button>
+        </div>
+
+    </form>
+</p-dialog>
+
+<p-dialog header="Reset Password" [visible]="userManageStore$.isResetPasswordVisible$()" [modal]="true"
+    (onHide)="onResetPasswordDialogHide()" [breakpoints]="{ '1199px': '45vw', '575px': '90vw' }"
+    [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
+
+    <form [formGroup]="resetPasswordForm" (ngSubmit)="confirmResetPassword()" class="grid grid-cols-12 gap-4">
+        <div class="col-span-12">
+            <div class="flex flex-col gap-3">
+                <label for="resetPassword">New Password</label>
+                <p-password inputId="resetPassword" formControlName="newPassword" inputStyleClass="w-full"
+                    [toggleMask]="true" [feedback]="false" [style]="{width:'100%'}"
+                    [placeholder]="'Enter new password ...'">
+                </p-password>
+            </div>
+            @if (resetPasswordForm.controls['newPassword'].invalid && resetPasswordForm.get('newPassword')?.dirty) {
+            <small class="text-sm text-red-500">New Password is Required</small>
+            }
+        </div>
+
+        <div class="col-span-12 flex justify-end gap-2 mt-4">
+            <button pButton type="button" label="Cancel" class="p-button-text" (click)="onResetPasswordDialogHide()"
+                [disabled]="userManageStore$.isSubmitting$()"></button>
+            <button pButton type="submit" label="Reset Password" icon="pi pi-key"
+                [loading]="userManageStore$.isSubmitting$()"
+                [disabled]="resetPasswordForm.invalid || userManageStore$.isSubmitting$()"></button>
+        </div>
+    </form>
+</p-dialog>
+
+<p-confirmdialog key="resetPasswordDialog">
+    <ng-template #message let-message>
+        <div class="flex flex-col items-center w-full gap-4 border-b border-surface-200 dark:border-surface-700">
+            <i [ngClass]="message.icon" class="!text-6xl text-primary-500"></i>
+            <p>{{ message.message }}</p>
+        </div>
+    </ng-template>
+</p-confirmdialog>
+
+<p-confirmdialog [breakpoints]="{
+      '1920px': '30vw',
+      '1440px': '30vw',
+      '1024px': '30vw',
+      '768px': '80vw',
+      '425px': '100vw'
+    }" [style]="{ width: '30vw' }" rejectButtonStyleClass="p-button-outlined"></p-confirmdialog>

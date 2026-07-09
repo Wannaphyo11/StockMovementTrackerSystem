@@ -26,6 +26,11 @@ export const routes: Routes = [
         loadChildren: () => import('./app/pages/process/process.routes'),
         canActivate: [AuthGuardService],
       },
+      {
+        path: 'user',
+        loadChildren: () => import('./app/pages/usermanage/usermanage.routes'),
+        canActivate: [AuthGuardService],
+      },
     ],
   },
 ];

@@ -11,7 +11,7 @@ using System.Globalization;
 
 namespace StockMovementTrackerSystem.Api.Controllers.Master;
 
-//[Authorize]
+[Authorize]
 [Route("api/master/[controller]")]
 [ApiController]
 public class ProductStocksController(StockMovementTrackerSystemDbContext context,

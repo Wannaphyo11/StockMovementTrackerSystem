@@ -29,7 +29,7 @@ const initialState: StockMovementState = {
     error: null
 };
 
-const selectId: SelectEntityId<StockMovementModel> = (productStock) => productStock.movementId;
+const selectId: SelectEntityId<StockMovementModel> = (productStock) => productStock.movementId ;
 
 export const StockMovementStore = signalStore(
     { providedIn: 'root' },
@@ -112,7 +112,7 @@ export const StockMovementStore = signalStore(
                     switchMap((stockMovement) =>
                         stockMovementService.create(stockMovement).pipe(
                             tap((res) => {
-                                const created = res.data as StockMovementModel;
+                                const created = res.data.stockMove as StockMovementModel;
                                 patchState(store, addEntity(created, { selectId }));
                                 patchState(store, { isSubmitting: false, isModalVisible: false });
                                 messageService.add({

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 import { RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { AppMenuitem } from './app.menuitem';
 import { NAVIGATION_MENU } from '../../../app.menu';
+import { SharedService } from '../../shared/services/shared.service';
 
 @Component({
   selector: 'app-menu',
@@ -22,10 +23,30 @@ import { NAVIGATION_MENU } from '../../../app.menu';
     </ul>
   `,
 })
-export class AppMenu {
+export class AppMenu implements OnInit {
+  private readonly sharedService = inject(SharedService);
   model: MenuItem[] = [];
 
   ngOnInit() {
-    this.model = NAVIGATION_MENU as MenuItem[];
+    const role = this.sharedService.getUserRole();
+
+    const userRoles = role.split(',').map(r => r.trim().toLowerCase());
+    this.model = this.filterMenuByRole(NAVIGATION_MENU, userRoles);
+  }
+
+  private filterMenuByRole(menu: ReadonlyArray<any>, userRoles: string[]): any[] {
+    return menu
+      .filter(item => {
+        if (!item.roles) return true;
+        const allowedRoles = item.roles.map((r: string) => r.toLowerCase());
+        return allowedRoles.some((role: string) => userRoles.includes(role));
+      })
+      .map(item => ({
+        ...item,
+        items: item.items
+          ? this.filterMenuByRole(item.items, userRoles)
+          : undefined
+      }))
+      .filter(item => !item.items || item.items.length > 0);
   }
 }

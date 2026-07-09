@@ -38,12 +38,7 @@ import { ProductStockSummaryService } from '../../../../core/services/process/pr
 })
 export class AuditLog implements OnInit {
 
-    protected readonly isObject = isObject;
-    protected readonly hasDecimal = hasDecimal;
-    protected readonly getDecimal = getDecimal;
-    protected readonly hasDate = hasDate;
-    protected readonly getDate = getDate;
-
+   
     id!: string;
     productid!: string;
 

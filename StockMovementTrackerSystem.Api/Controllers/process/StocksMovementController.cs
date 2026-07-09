@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using StockMovementTrackerSystem.Api.Helper;
@@ -10,7 +11,7 @@ using System.Linq.Dynamic.Core;
 
 namespace StockMovementTrackerSystem.Api.Controllers.process;
 
-//[Authorize]
+[Authorize]
 [Route("api/process/[controller]")]
 [ApiController]
 public class StocksMovementController(
@@ -40,7 +41,7 @@ public class StocksMovementController(
             return NotFound("Product not found in system.");
         }
 
-        int inputQuantity = Convert.ToInt32(model.Quantity);
+        int inputQuantity = model.Quantity;
         int oldStock = productStock.CurrentStock ?? 0;
         int newStock = oldStock;
         int totalTrx = productStock.TotalTransactionsCount ?? 0;
@@ -156,9 +157,22 @@ public class StocksMovementController(
             LogTimestamp = DateTime.Now
         };
         context.StockAuditLogs.Add(auditlog);
+        
+            var stockAlerts = new StockAlert()
+            {
+                AlertId = Guid.NewGuid().ToString(),
+                ProductId = model.ProductId,
+                AlertMessage = "CurrentStock is Less Than 5",
+                IsResolved = true,
+                CreatedDate = DateTime.Now
+            };
+        if(productStock.CurrentStock < 5)
+        {
+            context.StockAlerts.Add(stockAlerts);
 
+        }
         await context.SaveChangesAsync();
-        return ResponseHelper.Ok_Result(new { stockMove, productStock, auditlog }, null);
+        return ResponseHelper.Ok_Result(new { stockMove, productStock, auditlog,stockAlerts }, null);
 
 
     }

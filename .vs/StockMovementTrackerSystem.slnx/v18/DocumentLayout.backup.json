@@ -3,16 +3,8 @@
   "WorkspaceRootPath": "C:\\repos\\StockMovementTrackerSystem\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|c:\\repos\\stockmovementtrackersystem\\stockmovementtrackersystem.api\\controllers\\process\\stocksmovementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|solutionrelative:stockmovementtrackersystem.api\\controllers\\process\\stocksmovementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|c:\\repos\\stockmovementtrackersystem\\stockmovementtrackersystem.api\\controllers\\process\\productstocksummarycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|solutionrelative:stockmovementtrackersystem.api\\controllers\\process\\productstocksummarycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|c:\\repos\\stockmovementtrackersystem\\stockmovementtrackersystem.api\\controllers\\master\\productstockscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|solutionrelative:stockmovementtrackersystem.api\\controllers\\master\\productstockscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|c:\\repos\\stockmovementtrackersystem\\stockmovementtrackersystem.api\\controllers\\usermanager\\userinfocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{833796E0-B0C3-0C71-73E2-B94B182808FE}|StockMovementTrackerSystem.Api\\StockMovementTrackerSystem.Api.csproj|solutionrelative:stockmovementtrackersystem.api\\controllers\\usermanager\\userinfocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,41 +22,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ProductStockSummaryController.cs",
-              "DocumentMoniker": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Controllers\\process\\ProductStockSummaryController.cs",
-              "RelativeDocumentMoniker": "StockMovementTrackerSystem.Api\\Controllers\\process\\ProductStockSummaryController.cs",
-              "ToolTip": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Controllers\\process\\ProductStockSummaryController.cs",
-              "RelativeToolTip": "StockMovementTrackerSystem.Api\\Controllers\\process\\ProductStockSummaryController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-07T07:16:24.171Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ProductStocksController.cs",
-              "DocumentMoniker": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Controllers\\Master\\ProductStocksController.cs",
-              "RelativeDocumentMoniker": "StockMovementTrackerSystem.Api\\Controllers\\Master\\ProductStocksController.cs",
-              "ToolTip": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Controllers\\Master\\ProductStocksController.cs",
-              "RelativeToolTip": "StockMovementTrackerSystem.Api\\Controllers\\Master\\ProductStocksController.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAABcAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-03T08:21:04.123Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "StocksMovementController.cs",
-              "DocumentMoniker": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Controllers\\process\\StocksMovementController.cs",
-              "RelativeDocumentMoniker": "StockMovementTrackerSystem.Api\\Controllers\\process\\StocksMovementController.cs",
-              "ToolTip": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Controllers\\process\\StocksMovementController.cs",
-              "RelativeToolTip": "StockMovementTrackerSystem.Api\\Controllers\\process\\StocksMovementController.cs",
-              "ViewState": "AgIAAHQAAAAAAAAAAAAqwIcAAAANAAAAAAAAAA==",
+              "Title": "UserInfoController.cs",
+              "DocumentMoniker": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Controllers\\UserManager\\UserInfoController.cs",
+              "RelativeDocumentMoniker": "StockMovementTrackerSystem.Api\\Controllers\\UserManager\\UserInfoController.cs",
+              "ToolTip": "C:\\repos\\StockMovementTrackerSystem\\StockMovementTrackerSystem.Api\\Controllers\\UserManager\\UserInfoController.cs",
+              "RelativeToolTip": "StockMovementTrackerSystem.Api\\Controllers\\UserManager\\UserInfoController.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAxwBsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-03T08:23:03.658Z",
+              "WhenOpened": "2026-07-09T04:16:42.751Z",
               "EditorCaption": ""
             }
           ]

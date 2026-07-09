@@ -336,6 +336,34 @@
     "Summary": "AuditLog - List"
   },
   {
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.process.StockAlertController",
+    "Method": "GetStockAlertAsync",
+    "RelativePath": "api/process/stockalert",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "alert",
+        "Type": "StockMovementTrackerSystem.Domain.Entities.StockAlert",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Description": "List of a ProductStockSummary.",
+    "Summary": "List"
+  },
+  {
     "ContainingType": "StockMovementTrackerSystem.Api.Controllers.process.StocksMovementController",
     "Method": "GetStockMovementAsync",
     "RelativePath": "api/process/stocksmovement",

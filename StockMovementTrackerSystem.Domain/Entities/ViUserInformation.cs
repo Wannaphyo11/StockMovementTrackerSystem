@@ -5,8 +5,6 @@ namespace StockMovementTrackerSystem.Domain.Entities;
 
 public partial class ViUserInformation
 {
-    public string UserId { get; set; } = null!;
-
     public string? UserName { get; set; }
 
     public string? FullName { get; set; }
@@ -19,15 +17,19 @@ public partial class ViUserInformation
 
     public bool? Status { get; set; }
 
-    public string? RoleName { get; set; }
+    public DateTime? CreatedOn { get; set; }
 
-    public DateTime CreatedOn { get; set; }
-
-    public string CreatedBy { get; set; } = null!;
+    public string? CreatedBy { get; set; }
 
     public DateTime? UpdatedOn { get; set; }
 
     public string? UpdatedBy { get; set; }
 
     public DateTime? TerminateDate { get; set; }
+
+    public string UserId { get; set; } = null!;
+
+    public string Id { get; set; } = null!;
+
+    public string? Name { get; set; }
 }

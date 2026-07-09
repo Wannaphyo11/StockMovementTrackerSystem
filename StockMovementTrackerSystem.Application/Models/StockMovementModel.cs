@@ -6,7 +6,7 @@ public class StockMovementModel
 
     public string ProductId { get; set; } = null!;
 
-    public int? Quantity { get; set; }
+    public int Quantity { get; set; }
 
     public string? Type { get; set; }
 

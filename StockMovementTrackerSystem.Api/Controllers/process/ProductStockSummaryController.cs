@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StockMovementTrackerSystem.Api.Helper;
 using StockMovementTrackerSystem.Infrastructure.Persistence;
 
 namespace StockMovementTrackerSystem.Api.Controllers.process;
 
-//[Authorize]
+[Authorize]
 [Route("api/process/[controller]")]
 [ApiController]
 public class ProductStockSummaryController(StockMovementTrackerSystemDbContext context) : ControllerBase

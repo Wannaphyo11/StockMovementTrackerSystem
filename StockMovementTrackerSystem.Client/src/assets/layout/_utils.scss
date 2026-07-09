@@ -38,3 +38,139 @@
 .p-paginator {
   border-radius: 0 0 10px 10px !important;
 }
+
+/* ─── Page Layout Design System ─── */
+
+// Outer container for every page
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  height: 100%;
+}
+
+// Top toolbar: title left, actions right
+.page-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.page-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.page-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+// Title group
+.page-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.page-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.page-subtitle {
+  font-size: 0.8125rem;
+  color: var(--text-color-secondary);
+  line-height: 1.4;
+}
+
+// Search input sizing
+.search-input {
+  width: 16rem;
+}
+
+// Table card wrapper
+.table-wrapper {
+  background: var(--surface-card);
+  border-radius: var(--content-border-radius);
+  border: 1px solid var(--surface-border);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+
+  // Remove default p-table outer padding/radius conflicts
+  .p-datatable {
+    border-radius: 0;
+  }
+
+  .p-datatable-header {
+    border-radius: 0 !important;
+    padding: 0 !important;
+  }
+
+  .p-paginator {
+    border-radius: 0 !important;
+    border-top: 1px solid var(--surface-border);
+    padding: 0.75rem 1rem;
+  }
+}
+
+// Table header row styling
+.p-datatable .p-datatable-thead > tr > th {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-color-secondary);
+  background: var(--surface-hover);
+  padding: 0.85rem 1rem;
+  border-bottom: 2px solid var(--surface-border);
+  white-space: nowrap;
+}
+
+// Table body rows
+.p-datatable .p-datatable-tbody > tr > td {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: var(--text-color);
+  border-color: var(--surface-border);
+}
+
+// Row hover effect
+.p-datatable .p-datatable-tbody > tr {
+  transition: background-color 0.12s ease;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--surface-hover) !important;
+  }
+}
+
+// Selected row: left accent bar
+.p-datatable .p-datatable-tbody > tr.p-highlight {
+  background-color: color-mix(in srgb, var(--primary-color) 8%, transparent) !important;
+  box-shadow: inset 3px 0 0 var(--primary-color);
+}
+
+// Empty message
+.empty-cell {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-color-secondary);
+  font-size: 0.875rem;
+}
+
+// Dark mode striped
+.app-dark .p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.025);
+}

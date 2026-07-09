@@ -49,7 +49,7 @@ export class SharedService {
     this.cookieService.set('userrole', value);
   }
 
-  getUserRole(): string | null {
+  getUserRole(): string {
     return this.cookieService.get('userrole');
   }
 

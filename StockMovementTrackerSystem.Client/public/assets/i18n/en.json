@@ -37,6 +37,10 @@
   "MENU": {
     "HOME": "Home",
     "DASHBOARD": "Dashboard",
+    "MASTER": "Master",
+    "MASTER.PRODUCT_STOCK": "Product Stock",
+    "MASTER.STOCK_MOVEMENT": "Stock Movement",
+    "MASTER.PRODUCT_STOCK_SUMMARY": "Stock Summary",
     "STOCK": "Stock",
     "STOCK.STOCK_ITEM": "Stock Item",
     "STOCK.STOCK_PRICE": "Stock Price",

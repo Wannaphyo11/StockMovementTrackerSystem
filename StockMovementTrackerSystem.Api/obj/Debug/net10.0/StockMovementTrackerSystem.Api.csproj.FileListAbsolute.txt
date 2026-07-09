@@ -166,10 +166,10 @@ C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\staticwebassets.development.json
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\staticwebassets.build.endpoints.json
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\swae.build.ex.cache
-C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\StockMov.A177D1B7.Up2Date
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\StockMovementTrackerSystem.Api.dll
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\refint\StockMovementTrackerSystem.Api.dll
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\StockMovementTrackerSystem.Api.pdb
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\StockMovementTrackerSystem.Api.genruntimeconfig.cache
 C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\ref\StockMovementTrackerSystem.Api.dll
+C:\repos\StockMovementTrackerSystem\StockMovementTrackerSystem.Api\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

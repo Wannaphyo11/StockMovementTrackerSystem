@@ -129,6 +129,7 @@ export class StockMovement implements OnInit {
 
     create(): void {
         this.stockMovementForm.reset({
+            movementId: '',
             productId: '',
             quantity: 0,
             type: '',
@@ -172,6 +173,7 @@ export class StockMovement implements OnInit {
     submit(): void {
         if (this.stockMovementForm.valid) {
             let model = this.stockMovementForm.value as StockMovementModel;
+            console.log(model);
             if (!this.stockMovementStore$.isEdit()) {
                 this.stockMovementStore$.add(model);
             } else {

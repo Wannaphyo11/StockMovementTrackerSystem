@@ -5,7 +5,7 @@ namespace StockMovementTrackerSystem.Domain.Entities;
 
 public partial class UserInformation
 {
-    public string UserId { get; set; } = null!;
+    public string? UserId { get; set; } = null!;
 
     public string? FullName { get; set; }
 

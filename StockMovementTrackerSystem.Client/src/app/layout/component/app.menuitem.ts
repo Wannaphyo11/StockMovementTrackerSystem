@@ -28,17 +28,26 @@ import { TranslatePipe } from '@ngx-translate/core';
   template: `
     <ng-container>
       @if (root && item.visible !== false) {
-        <div class="layout-menuitem-root-text">
+        <div class="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 px-4 pt-5 pb-1.5 select-none">
           {{ item.label | translate }}
         </div>
       }
       @if ((!item.routerLink || item.items) && item.visible !== false) {
-        <a [attr.href]="item.url" (click)="itemClick($event)" [ngClass]="item.styleClass" [attr.target]="item.target"
-           tabindex="0" pRipple>
-          <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
-          <span class="layout-menuitem-text">{{ item.label | translate }}</span>
+        <a
+          [attr.href]="item.url"
+          (click)="itemClick($event)"
+          [ngClass]="item.styleClass"
+          [attr.target]="item.target"
+          tabindex="0"
+          pRipple
+          class="flex items-center gap-3 mx-2 px-3 py-2.5 rounded-xl transition-all duration-200 cursor-pointer hover:bg-primary-50 dark:hover:bg-primary-900/20 group"
+        >
+          <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 group-hover:bg-primary-100 dark:group-hover:bg-primary-900/50 transition-colors shrink-0">
+            <i [ngClass]="item.icon" class="text-slate-500 dark:text-slate-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors text-sm"></i>
+          </span>
+          <span class="layout-menuitem-text text-slate-700 dark:text-slate-300 text-sm font-medium group-hover:text-primary-700 dark:group-hover:text-primary-300 transition-colors">{{ item.label | translate }}</span>
           @if (item.items) {
-            <i class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
+            <i class="pi pi-fw pi-angle-down layout-submenu-toggler ml-auto text-slate-400 transition-transform duration-300"></i>
           }
         </a>
       }
@@ -49,13 +58,13 @@ import { TranslatePipe } from '@ngx-translate/core';
           [routerLink]="item.routerLink"
           routerLinkActive="active-route"
           [routerLinkActiveOptions]="
-          item.routerLinkActiveOptions || {
-            paths: 'exact',
-            queryParams: 'ignored',
-            matrixParams: 'ignored',
-            fragment: 'ignored',
-          }
-        "
+            item.routerLinkActiveOptions || {
+              paths: 'exact',
+              queryParams: 'ignored',
+              matrixParams: 'ignored',
+              fragment: 'ignored',
+            }
+          "
           [fragment]="item.fragment"
           [queryParamsHandling]="item.queryParamsHandling"
           [preserveFragment]="item.preserveFragment"
@@ -66,11 +75,23 @@ import { TranslatePipe } from '@ngx-translate/core';
           [attr.target]="item.target"
           tabindex="0"
           pRipple
+          class="flex items-center gap-3 mx-2 px-3 py-2.5 rounded-xl transition-all duration-200 cursor-pointer hover:bg-primary-50 dark:hover:bg-primary-900/20 group"
         >
-          <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
-          <span class="layout-menuitem-text">{{ item.label | translate }}</span>
+          <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 group-hover:bg-primary-100 dark:group-hover:bg-primary-900/50 transition-colors shrink-0"
+                [class.!bg-primary-100]="isActiveRoute()"
+                [class.dark:!bg-primary-900/50]="isActiveRoute()">
+            <i [ngClass]="item.icon"
+               class="text-slate-500 dark:text-slate-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors text-sm"
+               [class.!text-primary-600]="isActiveRoute()"
+               [class.dark:!text-primary-400]="isActiveRoute()"></i>
+          </span>
+          <span class="layout-menuitem-text text-slate-700 dark:text-slate-300 text-sm font-medium group-hover:text-primary-700 dark:group-hover:text-primary-300 transition-colors"
+                [class.!text-primary-700]="isActiveRoute()"
+                [class.!font-semibold]="isActiveRoute()">
+            {{ item.label | translate }}
+          </span>
           @if (item.items) {
-            <i class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
+            <i class="pi pi-fw pi-angle-down layout-submenu-toggler ml-auto text-slate-400 transition-transform duration-300"></i>
           }
         </a>
       }
@@ -181,6 +202,16 @@ export class AppMenuitem implements OnInit, OnDestroy {
     if (activeRoute) {
       this.layoutService.onMenuStateChange({ key: this.key, routeEvent: true });
     }
+  }
+
+  isActiveRoute(): boolean {
+    if (!this.item.routerLink) return false;
+    return this.router.isActive(this.item.routerLink[0], {
+      paths: 'exact',
+      queryParams: 'ignored',
+      matrixParams: 'ignored',
+      fragment: 'ignored',
+    });
   }
 
   itemClick(event: Event) {

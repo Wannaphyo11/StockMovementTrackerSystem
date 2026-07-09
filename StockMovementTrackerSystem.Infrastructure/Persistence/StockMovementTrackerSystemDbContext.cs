@@ -7,10 +7,6 @@ namespace StockMovementTrackerSystem.Infrastructure.Persistence;
 
 public partial class StockMovementTrackerSystemDbContext : DbContext
 {
-    public StockMovementTrackerSystemDbContext()
-    {
-    }
-
     public StockMovementTrackerSystemDbContext(DbContextOptions<StockMovementTrackerSystemDbContext> options)
         : base(options)
     {
@@ -43,6 +39,7 @@ public partial class StockMovementTrackerSystemDbContext : DbContext
     public virtual DbSet<ViProductStockSummary> ViProductStockSummaries { get; set; }
 
     public virtual DbSet<ViUserInformation> ViUserInformations { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AspNetRole>(entity =>
@@ -218,11 +215,12 @@ public partial class StockMovementTrackerSystemDbContext : DbContext
             entity.Property(e => e.CreatedOn).HasColumnType("datetime");
             entity.Property(e => e.Email).HasMaxLength(256);
             entity.Property(e => e.FullName).HasMaxLength(250);
-            entity.Property(e => e.RoleName).HasMaxLength(256);
+            entity.Property(e => e.Id).HasMaxLength(450);
+            entity.Property(e => e.Name).HasMaxLength(256);
             entity.Property(e => e.TerminateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdatedBy).HasMaxLength(250);
             entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
-            entity.Property(e => e.UserId).HasMaxLength(50);
+            entity.Property(e => e.UserId).HasMaxLength(256);
             entity.Property(e => e.UserName).HasMaxLength(256);
         });
 
