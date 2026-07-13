@@ -20,15 +20,4 @@ public class ProductStockSummaryController(StockMovementTrackerSystemDbContext c
         var productStock = await context.ViProductStockSummaries.AsNoTracking().ToListAsync();
         return ResponseHelper.Ok_Result(productStock, null);
     }
-
-    [HttpGet("auditlogs")]
-    [EndpointSummary("AuditLog - List")]
-    [EndpointDescription("AuditLog - List.")]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetAuditLogAsync(string productId)
-    {
-        var audit = await context.StockAuditLogs.Where(x => x.ProductId == productId).ToListAsync();
-        return ResponseHelper.Ok_Result(audit, null);
-    }
-
 }

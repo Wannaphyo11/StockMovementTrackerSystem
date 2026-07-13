@@ -24,6 +24,7 @@ import { StockMovementModel, ViProductStockSummaryModel } from '../../../core/mo
 import { StockMovementStore } from '../../../core/stores/stock-store.store';
 import { ProductStockStore } from '../../../core/stores/product-stock.store';
 import { environment } from '../../../../environments/environment.prod';
+import { ProductStockSummaryStore } from '../../../core/stores/product-stock-summary';
 
 @Component({
     selector: 'app-product-stock',
@@ -54,6 +55,7 @@ import { environment } from '../../../../environments/environment.prod';
 export class StockMovement implements OnInit {
     stockMovementStore$ = inject(StockMovementStore);
     productStockStore$ = inject(ProductStockStore);
+    productStockSummaryStore$ = inject(ProductStockSummaryStore);
     //models & variables
     selectedValue: StockMovementModel | null | undefined;
     items!: MenuItem[] | undefined;
@@ -74,7 +76,7 @@ export class StockMovement implements OnInit {
         private translateService: TranslateService,
         private messageService: MessageService,
         private router: Router,
-        private cdr :ChangeDetectorRef
+        private cdr: ChangeDetectorRef
     ) {
         effect(() => {
             this.selectedValue = this.stockMovementStore$.selectedValue$();
@@ -98,6 +100,7 @@ export class StockMovement implements OnInit {
         this.translateService.onLangChange.subscribe(() => this.loadMenu());
         this.productStockStore$.loadAll();
         this.stockMovementStore$.loadAll();
+        this.productStockSummaryStore$.loadAll();
     }
 
     loadMenu() {
@@ -177,7 +180,7 @@ export class StockMovement implements OnInit {
             if (!this.stockMovementStore$.isEdit()) {
                 this.stockMovementStore$.add(model);
             } else {
-                 model.productId = this.stockMovementStore$.selectedValue()?.productId ?? '';
+                model.productId = this.stockMovementStore$.selectedValue()?.productId ?? '';
                 this.stockMovementStore$.update(model);
             }
         } else {
@@ -187,6 +190,18 @@ export class StockMovement implements OnInit {
             });
         }
     }
+
+    //#region audit log
+    auditLog(productStock?: any): void {
+        const selectedProduct = productStock || this.selectedValue;
+
+        if (selectedProduct && selectedProduct.productId) {
+            this.router
+                .navigate(['/process', 'stock-movement', 'auditlogs', selectedProduct.productId])
+                .then((r) => { });
+        }
+    }
+    //#endregion
 
     clearSection(): void {
         this.selectedValue = null as any;

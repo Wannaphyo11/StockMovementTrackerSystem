@@ -73,15 +73,4 @@ public class ProductStocksController(StockMovementTrackerSystemDbContext context
             ? ResponseHelper.Ok_Result(productStock, new DefaultResponseMessageModel("Product Stock updated successfully.", ""))
                 : ResponseHelper.Bad_Request(null, new DefaultResponseMessageModel("Failed to update ProductStock.", ""));
     }
-
-    //[NonAction]
-    //private async Task<string> GenerateNextCashId()
-    //{
-    //    IReadOnlyList<ProductStock>? items = await context.ProductStocks.ToListAsync();
-    //    long nextId = (items != null && items.Any())
-    //        ? items.Max(x => x.CashId) + 1
-    //        : 1;
-
-    //    return nextId.ToString("D4"); // Zero padded
-    //}
 }

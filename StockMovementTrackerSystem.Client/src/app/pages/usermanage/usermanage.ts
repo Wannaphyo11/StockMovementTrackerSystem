@@ -144,13 +144,14 @@ export class UserManage implements OnInit {
         }
         this.userManageStore$.updateDialog(this.selectedValue);
         this.userManageForm.reset();
-         this.userManageForm.controls['userId'].setValue(
-        this.selectedValue.userId,
-      );
-      this.userManageForm.controls.userId.disable();
+        this.userManageForm.controls['userId'].setValue(
+            this.selectedValue.userId,
+        );
+        this.userManageForm.controls.userId.disable();
         this.userManageForm.patchValue(this.selectedValue);
     }
 
+    //Rest Password Dialog
     openResetPasswordDialog(): void {
         if (!this.selectedValue) {
             this.messageService.add({
@@ -165,6 +166,7 @@ export class UserManage implements OnInit {
         this.userManageStore$.openResetPasswordDialog(this.selectedValue);
     }
 
+    //Reset Password Dialog Comfirm
     confirmResetPassword(): void {
         if (this.resetPasswordForm.invalid) {
             this.resetPasswordForm.markAllAsTouched();
@@ -186,6 +188,7 @@ export class UserManage implements OnInit {
         });
     }
 
+
     checkUserName() {
         const username = this.userManageForm.get('userName')?.value;
         if (!username || this.userManageStore$.isEdit$()) return;
@@ -199,36 +202,28 @@ export class UserManage implements OnInit {
         });
     }
 
-    onActiveChange(user: UserInfoEntryModel, currentStatus: boolean): void {
-        this.confirmationService.confirm({
-            message: 'Are you sure you want to change this user\'s status?',
-            header: 'Terminate Confirmation',
-            icon: 'pi pi-info-circle',
-            accept: () => {
-                this.userManageStore$.terminate({ userId: user.userId, status: currentStatus });
-            },
-            reject: () => {
-                // Roll back toggle layout state locally
-                user.status = !currentStatus;
-            }
-        });
+    //Terminate User
+    onActiveChange(user: any, event: any): void {
+        const isChecked = event.checked;
+
+        if (isChecked) {
+            this.confirmationService.confirm({
+                message: 'Are you sure you want to terminate this user?',
+                header: 'Terminate Confirmation',
+                icon: 'pi pi-info-circle',
+                accept: () => {
+                    this.userManageStore$.terminate({ userId: user.userId });
+
+                    user.status = false;
+                    user.terminateDate = new Date();
+                },
+                reject: () => {
+                    event.originalEvent.preventDefault();
+                    user.status = true;
+                }
+            });
+        }
     }
-
-    // submit(): void {
-    //     if (this.userManageForm.invalid) {
-    //         this.userManageForm.markAllAsTouched();
-    //         return;
-    //     }
-    //     // const model = this.userManageForm.getRawValue() as any;
-    //     let model = this.userManageForm.value as UserInfoEntryModel;
-
-    //     if (!this.userManageStore$.isEdit$()) {
-    //         this.userManageStore$.add(model);
-    //     } else {
-    //         model.userId = this.userManageStore$.selectedValue()?.userId ?? '';
-    //         this.userManageStore$.update(model);
-    //     }
-    // }
 
     submit(): void {
         if (this.userManageForm.valid) {
@@ -252,8 +247,8 @@ export class UserManage implements OnInit {
         this.selectedValue = null;
     }
 
-    DialogHide():void{
-        if(this.shareService.getUserRole()!='Admin'){
+    DialogHide(): void {
+        if (this.shareService.getUserRole() != 'Admin') {
             this.userManageForm.disable();
         }
     }

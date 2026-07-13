@@ -29,7 +29,7 @@ const initialState: StockMovementState = {
     error: null
 };
 
-const selectId: SelectEntityId<StockMovementModel> = (productStock) => productStock.movementId ;
+const selectId: SelectEntityId<StockMovementModel> = (productStock) => productStock.movementId;
 
 export const StockMovementStore = signalStore(
     { providedIn: 'root' },

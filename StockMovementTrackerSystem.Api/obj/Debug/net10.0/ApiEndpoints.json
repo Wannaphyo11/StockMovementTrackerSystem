@@ -308,34 +308,6 @@
     "Summary": "List"
   },
   {
-    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.process.ProductStockSummaryController",
-    "Method": "GetAuditLogAsync",
-    "RelativePath": "api/process/productstocksummary/auditlogs",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "productId",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      }
-    ],
-    "Description": "AuditLog - List.",
-    "Summary": "AuditLog - List"
-  },
-  {
     "ContainingType": "StockMovementTrackerSystem.Api.Controllers.process.StockAlertController",
     "Method": "GetStockAlertAsync",
     "RelativePath": "api/process/stockalert",
@@ -384,6 +356,34 @@
     ],
     "Description": "List of a ProductStockSummary.",
     "Summary": "List"
+  },
+  {
+    "ContainingType": "StockMovementTrackerSystem.Api.Controllers.process.StocksMovementController",
+    "Method": "GetAuditLogAsync",
+    "RelativePath": "api/process/stocksmovement/auditlogs",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Description": "AuditLog - List.",
+    "Summary": "AuditLog - List"
   },
   {
     "ContainingType": "StockMovementTrackerSystem.Api.Controllers.process.StocksMovementController",
@@ -561,7 +561,7 @@
     "ContainingType": "ES_LAB.Server.Controllers.UserManage.UserInfoController",
     "Method": "ResetPassword",
     "RelativePath": "api/user/userinfo/reset",
-    "HttpMethod": "POST",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -618,11 +618,6 @@
       {
         "Name": "userId",
         "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "status",
-        "Type": "System.Boolean",
         "IsRequired": false
       }
     ],

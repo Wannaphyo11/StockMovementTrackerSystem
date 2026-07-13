@@ -32,12 +32,6 @@ export const NAVIGATION_MENU: Readonly<any[]> = [
                 roles: ALL_ROLES
             },
             {
-                label: 'MENU.MASTER.PRODUCT_STOCK_SUMMARY',
-                icon: 'pi pi-list-check',
-                routerLink: ['/process/product-stock-summary'],
-                roles: ALL_ROLES
-            },
-            {
                 label: 'MENU.MASTER.USER_INFO',
                 icon: 'pi pi-list-check',
                 routerLink: ['/user/user-manage'],

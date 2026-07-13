@@ -72,9 +72,8 @@ public class UserInfoController(
                 FullName = model.FullName,
                 Address = model.Address,
                 Status = model.Status,
-                TerminateDate = model.TerminateDate,
                 CreatedOn = DateTime.Now,
-                CreatedBy = User?.Identity?.Name ?? "Unknow",
+                CreatedBy = User?.Identity?.Name ?? "",
             };
             context.UserInformations.Add(userInfo);
         }
@@ -179,7 +178,7 @@ public class UserInfoController(
     [EndpointDescription("Updates the termination status of a user based on the provided user ID and status, allowing for the management of user accounts by marking them as terminated or active. This endpoint facilitates the control of user access and account status within the system.")]
     [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> TermianteChangeAsync(string userId, bool status)
+    public async Task<IActionResult> TermianteChangeAsync(string userId)
     {
         var userInfo = await context.UserInformations.FindAsync(userId);
         if (userInfo == null)
@@ -191,17 +190,9 @@ public class UserInfoController(
             });
         }
 
-        userInfo.Status = status;
+        userInfo.Status = false;
 
-        if (status)
-        {
-            userInfo.TerminateDate = null;
-        }
-        else
-        {
-            userInfo.TerminateDate = DateTime.Now;
-        }
-
+        userInfo.TerminateDate=DateTime.Now;
         userInfo.UpdatedOn = DateTime.Now;
         userInfo.UpdatedBy = User.Identity?.Name ?? "";
 

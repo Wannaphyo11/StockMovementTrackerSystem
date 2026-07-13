@@ -13,9 +13,4 @@ export class ProductStockSummaryService {
   get(): Observable<RootModel> {
     return this.httpClient.get<RootModel>(`${environment.main_url}/process/productstocksummary`);
   }
-  getAuditLog(productId: string): Observable<RootModel> {
-    return this.httpClient.get<RootModel>(
-      `${environment.main_url}/process/productstocksummary/auditlogs?productId=${productId}`,
-    );
-  }
 }

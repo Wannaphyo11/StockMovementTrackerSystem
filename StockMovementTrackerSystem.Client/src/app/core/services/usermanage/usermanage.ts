@@ -27,7 +27,7 @@ export class UserManageService {
     resetPassword(userName: string, newPassword: string): Observable<RootModel> {
         return this.httpClient.put<RootModel>(`${environment.main_url}/user/userinfo/reset?userName=${encodeURIComponent(userName)}&newPassword=${encodeURIComponent(newPassword)}`, null);
     }
-    terminate(userId: string, status: boolean) {
-        return this.httpClient.put<RootModel>(`${environment.main_url}/user/userinfo/terminate?userId=${userId}&status=${status}`, null);
+    terminate(userId: string) {
+        return this.httpClient.put<RootModel>(`${environment.main_url}/user/userinfo/terminate?userId=${userId}`, null);
     }
 }

@@ -148,11 +148,11 @@ export const UserManageStore = signalStore(
                                 patchState(
                                     store,
                                     updateEntity(
-                                        { 
+                                        {
                                             id: `${updated.userId}`,
                                             changes: { ...updated },
-                                         },
-                                        { selectId :(s) =>s.userId},
+                                        },
+                                        { selectId: (s) => s.userId },
                                     ),
                                 );
 
@@ -204,12 +204,11 @@ export const UserManageStore = signalStore(
                 )
             ),
 
-            terminate: rxMethod<{ userId: string; status: boolean }>(
+            terminate: rxMethod<{ userId: string }>(
                 pipe(
-                    switchMap(({ userId, status }) =>
-                        userManageService.terminate(userId, status).pipe(
+                    switchMap(({ userId }) =>
+                        userManageService.terminate(userId).pipe(
                             tap(() => {
-                                patchState(store, updateEntity({ id: userId, changes: { status } }, { selectId }));
                                 messageService.add({
                                     key: environment.default_toastKey,
                                     severity: 'success',

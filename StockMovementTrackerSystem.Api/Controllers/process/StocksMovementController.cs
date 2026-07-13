@@ -28,6 +28,15 @@ public class StocksMovementController(
         return ResponseHelper.Ok_Result(stockMovement, null);
     }
 
+    [HttpGet("auditlogs")]
+    [EndpointSummary("AuditLog - List")]
+    [EndpointDescription("AuditLog - List.")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetAuditLogAsync(string productId)
+    {
+        var audit = await context.StockAuditLogs.Where(x => x.ProductId == productId).ToListAsync();
+        return ResponseHelper.Ok_Result(audit, null);
+    }
 
     [HttpPost("stock")]
     [EndpointSummary("Create StockProduct")]
@@ -157,22 +166,22 @@ public class StocksMovementController(
             LogTimestamp = DateTime.Now
         };
         context.StockAuditLogs.Add(auditlog);
-        
-            var stockAlerts = new StockAlert()
-            {
-                AlertId = Guid.NewGuid().ToString(),
-                ProductId = model.ProductId,
-                AlertMessage = "CurrentStock is Less Than 5",
-                IsResolved = true,
-                CreatedDate = DateTime.Now
-            };
-        if(productStock.CurrentStock < 5)
+
+        var stockAlerts = new StockAlert()
+        {
+            AlertId = Guid.NewGuid().ToString(),
+            ProductId = model.ProductId,
+            AlertMessage = "CurrentStock is Less Than 5",
+            IsResolved = true,
+            CreatedDate = DateTime.Now
+        };
+        if (productStock.CurrentStock < 5)
         {
             context.StockAlerts.Add(stockAlerts);
 
         }
         await context.SaveChangesAsync();
-        return ResponseHelper.Ok_Result(new { stockMove, productStock, auditlog,stockAlerts }, null);
+        return ResponseHelper.Ok_Result(new { stockMove, productStock, auditlog, stockAlerts }, null);
 
 
     }

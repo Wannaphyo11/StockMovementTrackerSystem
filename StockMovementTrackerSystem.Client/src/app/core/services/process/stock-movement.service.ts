@@ -20,5 +20,10 @@ export class StockMovementService {
   update(movementId: string, model: StockMovementModel): Observable<RootModel> {
     return this.httpClient.put<RootModel>(`${environment.main_url}/process/stocksmovement/update-stockmove?movementId=${movementId}`, model);
   }
+  getAuditLog(productId: string): Observable<RootModel> {
+    return this.httpClient.get<RootModel>(
+      `${environment.main_url}/process/stocksmovement/auditlogs?productId=${productId}`,
+    );
+  }
 
 }
