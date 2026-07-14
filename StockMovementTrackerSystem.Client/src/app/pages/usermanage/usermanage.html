@@ -69,7 +69,8 @@
                 </td>
                 <td>
                     <div class="flex items-center gap-2">
-                        <p-toggleSwitch [ngModel]="!user.status" (onChange)="onActiveChange(user, $event)"
+                        <p-toggleSwitch [ngModel]="terminationSwitchStates[user.userId] ?? !!user.terminateDate"
+                            (onChange)="onActiveChange(user, $event)"
                             [disabled]="userManageStore$.isSubmitting$()">
                             <ng-template #handle let-checked="checked">
                                 <i [ngClass]="['!text-xs', 'pi', checked ? 'pi-check' : 'pi-times']"></i>

@@ -22,6 +22,8 @@ import { ExportService } from '../../../shared/services/export.service';
 import { ProductStockStore } from '../../../core/stores/product-stock.store';
 import { ProductStocksModel } from '../../../core/models/master/stock-movement.model';
 import { environment } from '../../../../environments/environment';
+import { SharedService } from '../../../shared/services/shared.service';
+import { AuthGuardService } from '../../../shared/services/auth-guard.service';
 
 @Component({
   selector: 'app-product-stock',
@@ -55,6 +57,7 @@ export class ProductStock implements OnInit {
   constructor(
     private translateService: TranslateService,
     private messageService: MessageService,
+    private authGuardService : AuthGuardService
   ) {
     effect(() => {
       this.selectedValue = this.productStockStore$.selectedValue$();
@@ -74,6 +77,7 @@ export class ProductStock implements OnInit {
   //#endregion
 
   ngOnInit(): void {
+    this.authGuardService.checkRoleAccess();
     this.loadMenu();
     // refresh labels when language changes
     this.translateService.onLangChange.subscribe(() => this.loadMenu());

@@ -27,6 +27,8 @@ import { UserInfoEntryModel } from '../../core/models/usermanage/usermanage.mode
 import { UserManageService } from '../../core/services/usermanage/usermanage';
 import { ExportService } from '../../shared/services/export.service';
 import { SharedService } from '../../shared/services/shared.service';
+import { Router } from '@angular/router';
+import { AuthGuardService } from '../../shared/services/auth-guard.service';
 
 @Component({
     selector: 'app-usermanage',
@@ -60,10 +62,12 @@ export class UserManage implements OnInit {
     private readonly translateService = inject(TranslateService);
     private readonly messageService = inject(MessageService);
     private readonly formBuilder = inject(FormBuilder);
-    private readonly shareService = inject(SharedService);
+    private readonly sharedService = inject(SharedService);
+    private readonly authGuardService = inject(AuthGuardService);
 
     selectedValue: UserInfoEntryModel | null = null;
     items!: MenuItem[] | undefined;
+    terminationSwitchStates: Record<string, boolean> = {};
 
     roles = [
         { label: 'Admin', value: 'Admin' },
@@ -99,6 +103,7 @@ export class UserManage implements OnInit {
     }
 
     ngOnInit(): void {
+        this.authGuardService.checkRoleAccess();
         this.loadMenu();
         this.translateService.onLangChange.subscribe(() => this.loadMenu());
         this.userManageStore$.loadAll();
@@ -187,8 +192,6 @@ export class UserManage implements OnInit {
             }
         });
     }
-
-
     checkUserName() {
         const username = this.userManageForm.get('userName')?.value;
         if (!username || this.userManageStore$.isEdit$()) return;
@@ -204,22 +207,48 @@ export class UserManage implements OnInit {
 
     //Terminate User
     onActiveChange(user: any, event: any): void {
-        const isChecked = event.checked;
+        const isTerminated = event.checked;
+        const previousStatus = user.status;
+        // const previousTerminationState = !!user.terminateDate;
+        const previousTerminationState =
+            user.terminateDate ? true : false;
 
-        if (isChecked) {
+        this.terminationSwitchStates[user.userId] = isTerminated;
+
+        if (isTerminated) {
             this.confirmationService.confirm({
                 message: 'Are you sure you want to terminate this user?',
                 header: 'Terminate Confirmation',
                 icon: 'pi pi-info-circle',
+
                 accept: () => {
-                    this.userManageStore$.terminate({ userId: user.userId });
+                    this.userManageStore$.terminate({
+                        userId: user.userId
+                    });
 
                     user.status = false;
                     user.terminateDate = new Date();
                 },
+
                 reject: () => {
-                    event.originalEvent.preventDefault();
+                    user.status = previousStatus;
+                    this.terminationSwitchStates[user.userId] = previousTerminationState;
+                }
+            });
+        } else {
+            this.confirmationService.confirm({
+                message: 'Are you sure you want to activate this user again?',
+                header: 'Activate Confirmation',
+                icon: 'pi pi-info-circle',
+
+                accept: () => {
                     user.status = true;
+                    user.terminateDate = null;
+                },
+
+                reject: () => {
+                    user.status = previousStatus;
+                    this.terminationSwitchStates[user.userId] = previousTerminationState;
                 }
             });
         }
@@ -248,7 +277,7 @@ export class UserManage implements OnInit {
     }
 
     DialogHide(): void {
-        if (this.shareService.getUserRole() != 'Admin') {
+        if (this.sharedService.getUserRole() != 'Admin') {
             this.userManageForm.disable();
         }
     }

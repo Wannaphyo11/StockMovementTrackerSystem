@@ -23,7 +23,7 @@ export const NAVIGATION_MENU: Readonly<any[]> = [
                 label: 'MENU.MASTER.PRODUCT_STOCK',
                 icon: 'pi pi-box',
                 routerLink: ['/master/product-stock'],
-                roles: ALL_ROLES
+                roles: ADMIN
             },
             {
                 label: 'MENU.MASTER.STOCK_MOVEMENT',

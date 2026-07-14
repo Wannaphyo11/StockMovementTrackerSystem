@@ -24,7 +24,7 @@ export class AuthGuardService implements CanActivate {
     private messageService: MessageService,
     private loggerSerivce: LoggerService,
     private router: Router,
-  ) {}
+  ) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -75,5 +75,14 @@ export class AuthGuardService implements CanActivate {
     });
 
     return isValid;
+  }
+
+  checkRoleAccess(): void {
+    const rawRole = this.sharedService.getUserRole() || '';
+    const userRoles = rawRole.split(',').map(r => r.trim().toLowerCase());
+
+    if (!userRoles.includes('admin')) {
+      this.router.navigate(['/dashboard']);
+    }
   }
 }
