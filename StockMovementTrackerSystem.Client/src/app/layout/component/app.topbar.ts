@@ -16,6 +16,7 @@ interface NavItem {
   label: string;
   icon: string;
   route: string;
+  roles: string[];
 }
 
 @Component({
@@ -218,13 +219,17 @@ export class AppTopbar implements OnInit {
   items!: MenuItem[];
   userName: string | null = 'N/A';
   userRole: string | null = 'N/A';
+  ADMIN: string[] = ['admin'];
+  Cashier: string[] = ['cashier'];
+  ALL_ROLES: string[] = ['admin', 'cashier'];
+
 
   /** Internal navigation items — all route within this Angular app */
   navItems: NavItem[] = [
-    { label: 'Dashboard',      icon: 'pi pi-chart-pie',  route: '/dashboard' },
-    { label: 'Product Stock',  icon: 'pi pi-box',        route: '/master/product-stock' },
-    { label: 'Stock Movement', icon: 'pi pi-arrow-right-arrow-left', route: '/process/stock-movement' },
-    { label: 'Stock Summary',  icon: 'pi pi-list',       route: '/process/product-stock-summary' },
+    { label: 'Dashboard', icon: 'pi pi-chart-pie', route: '/dashboard', roles: this.ALL_ROLES },
+    { label: 'Product Stock', icon: 'pi pi-box', route: '/master/product-stock', roles: this.ADMIN },
+    { label: 'Stock Movement', icon: 'pi pi-arrow-right-arrow-left', route: '/process/stock-movement', roles: this.ALL_ROLES },
+    { label: 'User Information', icon: 'pi pi-list', route: '/user/user-manage', roles: this.ADMIN },
   ];
 
   get userInitials(): string {
@@ -244,7 +249,7 @@ export class AppTopbar implements OnInit {
     private authServices: AuthService,
     private translateService: TranslateService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.userName = this.sharedService.getUserName();
