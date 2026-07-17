@@ -225,6 +225,28 @@ export const UserManageStore = signalStore(
                 )
             ),
 
+            Unterminate: rxMethod<{ userId: string }>(
+                pipe(
+                    switchMap(({ userId }) =>
+                        userManageService.unTerminate(userId).pipe(
+                            tap(() => {
+                                messageService.add({
+                                    key: environment.default_toastKey,
+                                    severity: 'success',
+                                    summary: translateService.instant('COMMON.SUCCESS'),
+                                    detail: 'UnTerminate status changed successfully.',
+                                });
+                            }),
+                            catchError((error) => {
+                                showErrorToast(messageService, translateService, 'USER_MANAGE.FAILED_TO_TERMINATE', error);
+                                return of(null);
+                            })
+                        )
+                    )
+                )
+            ),
+
+
             reset(): void {
                 patchState(store, {
                     isSubmitting: false,
