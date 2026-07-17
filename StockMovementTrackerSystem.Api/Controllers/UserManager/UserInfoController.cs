@@ -210,4 +210,41 @@ public class UserInfoController(
                 MM = ""
             });
     }
+
+    [HttpPut("unterminate")]
+    [EndpointSummary("UnTerminated")]
+    [EndpointDescription("Updates the Untermination status of a user based on the provided user ID and status, allowing for the management of user accounts by marking them as terminated or active. This endpoint facilitates the control of user access and account status within the system.")]
+    [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UnTermianteChangeAsync(string userId)
+    {
+        var userInfo = await context.UserInformations.FindAsync(userId);
+        if (userInfo == null)
+        {
+            return ResponseHelper.NotFound_Request(null, new DefaultResponseMessageModel()
+            {
+                EN = "User Info not found",
+                MM = ""
+            });
+        }
+
+        userInfo.TerminateDate = null;
+        userInfo.Status = true;
+        userInfo.UpdatedOn = DateTime.Now;
+        userInfo.UpdatedBy = User.Identity?.Name ?? "";
+
+        context.UserInformations.Update(userInfo);
+
+        return await context.SaveChangesAsync() > 0
+            ? ResponseHelper.Ok_Result(null, new DefaultResponseMessageModel()
+            {
+                EN = "Terminate status updated!",
+                MM = ""
+            })
+            : ResponseHelper.Bad_Request(null, new DefaultResponseMessageModel()
+            {
+                EN = "Terminate cannot be updated!",
+                MM = ""
+            });
+    }
 }
