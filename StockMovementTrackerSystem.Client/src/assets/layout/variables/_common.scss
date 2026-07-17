@@ -17,4 +17,13 @@
     --focus-ring-color: var(--p-focus-ring-color);
     --focus-ring-offset: var(--p-focus-ring-offset);
     --focus-ring-shadow: var(--p-focus-ring-shadow);
+
+    /* ── PrimeNG highlight / selection token overrides ── */
+    /* Replaces the default near-black selection with a soft indigo palette */
+    --p-highlight-background: #eef2ff;
+    --p-highlight-color: #3730a3;
+    --p-highlight-focus-background: #e0e7ff;
+    --p-highlight-focus-color: #312e81;
+    --p-datatable-row-selected-background: #eef2ff;
+    --p-datatable-row-selected-color: #3730a3;
 }
