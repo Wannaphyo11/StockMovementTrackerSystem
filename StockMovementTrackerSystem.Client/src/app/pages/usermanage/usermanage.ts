@@ -67,7 +67,7 @@ export class UserManage implements OnInit {
 
     selectedValue: UserInfoEntryModel | null = null;
     items!: MenuItem[] | undefined;
-    terminationSwitchStates: Record<string, boolean> = {};
+    terminationSwitchStates: Partial<Record<string, boolean>> = {};
 
     roles = [
         { label: 'Admin', value: 'Admin' },
@@ -209,9 +209,9 @@ export class UserManage implements OnInit {
     onActiveChange(user: any, event: any): void {
         const isTerminated = event.checked;
         const previousStatus = user.status;
-        // const previousTerminationState = !!user.terminateDate;
-        const previousTerminationState =
-            user.terminateDate ? true : false;
+        const previousTerminationState = !!user.terminateDate;
+        // const previousTerminationState =
+        //     user.terminateDate ? true : false;
 
         this.terminationSwitchStates[user.userId] = isTerminated;
 
@@ -242,6 +242,10 @@ export class UserManage implements OnInit {
                 icon: 'pi pi-info-circle',
 
                 accept: () => {
+                    this.userManageStore$.Unterminate({
+                        userId: user.userId
+                    });
+
                     user.status = true;
                     user.terminateDate = null;
                 },
