@@ -2,4 +2,12 @@
     --surface-ground: var(--p-surface-950);
     --code-background: var(--p-surface-800);
     --code-color: var(--p-surface-100);
+
+    /* ── Dark-mode highlight / selection token overrides ── */
+    --p-highlight-background: #25224f;
+    --p-highlight-color: #c7d2fe;
+    --p-highlight-focus-background: #302e63;
+    --p-highlight-focus-color: #e0e7ff;
+    --p-datatable-row-selected-background: #25224f;
+    --p-datatable-row-selected-color: #c7d2fe;
 }
