@@ -35,6 +35,23 @@ export class AuthService {
     return this.http.post<RootModel>(url, JSON.stringify(body));
   }
 
+  changePassword(
+    username: string,
+    oldPassword: string,
+    newPassword: string,
+    confirmPassword: string,
+  ): Observable<RootModel> {
+    const url: string = `${environment.auth_url}/change-password`;
+    const body = {
+      username,
+      oldPassword,
+      newPassword,
+      confirmPassword,
+    };
+
+    return this.http.post<RootModel>(url, JSON.stringify(body));
+  }
+
   refreshToken(): Observable<RootModel> {
     let url: string = `${environment.auth_url}/refresh-token`;
     const body = {
