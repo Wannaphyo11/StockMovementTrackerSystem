@@ -30,4 +30,7 @@ export class UserManageService {
     terminate(userId: string) {
         return this.httpClient.put<RootModel>(`${environment.main_url}/user/userinfo/terminate?userId=${userId}`, null);
     }
+    unTerminate(userId: string) {
+        return this.httpClient.put<RootModel>(`${environment.main_url}/user/userinfo/unterminate?userId=${userId}`, null);
+    }
 }
