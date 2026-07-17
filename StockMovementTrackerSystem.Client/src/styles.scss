@@ -2,3 +2,98 @@
 @use './assets/tailwind.css';
 @use './assets/layout/layout.scss';
 @use 'primeicons/primeicons.css';
+
+/* ── Custom Global Input Stylings to prevent PrimeNG Overlapping ── */
+/* Custom Uniform Inputs - Tight Compact Style */
+.custom-input.p-inputtext {
+    width: 100% !important;
+    height: 2.5rem !important;
+    /* Forces h-10 size constraint properly */
+    padding-left: 2.5rem !important;
+    padding-right: 2.5rem !important;
+    font-size: 0.8125rem !important;
+    /* Slightly smaller text for compact UI */
+    border-radius: 0.625rem !important;
+    /* Balanced curve for small card */
+    border: 1px solid #e2e8f0 !important;
+    background-color: rgba(248, 250, 252, 0.5) !important;
+    color: #1e293b !important;
+    transition: all 0.2s ease-in-out !important;
+
+    &:hover {
+        border-color: #cbd5e1 !important;
+    }
+
+    &:focus {
+        border-color: #6366f1 !important;
+        background-color: #ffffff !important;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08) !important;
+    }
+}
+
+/* Eye icon positioning fix inside PrimeNG Password (Compact scale) */
+.p-password-toggle {
+    right: 0.875rem !important;
+    color: #94a3b8 !important;
+    z-index: 30 !important;
+}
+
+/* ── Override PrimeNG selected-row black highlight ── */
+.p-datatable .p-datatable-tbody>tr.p-datatable-row-selected,
+.p-datatable .p-datatable-tbody>tr.p-highlight {
+    background: #dbeafe !important;
+    color: #172554 !important;
+    box-shadow: inset 5px 0 0 #1e3a8a;
+}
+
+.p-datatable .p-datatable-tbody>tr.p-datatable-row-selected>td,
+.p-datatable .p-datatable-tbody>tr.p-highlight>td {
+    color: #1e3a8a !important;
+    border-color: #93c5fd !important;
+}
+
+.p-datatable .p-datatable-tbody>tr.p-datatable-row-selected:hover,
+.p-datatable .p-datatable-tbody>tr.p-highlight:hover {
+    background: #bfdbfe !important;
+    color: #172554 !important;
+}
+
+/* Custom PrimeNG Dialog Overlay refinement (Smaller dimensions) */
+.custom-dialog.p-dialog {
+    border-radius: 1rem !important;
+    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.2) !important;
+
+    .p-dialog-header {
+        border-top-left-radius: 1rem !important;
+        border-top-right-radius: 1rem !important;
+        padding: 1.25rem 1.25rem 0 1.25rem;
+    }
+
+    .p-dialog-content {
+        padding: 0.5rem 1.25rem 1.25rem 1.25rem;
+    }
+
+    .p-dialog-footer {
+        padding: 0.875rem 1.25rem 1.25rem 1.25rem;
+        border-bottom-left-radius: 1rem !important;
+        border-bottom-right-radius: 1rem !important;
+    }
+}
+
+/* Dark mode configurations for Inputs */
+.app-dark {
+    .custom-input.p-inputtext {
+        border-color: #334155 !important;
+        background-color: rgba(15, 23, 42, 0.4) !important;
+        color: #f1f5f9 !important;
+
+        &:hover {
+            border-color: #475569 !important;
+        }
+
+        &:focus {
+            border-color: #6366f1 !important;
+            background-color: #0f172a !important;
+        }
+    }
+}
