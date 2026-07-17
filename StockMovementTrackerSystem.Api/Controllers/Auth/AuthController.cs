@@ -117,6 +117,87 @@ public class AuthController(
     }
 
     [AllowAnonymous]
+    [HttpPost("change-password")]
+    [EndpointSummary("Change Password")]
+    [EndpointDescription("Changes a user's password after verifying the current password.")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel model)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return ResponseHelper.Bad_Request(null,
+                    new DefaultResponseMessageModel("Please fill all password fields.", ""));
+            }
+
+            if (!string.Equals(model.NewPassword, model.ConfirmPassword, StringComparison.Ordinal))
+            {
+                return ResponseHelper.Bad_Request(null,
+                    new DefaultResponseMessageModel("New password and confirm password do not match.", ""));
+            }
+
+            if (string.Equals(model.OldPassword, model.NewPassword, StringComparison.Ordinal))
+            {
+                return ResponseHelper.Bad_Request(null,
+                    new DefaultResponseMessageModel("New password must be different from the old password.", ""));
+            }
+
+            string username = model.Username.Trim();
+            IdentityUser? user = await userManager.FindByNameAsync(username) ??
+                                 await userManager.FindByEmailAsync(username);
+
+            if (user == null)
+            {
+                return ResponseHelper.Unauthorized_Request(null,
+                    new DefaultResponseMessageModel("The username or old password is invalid.", ""));
+            }
+
+            IdentityResult result = await userManager.ChangePasswordAsync(
+                user,
+                model.OldPassword,
+                model.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                bool invalidOldPassword = result.Errors.Any(error =>
+                    error.Code.Equals("PasswordMismatch", StringComparison.OrdinalIgnoreCase));
+
+                string message = invalidOldPassword
+                    ? "The username or old password is invalid."
+                    : string.Join(" ", result.Errors.Select(error => error.Description));
+
+                logger.LogWarning("Password change failed. [UserId:{Id}] [Errors:{Errors}]",
+                    user.Id,
+                    string.Join(", ", result.Errors.Select(error => error.Code)));
+
+                return invalidOldPassword
+                    ? ResponseHelper.Unauthorized_Request(null, new DefaultResponseMessageModel(message, ""))
+                    : ResponseHelper.Bad_Request(null, new DefaultResponseMessageModel(message, ""));
+            }
+
+            logger.LogInformation("Password changed successfully. [UserId:{Id}] [UserName:{Username}]",
+                user.Id,
+                user.UserName);
+
+            return ResponseHelper.Ok_Result(null,
+                new DefaultResponseMessageModel(
+                    "Password changed successfully. You can now sign in with your new password.",
+                    ""));
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error while changing password.");
+            return ResponseHelper.InternalServerError_Request(null,
+                new DefaultResponseMessageModel("Unable to change password. Please try again.", ""));
+        }
+    }
+
+    [AllowAnonymous]
     [HttpPost("refresh-token")]
     [EndpointSummary("Refresh Token")]
     [EndpointDescription("""
