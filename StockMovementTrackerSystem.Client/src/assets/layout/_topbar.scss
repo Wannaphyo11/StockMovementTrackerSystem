@@ -2,18 +2,18 @@
 
 .layout-topbar {
   position: fixed;
-  height: 4rem;
+  height: 4.5rem;
   z-index: 997;
   left: 0;
   top: 0;
   width: 100%;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   transition: left var(--layout-section-transition-duration);
   display: flex;
   align-items: center;
 
   .layout-topbar-logo-container {
-    width: 18rem;
+    width: 18.25rem;
     display: flex;
     align-items: center;
   }
@@ -21,7 +21,7 @@
   .layout-topbar-logo {
     display: inline-flex;
     align-items: center;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     border-radius: var(--content-border-radius);
     color: var(--text-color);
     font-weight: 500;
@@ -82,7 +82,7 @@
   .layout-topbar-actions {
     margin-left: auto;
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
   }
 
   .layout-topbar-breadcrumbs {
@@ -91,12 +91,12 @@
 
   .layout-topbar-menu-content {
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
   }
 
   .layout-config-menu {
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
   }
 }
 
@@ -127,7 +127,7 @@
       border-radius: var(--content-border-radius);
       padding: 1rem;
       right: 2rem;
-      top: 4rem;
+      top: 4.5rem;
       min-width: 15rem;
       border: 1px solid var(--surface-border);
 

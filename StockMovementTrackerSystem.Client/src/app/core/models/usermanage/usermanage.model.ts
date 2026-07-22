@@ -15,6 +15,22 @@ export interface UserInfoEntryModel {
     updatedBy: any
 }
 
+export interface UserInfoModel {
+    userName: string
+    email: string
+    phoneNumber: string
+    roleName: string
+    userId: string
+    fullName: any
+    address: any
+    status: any
+    terminateDate: any
+    createdOn: any
+    createdBy: any
+    updatedOn: any
+    updatedBy: any
+}
+
 export interface ViUserInformation {
     userName: string | null;
     fullName: string | null;

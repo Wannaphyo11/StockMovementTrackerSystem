@@ -147,7 +147,7 @@ public class AuthController(
                     new DefaultResponseMessageModel("New password must be different from the old password.", ""));
             }
 
-            string username = model.Username.Trim();
+            string username = model.UserName.Trim();
             IdentityUser? user = await userManager.FindByNameAsync(username) ??
                                  await userManager.FindByEmailAsync(username);
 

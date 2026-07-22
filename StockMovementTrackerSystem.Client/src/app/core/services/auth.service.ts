@@ -43,7 +43,7 @@ export class AuthService {
   ): Observable<RootModel> {
     const url: string = `${environment.auth_url}/change-password`;
     const body = {
-      username,
+      userName: username,
       oldPassword,
       newPassword,
       confirmPassword,

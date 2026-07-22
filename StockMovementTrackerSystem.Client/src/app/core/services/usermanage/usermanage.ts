@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { RootModel } from '../../models/master/root.model';
-import { StockMovementModel } from '../../models/master/stock-movement.model';
-import { UserInfoEntryModel } from '../../models/usermanage/usermanage.model';
+import { UserInfoEntryModel, UserInfoModel } from '../../models/usermanage/usermanage.model';
 
 @Injectable({
     providedIn: 'root',
@@ -21,11 +20,11 @@ export class UserManageService {
     create(model: UserInfoEntryModel): Observable<RootModel> {
         return this.httpClient.post<RootModel>(`${environment.main_url}/user/userinfo`, model);
     }
-    update(model: UserInfoEntryModel): Observable<RootModel> {
+    update(model: UserInfoModel): Observable<RootModel> {
         return this.httpClient.put<RootModel>(`${environment.main_url}/user/userinfo`, model);
     }
-    resetPassword(userName: string, newPassword: string): Observable<RootModel> {
-        return this.httpClient.put<RootModel>(`${environment.main_url}/user/userinfo/reset?userName=${encodeURIComponent(userName)}&newPassword=${encodeURIComponent(newPassword)}`, null);
+    resetPassword(userName: string, password: string): Observable<RootModel> {
+        return this.httpClient.put<RootModel>(`${environment.main_url}/user/userinfo/reset?userName=${userName}&password=${password}`, null);
     }
     terminate(userId: string) {
         return this.httpClient.put<RootModel>(`${environment.main_url}/user/userinfo/terminate?userId=${userId}`, null);
@@ -34,3 +33,4 @@ export class UserManageService {
         return this.httpClient.put<RootModel>(`${environment.main_url}/user/userinfo/unterminate?userId=${userId}`, null);
     }
 }
+

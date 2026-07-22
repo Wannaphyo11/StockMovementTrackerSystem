@@ -5,7 +5,7 @@ namespace StockMovementTrackerSystem.Application.Models;
 public class ChangePasswordModel
 {
     [Required]
-    public required string Username { get; set; }
+    public required string UserName { get; set; }
 
     [Required]
     public required string OldPassword { get; set; }

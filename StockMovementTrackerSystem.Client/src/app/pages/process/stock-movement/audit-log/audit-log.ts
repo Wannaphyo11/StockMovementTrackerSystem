@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { getDate, getDecimal, hasDate, hasDecimal, isObject } from '../../../../core/services/audit-log.utils';
 import { AuditLogModel } from '../../../../core/models/audit-log.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoggerService } from '../../../../shared/services/logger.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -48,8 +48,15 @@ export class AuditLog implements OnInit {
     loading: boolean = false;
     loadingServiceType: boolean = false;
 
+    get stockInEntries(): number { return this.auditLogs().filter((log) => log.movementType === 'IN').length; }
+    get stockOutEntries(): number { return this.auditLogs().filter((log) => log.movementType === 'OUT').length; }
+    get netQuantityChange(): number {
+        return this.auditLogs().reduce((total, log) => total + (log.movementType === 'OUT' ? -Number(log.quantityChanged || 0) : Number(log.quantityChanged || 0)), 0);
+    }
+
     constructor(
         private route: ActivatedRoute,
+        private router: Router,
         private StockMovementService: StockMovementService,
         private loggerService: LoggerService,
     ) { }
@@ -80,6 +87,8 @@ export class AuditLog implements OnInit {
 
         this.loadingServiceType = true;
     }
+
+    goBack(): void { this.router.navigate(['/process/stock-movement']); }
 
     // --- Actions ---
     selectLog(log: AuditLogModel) {

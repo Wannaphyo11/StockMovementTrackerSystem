@@ -65,6 +65,10 @@ export class StockMovement implements OnInit {
         { label: 'Stock Out', value: 'OUT' },
     ];
 
+    get movements() { return this.productStockSummaryStore$.getAll$(); }
+    get stockInTotal(): number { return this.movements.filter((item) => item.type === 'IN').reduce((sum, item) => sum + Number(item.quantity || 0), 0); }
+    get stockOutTotal(): number { return this.movements.filter((item) => item.type === 'OUT').reduce((sum, item) => sum + Number(item.quantity || 0), 0); }
+
     get productNames() {
         return this.productStockStore$.getAll$().map((product) => ({
             label: product.productName ?? product.productId,
@@ -98,6 +102,12 @@ export class StockMovement implements OnInit {
 
         // refresh labels when language changes
         this.translateService.onLangChange.subscribe(() => this.loadMenu());
+        this.productStockStore$.loadAll();
+        this.stockMovementStore$.loadAll();
+        this.productStockSummaryStore$.loadAll();
+    }
+
+    reload(): void {
         this.productStockStore$.loadAll();
         this.stockMovementStore$.loadAll();
         this.productStockSummaryStore$.loadAll();

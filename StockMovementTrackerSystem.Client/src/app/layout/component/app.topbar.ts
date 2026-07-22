@@ -1,5 +1,5 @@
-import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { Component, inject, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StyleClassModule } from 'primeng/styleclass';
@@ -11,6 +11,11 @@ import { AppFloatingConfigurator } from './app.floatingconfigurator';
 import { BreadCrumb } from '../../shared/components/bread-crumb/bread-crumb';
 import { SharedService } from '../../shared/services/shared.service';
 import { AuthService } from '../../core/services/auth.service';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { PasswordModule } from 'primeng/password';
 
 interface NavItem {
   label: string;
@@ -29,8 +34,14 @@ interface NavItem {
     TieredMenuModule,
     PopoverModule,
     BreadCrumb,
-    AppFloatingConfigurator
+    AppFloatingConfigurator,
+    ReactiveFormsModule,
+    ButtonModule,
+    DialogModule,
+    ConfirmDialogModule,
+    PasswordModule
   ],
+  providers: [ConfirmationService],
   template: `
     <div class="layout-topbar bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-700/50 relative">
 
@@ -182,6 +193,56 @@ interface NavItem {
         </div>
       </div>
     </div>
+
+<p-dialog header="Change password" [visible]="isPasswordDialogVisible" [modal]="true" appendTo="body"
+  [draggable]="false" [resizable]="false" [closable]="!isPasswordSubmitting" [style]="{ width: '30rem' }"
+  [breakpoints]="{ '575px': '92vw' }" maskStyleClass="backdrop-blur-sm" (onHide)="onResetPasswordDialogHide()">
+  <form [formGroup]="resetPasswordForm" class="flex flex-col gap-5 pt-1" (ngSubmit)="confirmResetPassword()">
+    <div
+      class="rounded-2xl border border-amber-100 bg-amber-50 p-3 text-xs text-amber-800 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-200">
+      <i class="pi pi-key mr-2"></i>Set a new password for <strong>{{ userName }}</strong>.
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="currentPassword" class="field-label">Current password <span class="text-red-500">*</span></label>
+      <p-password inputId="currentPassword" formControlName="oldPassword" styleClass="w-full" inputStyleClass="w-full"
+        placeholder="Enter current password" autocomplete="current-password" [toggleMask]="true"
+        [feedback]="false"></p-password>
+      @if (resetPasswordForm.controls.oldPassword.touched &&
+      resetPasswordForm.controls.oldPassword.hasError('required')) { <small class="text-xs text-red-500">Current
+        password is required.</small> }
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="newPassword" class="field-label">New password <span class="text-red-500">*</span></label>
+      <p-password inputId="newPassword" formControlName="newPassword" styleClass="w-full" inputStyleClass="w-full"
+        placeholder="Enter new password" autocomplete="new-password" [toggleMask]="true" [feedback]="true"></p-password>
+      @if (resetPasswordForm.controls.newPassword.touched &&
+      resetPasswordForm.controls.newPassword.hasError('required')) { <small class="text-xs text-red-500">New password is
+        required.</small> }
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="confirmPassword" class="field-label">Confirm new password <span class="text-red-500">*</span></label>
+      <p-password inputId="confirmPassword" formControlName="confirmPassword" styleClass="w-full"
+        inputStyleClass="w-full" placeholder="Re-enter new password" autocomplete="new-password" [toggleMask]="true"
+        [feedback]="false"></p-password>
+      @if (resetPasswordForm.controls.confirmPassword.touched &&
+      resetPasswordForm.controls.confirmPassword.hasError('required')) { <small class="text-xs text-red-500">Please
+        confirm the new password.</small> }
+      @if (resetPasswordForm.controls.confirmPassword.touched && resetPasswordForm.hasError('passwordMismatch')) {
+      <small class="text-xs text-red-500">Passwords do not match.</small> }
+    </div>
+    <div
+      class="flex flex-col-reverse gap-2 border-t border-slate-100 pt-4 sm:flex-row sm:justify-end dark:border-slate-800">
+      <p-button label="Cancel" severity="secondary" type="button" [outlined]="true"
+        [disabled]="isPasswordSubmitting" (onClick)="onResetPasswordDialogHide()"></p-button>
+      <p-button type="submit" label="Change password" icon="pi pi-key"
+        [loading]="isPasswordSubmitting"></p-button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-confirmdialog key="resetPasswordDialog" appendTo="body"></p-confirmdialog>
+<p-confirmdialog appendTo="body" [style]="{ width: '30rem' }" [breakpoints]="{ '768px': '90vw' }"
+  rejectButtonStyleClass="p-button-outlined"></p-confirmdialog>
     <div class="hidden">
       <app-floating-configurator></app-floating-configurator>
     </div>
@@ -216,7 +277,13 @@ interface NavItem {
 export class AppTopbar implements OnInit {
   @ViewChild('op') op!: any;
 
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly confirmationService = inject(ConfirmationService);
+  private readonly messageService = inject(MessageService);
+
   items!: MenuItem[];
+  isPasswordDialogVisible = false;
+  isPasswordSubmitting = false;
   userName: string | null = 'N/A';
   userRole: string | null = 'N/A';
   ADMIN: string[] = ['admin'];
@@ -249,16 +316,31 @@ export class AppTopbar implements OnInit {
     private authServices: AuthService,
     private translateService: TranslateService,
     private router: Router
-  ) { }
+  ) {}
+
+  resetPasswordForm = this.formBuilder.group({
+    oldPassword: ['', Validators.required],
+    newPassword: ['', Validators.required],
+    confirmPassword: ['', Validators.required]
+  }, { validators: this.passwordsMatchValidator });
+
+
 
   ngOnInit(): void {
     this.userName = this.sharedService.getUserName();
     this.userRole = this.sharedService.getUserRole();
+    const userRoles = (this.userRole || '').split(',').map((role) => role.trim().toLowerCase());
+    this.navItems = this.navItems.filter((item) => item.roles.some((role) => userRoles.includes(role.toLowerCase())));
     const lang = window.localStorage.getItem('lang') || 'en';
     this.switchLanguage(lang);
 
     this.items = [
       { label: 'Settings', icon: 'pi pi-cog' },
+      {
+        label: 'New Password',
+        icon: 'pi pi-key',
+        command: () => this.openResetPasswordDialog()
+      },
       { separator: true },
       {
         label: 'Logout',
@@ -268,7 +350,77 @@ export class AppTopbar implements OnInit {
           this.router.navigate(['/auth/login']);
         }
       }
+      // {
+      //   label: 'Logout',
+      //   icon: 'pi pi-sign-out',
+      //   command: () => {
+      //     this.router.navigate(['/auth/login']);
+      //   }
+      // }
     ];
+  }
+
+  private passwordsMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const newPassword = control.get('newPassword')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
+
+    return newPassword && confirmPassword && newPassword !== confirmPassword
+      ? { passwordMismatch: true }
+      : null;
+  }
+
+  // Reset Password Dialog
+  openResetPasswordDialog(): void {
+    this.resetPasswordForm.reset();
+    this.isPasswordDialogVisible = true;
+    this.op?.hide();
+  }
+
+
+  // Reset Password Dialog Confirm
+  confirmResetPassword(): void {
+    if (this.resetPasswordForm.invalid) {
+      this.resetPasswordForm.markAllAsTouched();
+      return;
+    }
+
+    this.confirmationService.confirm({
+      key: 'resetPasswordDialog',
+      message: `Are you sure you want to change the password for ${this.userName}?`,
+      header: 'Change Password Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        const userName = this.userName;
+        const { oldPassword, newPassword, confirmPassword } = this.resetPasswordForm.getRawValue();
+
+        if (userName && oldPassword && newPassword && confirmPassword) {
+          this.isPasswordSubmitting = true;
+          this.authServices.changePassword(userName, oldPassword, newPassword, confirmPassword).subscribe({
+            next: (response) => {
+              this.isPasswordSubmitting = false;
+              this.isPasswordDialogVisible = false;
+              this.resetPasswordForm.reset();
+              this.messageService.add({
+                key: 'globalMessage',
+                severity: 'success',
+                summary: 'Success',
+                detail: response.message?.en || response.message || 'Password changed successfully.'
+              });
+            },
+            error: () => {
+              this.isPasswordSubmitting = false;
+            }
+          });
+        }
+      }
+    });
+  }
+
+  onResetPasswordDialogHide(): void {
+    if (this.isPasswordSubmitting) return;
+
+    this.isPasswordDialogVisible = false;
+    this.resetPasswordForm.reset();
   }
 
   switchLanguage(lang: string) {

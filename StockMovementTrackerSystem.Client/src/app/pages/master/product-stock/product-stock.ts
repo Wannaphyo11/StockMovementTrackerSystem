@@ -15,7 +15,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 //service import
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MessageModule } from 'primeng/message';
 import { Router } from '@angular/router';
 import { ExportService } from '../../../shared/services/export.service';
@@ -44,6 +44,7 @@ import { AuthGuardService } from '../../../shared/services/auth-guard.service';
     DialogModule,
     ConfirmDialogModule,
     MessageModule
+    ,TranslatePipe
   ],
   providers: [ConfirmationService, ExportService, DatePipe],
   templateUrl: './product-stock.html',
@@ -53,6 +54,10 @@ export class ProductStock implements OnInit {
   selectedValue: ProductStocksModel | null | undefined;
   items!: MenuItem[] | undefined;
   isModalVisible: boolean = false;
+
+  get totalStock(): number { return this.productStockStore$.getAll$().reduce((sum, product) => sum + Number(product.currentStock || 0), 0); }
+  get lowStockCount(): number { return this.productStockStore$.getAll$().filter((product) => Number(product.currentStock || 0) <= 10).length; }
+  get transactionCount(): number { return this.productStockStore$.getAll$().reduce((sum, product) => sum + Number(product.totalTransactionsCount || 0), 0); }
 
   constructor(
     private translateService: TranslateService,

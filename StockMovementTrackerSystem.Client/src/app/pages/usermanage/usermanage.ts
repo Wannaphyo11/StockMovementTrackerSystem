@@ -1,6 +1,6 @@
 import { Component, effect, inject, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -23,7 +23,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 
 // State and Services
 import { UserManageStore } from '../../core/stores/user-manage.store';
-import { UserInfoEntryModel } from '../../core/models/usermanage/usermanage.model';
+import { UserInfoEntryModel, UserInfoModel } from '../../core/models/usermanage/usermanage.model';
 import { UserManageService } from '../../core/services/usermanage/usermanage';
 import { ExportService } from '../../shared/services/export.service';
 import { SharedService } from '../../shared/services/shared.service';
@@ -74,8 +74,35 @@ export class UserManage implements OnInit {
         { label: 'Cashier', value: 'Cashier' },
     ];
 
+    get users(): UserInfoEntryModel[] {
+        return this.userManageStore$.getAll$();
+    }
+
+    get activeUsers(): number {
+        return this.users.filter((user) => user.status).length;
+    }
+
+    get inactiveUsers(): number {
+        return this.users.filter((user) => !user.status).length;
+    }
+
+    getInitials(value: string | null | undefined): string {
+        return (value || '?')
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((part) => part.charAt(0))
+            .join('')
+            .toUpperCase();
+    }
+
+    getLastActivity(user: UserInfoEntryModel): string | null {
+        return user.updatedOn || user.createdOn || null;
+    }
+
     userManageForm = this.formBuilder.group({
-        userName: [''],
+        userName: ['', Validators.required],
         email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
         phoneNumber: ['', [Validators.required, Validators.pattern("^((\\+95-?)|0)?[0-9]{8,10}$")]],
         password: [''],
@@ -93,7 +120,7 @@ export class UserManage implements OnInit {
     });
 
     resetPasswordForm = this.formBuilder.group({
-        newPassword: ['', Validators.required]
+        password: ['', Validators.required]
     });
 
     constructor() {
@@ -112,7 +139,7 @@ export class UserManage implements OnInit {
     loadMenu(): void {
         this.items = [
             {
-                label: this.translateService.instant('COMMON.EDIT'),
+                label: this.translateService.instant('EDIT'),
                 icon: 'pi pi-pen-to-square',
                 command: () => this.update(),
             },
@@ -134,6 +161,7 @@ export class UserManage implements OnInit {
         this.userManageForm.reset({ status: true });
         this.userManageForm.enable();
         this.userManageForm.get('password')?.setValidators([Validators.required]);
+        this.userManageForm.get('password')?.updateValueAndValidity();
         this.userManageStore$.createDialog();
     }
 
@@ -147,16 +175,24 @@ export class UserManage implements OnInit {
             });
             return;
         }
+        const passwordControl = this.userManageForm.controls.password;
+        passwordControl.clearValidators();
+        passwordControl.setValue(null);
+        passwordControl.updateValueAndValidity({ emitEvent: false });
+
         this.userManageStore$.updateDialog(this.selectedValue);
         this.userManageForm.reset();
         this.userManageForm.controls['userId'].setValue(
             this.selectedValue.userId,
         );
+        this.userManageForm.controls['roleName'].setValue(
+            this.selectedValue.roleName,
+        );
         this.userManageForm.controls.userId.disable();
         this.userManageForm.patchValue(this.selectedValue);
     }
 
-    //Rest Password Dialog
+    // Reset Password Dialog
     openResetPasswordDialog(): void {
         if (!this.selectedValue) {
             this.messageService.add({
@@ -171,7 +207,8 @@ export class UserManage implements OnInit {
         this.userManageStore$.openResetPasswordDialog(this.selectedValue);
     }
 
-    //Reset Password Dialog Comfirm
+
+    // Reset Password Dialog Confirm
     confirmResetPassword(): void {
         if (this.resetPasswordForm.invalid) {
             this.resetPasswordForm.markAllAsTouched();
@@ -185,9 +222,9 @@ export class UserManage implements OnInit {
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
                 const userName = this.selectedValue?.userName;
-                const newPassword = this.resetPasswordForm.get('newPassword')?.value;
-                if (userName && newPassword) {
-                    this.userManageStore$.resetPassword({ userName, newPassword });
+                const password = this.resetPasswordForm.get('password')?.value;
+                if (userName && password) {
+                    this.userManageStore$.resetPassword({ userName, password });
                 }
             }
         });
@@ -226,8 +263,7 @@ export class UserManage implements OnInit {
                         userId: user.userId
                     });
 
-                    user.status = false;
-                    user.terminateDate = new Date();
+                    this.terminationSwitchStates[user.userId] = true;
                 },
 
                 reject: () => {
@@ -242,12 +278,11 @@ export class UserManage implements OnInit {
                 icon: 'pi pi-info-circle',
 
                 accept: () => {
-                    this.userManageStore$.Unterminate({
+                    this.userManageStore$.unterminate({
                         userId: user.userId
                     });
 
-                    user.status = true;
-                    user.terminateDate = null;
+                    this.terminationSwitchStates[user.userId] = false;
                 },
 
                 reject: () => {
@@ -259,21 +294,29 @@ export class UserManage implements OnInit {
     }
 
     submit(): void {
-        if (this.userManageForm.valid) {
-            let model = this.userManageForm.value as UserInfoEntryModel;
-
-            if (!this.userManageStore$.isEdit()) {
-                this.userManageStore$.add(model);
-            } else {
-                model.userId = this.userManageStore$.selectedValue()?.userId ?? '';
-                this.userManageStore$.update(model);
-            }
-        } else {
+        if (this.userManageForm.invalid) {
             Object.keys(this.userManageForm.controls).forEach((field) => {
                 const control = this.userManageForm.get(field);
                 control?.markAsDirty({ onlySelf: true });
             });
+            return;
         }
+
+        const formValue = this.userManageForm.getRawValue();
+
+        if (!this.userManageStore$.isEdit()) {
+            this.userManageStore$.add(formValue as UserInfoEntryModel);
+            return;
+        }
+
+        const { password: _password, ...updateValue } = formValue;
+        const model: UserInfoModel = {
+            ...updateValue,
+            userId: this.userManageStore$.selectedValue()?.userId ?? '',
+            password: '',
+        } as UserInfoModel;
+
+        this.userManageStore$.update(model);
     }
 
     clearSection(): void {
@@ -288,6 +331,8 @@ export class UserManage implements OnInit {
 
     onDialogHide(): void {
         this.userManageStore$.reset();
+        this.userManageForm.controls.password.clearValidators();
+        this.userManageForm.controls.password.updateValueAndValidity({ emitEvent: false });
         this.userManageForm.reset();
         this.userManageForm.enable();
         this.clearSection();

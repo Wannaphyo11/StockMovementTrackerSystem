@@ -1,74 +1,65 @@
-<!-- Audit Log Page -->
-<div class="page-container">
-
-  <!-- Toolbar Row -->
-  <div class="page-toolbar">
-    <div class="page-toolbar-left">
-      <div class="page-title-group">
-        <h2 class="page-title">Audit Log</h2>
-        <span class="page-subtitle">
-          Product Id: <strong>{{ productid }}</strong>
-        </span>
-      </div>
-    </div>
-  </div>
+<div class="workspace-page">
+  <header class="page-hero">
+    <div><p class="page-eyebrow"><i class="pi pi-history"></i> Activity trail</p><h1 class="page-heading">Audit log</h1><p class="page-description">A complete, time-stamped record for product <strong class="text-slate-700 dark:text-slate-200">{{ productid }}</strong>.</p></div>
+    <p-button label="Back to movements" icon="pi pi-arrow-left" severity="secondary" [outlined]="true" (onClick)="goBack()"></p-button>
+  </header>
 
   <p-toast></p-toast>
 
-  <!-- Table Card -->
-  <div class="table-wrapper">
+  <section class="metric-grid">
+    <article class="metric-card"><span class="metric-icon"><i class="pi pi-history"></i></span><p class="metric-label">Audit entries</p><strong class="metric-value">{{ auditLogs().length | number }}</strong></article>
+    <article class="metric-card" style="--metric-bg:#ecfdf5;--metric-color:#059669"><span class="metric-icon"><i class="pi pi-arrow-down-left"></i></span><p class="metric-label">Stock in records</p><strong class="metric-value">{{ stockInEntries | number }}</strong></article>
+    <article class="metric-card" style="--metric-bg:#fef2f2;--metric-color:#dc2626"><span class="metric-icon"><i class="pi pi-arrow-up-right"></i></span><p class="metric-label">Stock out records</p><strong class="metric-value">{{ stockOutEntries | number }}</strong></article>
+    <article class="metric-card" style="--metric-bg:#eff6ff;--metric-color:#2563eb"><span class="metric-icon"><i class="pi pi-chart-line"></i></span><p class="metric-label">Net quantity change</p><strong class="metric-value">{{ netQuantityChange | number }}</strong></article>
+  </section>
+
+  <section class="table-wrapper">
     <p-table
       [value]="auditLogs()"
       [loading]="loading"
       [paginator]="true"
       [rows]="20"
       [rowsPerPageOptions]="[20, 50, 100]"
-      [tableStyle]="{ 'min-width': '56rem' }"
-      styleClass="p-datatable-striped">
+      [tableStyle]="{ 'min-width': '52rem' }"
+      stripedRows>
+
+      <ng-template #caption><div class="toolbar-shell"><div class="data-title"><span class="data-title-icon"><i class="pi pi-history"></i></span><div><h2 class="section-heading">Recorded changes <span class="table-count">{{ auditLogs().length }}</span></h2><p class="section-copy">A chronological trail of every balance change.</p></div></div><p-button icon="pi pi-refresh" label="Refresh" severity="secondary" [outlined]="true" (onClick)="loadData()"></p-button></div></ng-template>
 
       <ng-template #header>
         <tr>
-          <th style="width: 12%">Product Id</th>
-          <th style="width: 12%">Movement Type</th>
-          <th class="text-right" style="width: 12%">Qty Changed</th>
-          <th class="text-right" style="width: 14%">Old Stock</th>
-          <th class="text-right" style="width: 14%">New Stock</th>
-          <th style="width: 18%">Action By</th>
-          <th style="width: 23%">Log Time</th>
-          <th style="width: 48px"></th>
+          <th style="width: 16%">Movement</th>
+          <th class="text-right" style="width: 14%">Quantity</th>
+          <th style="width: 22%">Stock change</th>
+          <th style="width: 18%">Performed by</th>
+          <th style="width: 24%">Recorded at</th>
+          <th style="width: 64px">Details</th>
         </tr>
       </ng-template>
 
       <ng-template #body let-log>
         <tr>
-          <td>{{ log.productId ?? 0 }}</td>
           <td>
-            <p-tag [value]="log.movementType || '-'" [rounded]="true"
+            <p-tag [value]="log.movementType === 'OUT' ? 'Stock out' : 'Stock in'" [rounded]="true"
               [severity]="log.movementType === 'OUT' ? 'danger' : 'success'"></p-tag>
           </td>
-          <td class="text-right"
-            [class.text-red-500]="log.movementType === 'OUT'"
-            [class.text-green-600]="log.movementType === 'IN'">
-            {{ log.quantityChanged ?? 0 }}
-          </td>
-          <td class="text-right">{{ log.oldStock ?? 0 }}</td>
-          <td class="text-right">{{ log.newStock ?? 0 }}</td>
-          <td>{{ log.actionByUserId || '-' }}</td>
-          <td>{{ log.logTimestamp | date: 'dd/MMM/yyyy hh:mm a' }}</td>
-          <td>
+          <td class="text-right"><span class="movement-amount" [class.in]="log.movementType === 'IN'" [class.out]="log.movementType === 'OUT'"><i [class]="log.movementType === 'OUT' ? 'pi pi-arrow-up-right' : 'pi pi-arrow-down-left'"></i>{{ log.quantityChanged ?? 0 | number }}</span></td>
+          <td><div class="flex items-center gap-2"><span class="id-chip">{{ log.oldStock ?? 0 }}</span><i class="pi pi-arrow-right text-[10px] text-indigo-300"></i><span class="id-chip">{{ log.newStock ?? 0 }}</span></div></td>
+          <td><div class="entity-cell"><span class="entity-icon !h-8 !w-8"><i class="pi pi-user text-[11px]"></i></span><span class="entity-title">{{ log.actionByUserId || 'System' }}</span></div></td>
+          <td><div class="date-cell"><i class="pi pi-calendar"></i>{{ log.logTimestamp | date:'dd MMM yyyy, h:mm a' }}</div></td>
+          <td class="row-action">
             <p-button icon="pi pi-eye" severity="secondary" [text]="true" [rounded]="true"
-              type="button" title="View Details" (onClick)="selectLog(log)"></p-button>
+              type="button" title="View details" ariaLabel="View audit details" (onClick)="selectLog(log)"></p-button>
           </td>
         </tr>
       </ng-template>
 
       <ng-template #emptymessage>
         <tr>
-          <td colspan="8" class="empty-cell">No audit logs found.</td>
+          <td colspan="6"><div class="empty-state"><i class="pi pi-history"></i><strong>No audit entries found</strong><span class="mt-1 text-xs">Changes for this product will appear here.</span></div></td>
         </tr>
       </ng-template>
     </p-table>
-  </div>
+  </section>
 </div>
 
 <!-- Audit Log Detail Dialog -->
@@ -84,7 +75,7 @@
   (onHide)="closeDialog()">
   @if (selectedLog(); as log) {
     <div class="space-y-4 pt-2">
-      <div class="flex items-start justify-between bg-surface-50 dark:bg-surface-900 p-3 rounded-lg border border-surface-200 dark:border-surface-700">
+      <div class="flex items-start justify-between rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4 dark:border-indigo-500/20 dark:bg-indigo-500/10">
         <div>
           <span class="block text-xs text-surface-400 uppercase tracking-wider mb-1">Audit Log Id</span>
           <span class="text-sm font-mono font-bold text-surface-800 dark:text-surface-200 break-all">{{ log.auditLogId }}</span>

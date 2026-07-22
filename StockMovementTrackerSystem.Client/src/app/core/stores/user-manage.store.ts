@@ -6,7 +6,7 @@ import { catchError, of, pipe, switchMap, tap } from "rxjs";
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { environment } from "../../../environments/environment.prod";
-import { UserInfoEntryModel } from "../models/usermanage/usermanage.model";
+import { UserInfoEntryModel, UserInfoModel } from "../models/usermanage/usermanage.model";
 import { UserManageService } from "../services/usermanage/usermanage";
 
 export interface UserManageState {
@@ -46,7 +46,7 @@ export const UserManageStore = signalStore(
         isModalVisible$: store.isModalVisible,
         isResetPasswordVisible$: store.isResetPasswordVisible,
         selectedValue$: store.selectedValue,
-        role$: () => store.role,
+        role$: store.role,
         isEdit$: store.isEdit,
         isLoading$: store.isLoading,
         isSubmitting$: store.isSubmitting
@@ -127,6 +127,7 @@ export const UserManageStore = signalStore(
                             catchError((error) => {
                                 console.error('Error adding User Info:', error);
                                 patchState(store, {
+                                    isSubmitting: false,
                                     isLoading: false,
                                     isModalVisible: false,
                                     error: 'Failed to add User Information.',
@@ -138,13 +139,13 @@ export const UserManageStore = signalStore(
                 ),
             ),
 
-            update: rxMethod<UserInfoEntryModel>(
+            update: rxMethod<UserInfoModel>(
                 pipe(
                     tap(() => patchState(store, { isSubmitting: true, error: null })),
                     switchMap((user) =>
                         userManageService.update(user).pipe(
                             tap((res) => {
-                                const updated = res.data as UserInfoEntryModel;
+                                const updated = res.data as UserInfoModel;
                                 patchState(
                                     store,
                                     updateEntity(
@@ -171,8 +172,12 @@ export const UserManageStore = signalStore(
                                 });
                             }),
                             catchError((error) => {
-                                patchState(store, { isSubmitting: false, error: 'Failed to update user.' });
-                                showErrorToast(messageService, translateService, 'USER_MANAGE.FAILED_TO_UPDATE_USER', error);
+                                console.error('Error adding User Info:', error);
+                                patchState(store, {
+                                    isLoading: false,
+                                    isModalVisible: false,
+                                    error: 'Failed to add User Information.',
+                                });
                                 return of(null);
                             }),
                         ),
@@ -180,11 +185,14 @@ export const UserManageStore = signalStore(
                 ),
             ),
 
-            resetPassword: rxMethod<{ userName: string; newPassword: string }>(
+            resetPassword: rxMethod<{
+                userName: string,
+                password: string
+            }>(
                 pipe(
                     tap(() => patchState(store, { isSubmitting: true })),
-                    switchMap(({ userName, newPassword }) =>
-                        userManageService.resetPassword(userName, newPassword).pipe(
+                    switchMap(({ userName, password }) =>
+                        userManageService.resetPassword(userName, password).pipe(
                             tap(() => {
                                 patchState(store, { isSubmitting: false, isResetPasswordVisible: false, selectedValue: null });
                                 messageService.add({
@@ -206,18 +214,57 @@ export const UserManageStore = signalStore(
 
             terminate: rxMethod<{ userId: string }>(
                 pipe(
+                    tap(() =>
+                        patchState(store, {
+                            isSubmitting: true,
+                            error: null
+                        })
+                    ),
+
                     switchMap(({ userId }) =>
                         userManageService.terminate(userId).pipe(
                             tap(() => {
+                                patchState(
+                                    store,
+                                    updateEntity(
+                                        {
+                                            id: userId,
+                                            changes: {
+                                                status: false,
+                                                terminateDate: new Date()
+                                            }
+                                        },
+                                        { selectId }
+                                    )
+                                );
+
+                                patchState(store, {
+                                    isSubmitting: false
+                                });
+
                                 messageService.add({
                                     key: environment.default_toastKey,
                                     severity: 'success',
-                                    summary: translateService.instant('COMMON.SUCCESS'),
-                                    detail: 'Terminate status changed successfully.',
+                                    summary:
+                                        translateService.instant('COMMON.SUCCESS'),
+                                    detail:
+                                        'User terminated successfully.'
                                 });
                             }),
+
                             catchError((error) => {
-                                showErrorToast(messageService, translateService, 'USER_MANAGE.FAILED_TO_TERMINATE', error);
+                                patchState(store, {
+                                    isSubmitting: false,
+                                    error: 'Failed to terminate user.'
+                                });
+
+                                showErrorToast(
+                                    messageService,
+                                    translateService,
+                                    'USER_MANAGE.FAILED_TO_TERMINATE',
+                                    error
+                                );
+
                                 return of(null);
                             })
                         )
@@ -225,20 +272,58 @@ export const UserManageStore = signalStore(
                 )
             ),
 
-            Unterminate: rxMethod<{ userId: string }>(
+            unterminate: rxMethod<{ userId: string }>(
                 pipe(
+                    tap(() =>
+                        patchState(store, {
+                            isSubmitting: true,
+                            error: null
+                        })
+                    ),
+
                     switchMap(({ userId }) =>
                         userManageService.unTerminate(userId).pipe(
                             tap(() => {
+                                patchState(
+                                    store,
+                                    updateEntity(
+                                        {
+                                            id: userId,
+                                            changes: {
+                                                status: true,
+                                                terminateDate: null
+                                            }
+                                        },
+                                        { selectId }
+                                    )
+                                );
+
+                                patchState(store, {
+                                    isSubmitting: false
+                                });
                                 messageService.add({
                                     key: environment.default_toastKey,
                                     severity: 'success',
-                                    summary: translateService.instant('COMMON.SUCCESS'),
-                                    detail: 'UnTerminate status changed successfully.',
+                                    summary:
+                                        translateService.instant('COMMON.SUCCESS'),
+                                    detail:
+                                        'User activated successfully.'
                                 });
                             }),
+
                             catchError((error) => {
-                                showErrorToast(messageService, translateService, 'USER_MANAGE.FAILED_TO_TERMINATE', error);
+                                patchState(store, {
+                                    isSubmitting: false,
+                                    error: 'Failed to activate user.'
+                                });
+
+                                showErrorToast(
+                                    messageService,
+                                    translateService,
+                                    'USER_MANAGE.FAILED_TO_UNTERMINATE',
+                                    error
+                                );
+
                                 return of(null);
                             })
                         )

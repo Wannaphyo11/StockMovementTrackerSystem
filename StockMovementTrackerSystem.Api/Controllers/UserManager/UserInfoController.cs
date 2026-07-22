@@ -23,7 +23,7 @@ public class UserInfoController(
     [ProducesResponseType(typeof(DefaultResponseModel<List<ViUserInformation>>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAsync(string role)
     {
-        return ResponseHelper.Ok_Result(await context.ViUserInformations.Where(x => x.Name == role).ToListAsync(),null);
+        return ResponseHelper.Ok_Result(await context.ViUserInformations.Where(x => x.Name == role).ToListAsync(), null);
     }
 
     [HttpGet("by-username")]
@@ -46,6 +46,13 @@ public class UserInfoController(
     [ProducesResponseType(typeof(DefaultResponseModel<List<UserInformation>>), StatusCodes.Status200OK)]
     public async Task<IActionResult> PostAsync(UserInfoEntryModel model)
     {
+        if (string.IsNullOrWhiteSpace(model.Password))
+        {
+            return ResponseHelper.Bad_Request(null, new DefaultResponseMessageModel(
+                "Password is required when creating a user.",
+                "အသုံးပြုသူအသစ်ဖန်တီးရန် စကားဝှက်လိုအပ်ပါသည်။"));
+        }
+
         IdentityUser user = new()
         {
             UserName = model.UserName,
@@ -66,7 +73,7 @@ public class UserInfoController(
 
         if (setRole.Succeeded)
         {
-            var userInfo = new UserInformation()
+            UserInformation userInfo = new UserInformation()
             {
                 UserId = user.Id,
                 FullName = model.FullName,
@@ -94,7 +101,7 @@ public class UserInfoController(
     [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateAsync(UserInfoEntryModel model)
     {
-        var userInfo = await context.UserInformations.FirstOrDefaultAsync(x=>x.UserId==model.UserId);
+        UserInformation? userInfo = await context.UserInformations.FirstOrDefaultAsync(x => x.UserId == model.UserId);
         IdentityUser? user = await userManager.FindByIdAsync(model.UserId);
         if (userInfo == null || user == null)
         {
@@ -124,9 +131,8 @@ public class UserInfoController(
             userInfo.UpdatedOn = DateTime.Now;
             userInfo.UpdatedBy = User?.Identity?.Name ?? "Unknow";
         }
-
         context.UserInformations.Update(userInfo);
-        return await context.SaveChangesAsync()>0
+        return await context.SaveChangesAsync() > 0
             ? ResponseHelper.Ok_Result(null, new DefaultResponseMessageModel()
             {
                 EN = "User Info data have been updated!",
@@ -144,7 +150,7 @@ public class UserInfoController(
     [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> ResetPassword(string userName, string newPassword)
+    public async Task<IActionResult> ResetPassword(string userName, string password)
     {
         IdentityUser? user = await userManager.FindByNameAsync(userName);
         if (user == null)
@@ -156,7 +162,7 @@ public class UserInfoController(
             });
         }
 
-        user.PasswordHash = userManager.PasswordHasher.HashPassword(user, newPassword);
+        user.PasswordHash = userManager.PasswordHasher.HashPassword(user, password);
         IdentityResult result = await userManager.UpdateAsync(user);
 
         return result.Succeeded
@@ -180,7 +186,7 @@ public class UserInfoController(
     [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> TermianteChangeAsync(string userId)
     {
-        var userInfo = await context.UserInformations.FindAsync(userId);
+        UserInformation? userInfo = await context.UserInformations.FindAsync(userId);
         if (userInfo == null)
         {
             return ResponseHelper.NotFound_Request(null, new DefaultResponseMessageModel()
@@ -192,13 +198,13 @@ public class UserInfoController(
 
         userInfo.Status = false;
 
-        userInfo.TerminateDate=DateTime.Now;
+        userInfo.TerminateDate = DateTime.Now;
         userInfo.UpdatedOn = DateTime.Now;
         userInfo.UpdatedBy = User.Identity?.Name ?? "";
 
         context.UserInformations.Update(userInfo);
 
-        return await context.SaveChangesAsync()>0
+        return await context.SaveChangesAsync() > 0
             ? ResponseHelper.Ok_Result(null, new DefaultResponseMessageModel()
             {
                 EN = "Terminate status updated!",
@@ -218,7 +224,7 @@ public class UserInfoController(
     [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UnTermianteChangeAsync(string userId)
     {
-        var userInfo = await context.UserInformations.FindAsync(userId);
+        UserInformation? userInfo = await context.UserInformations.FindAsync(userId);
         if (userInfo == null)
         {
             return ResponseHelper.NotFound_Request(null, new DefaultResponseMessageModel()

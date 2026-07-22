@@ -1,3 +1,85 @@
-<div class="mx-auto my-auto max-h-full py-8 text-center">
-  <h1>Coming Soon</h1>
+<div class="workspace-page">
+  <header class="page-hero">
+    <div>
+      <p class="page-eyebrow"><i class="pi pi-sparkles"></i> Inventory overview</p>
+      <h1 class="page-heading">Good {{ greeting }}, {{ userName }}</h1>
+      <p class="page-description">Here is a clear snapshot of your stock position and latest movements.</p>
+    </div>
+    <div class="toolbar-actions">
+      <p-button label="View inventory" icon="pi pi-box" [outlined]="true" routerLink="/master/product-stock"></p-button>
+      <p-button label="New movement" icon="pi pi-plus" routerLink="/process/stock-movement"></p-button>
+    </div>
+  </header>
+
+  <section class="metric-grid" aria-label="Stock overview">
+    <article class="metric-card">
+      <span class="metric-icon"><i class="pi pi-box"></i></span>
+      <p class="metric-label">Products</p>
+      <strong class="metric-value">{{ products.length | number }}</strong>
+    </article>
+    <article class="metric-card" style="--metric-bg:#ecfdf5;--metric-color:#059669;--metric-glow:rgba(5,150,105,.09)">
+      <span class="metric-icon"><i class="pi pi-database"></i></span>
+      <p class="metric-label">Units in stock</p>
+      <strong class="metric-value">{{ totalUnits | number }}</strong>
+    </article>
+    <article class="metric-card" style="--metric-bg:#fff7ed;--metric-color:#ea580c;--metric-glow:rgba(234,88,12,.09)">
+      <span class="metric-icon"><i class="pi pi-arrow-right-arrow-left"></i></span>
+      <p class="metric-label">Transactions</p>
+      <strong class="metric-value">{{ totalTransactions | number }}</strong>
+    </article>
+    <article class="metric-card" style="--metric-bg:#fef2f2;--metric-color:#dc2626;--metric-glow:rgba(220,38,38,.08)">
+      <span class="metric-icon"><i class="pi pi-exclamation-triangle"></i></span>
+      <p class="metric-label">Low stock items</p>
+      <strong class="metric-value">{{ lowStockCount | number }}</strong>
+    </article>
+  </section>
+
+  <section class="content-grid">
+    <article class="section-card">
+      <div class="flex items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 class="section-heading">Recent stock activity</h2>
+          <p class="section-copy">Your most recent inventory movements</p>
+        </div>
+        <a routerLink="/process/stock-movement" class="text-xs font-semibold text-indigo-600 dark:text-indigo-400">View all <i class="pi pi-arrow-right ml-1 text-[10px]"></i></a>
+      </div>
+      @if (recentMovements.length) {
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse">
+            <thead><tr class="text-left text-[10px] uppercase tracking-widest text-slate-400"><th class="pb-3 font-bold">Product</th><th class="pb-3 font-bold">Movement</th><th class="pb-3 font-bold text-right">Quantity</th><th class="pb-3 font-bold text-right">Date</th></tr></thead>
+            <tbody>
+              @for (movement of recentMovements; track movement.movementId) {
+                <tr class="border-t border-slate-100 dark:border-slate-800">
+                  <td class="py-3.5"><div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300"><i class="pi pi-box text-xs"></i></span><div><strong class="block text-sm text-slate-800 dark:text-slate-100">{{ movement.productName || 'Unnamed product' }}</strong><span class="text-[11px] text-slate-400">{{ movement.productId }}</span></div></div></td>
+                  <td class="py-3.5"><p-tag [value]="movement.type || '-'" [rounded]="true" [severity]="movement.type === 'OUT' ? 'danger' : 'success'"></p-tag></td>
+                  <td class="py-3.5 text-right font-semibold" [class.text-red-500]="movement.type === 'OUT'" [class.text-emerald-600]="movement.type === 'IN'">{{ movement.quantity || 0 | number }}</td>
+                  <td class="py-3.5 text-right text-xs text-slate-500">{{ movement.movementDate | date:'dd MMM, h:mm a' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="empty-state"><i class="pi pi-inbox"></i><strong>No activity yet</strong><span class="mt-1 text-xs">New stock movements will appear here.</span></div>
+      }
+    </article>
+
+    <aside class="section-card">
+      <div class="mb-4">
+        <h2 class="section-heading">Inventory health</h2>
+        <p class="section-copy">Products that need your attention</p>
+      </div>
+      <div class="flex flex-col gap-3">
+        @for (product of attentionProducts; track product.productId) {
+          <div class="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/70 p-3 dark:border-slate-800 dark:bg-slate-900/60">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" [class.bg-red-50]="(product.currentStock || 0) <= 5" [class.text-red-600]="(product.currentStock || 0) <= 5" [class.bg-amber-50]="(product.currentStock || 0) > 5" [class.text-amber-600]="(product.currentStock || 0) > 5"><i class="pi pi-chart-line"></i></span>
+            <div class="min-w-0 flex-1"><strong class="block truncate text-sm text-slate-800 dark:text-slate-100">{{ product.productName }}</strong><span class="text-xs text-slate-400">{{ product.productId }}</span></div>
+            <strong class="text-sm text-slate-700 dark:text-slate-200">{{ product.currentStock || 0 }}</strong>
+          </div>
+        } @empty {
+          <div class="empty-state !min-h-48"><i class="pi pi-check-circle !text-emerald-500"></i><strong>Stock looks healthy</strong><span class="mt-1 text-xs">No low-stock products right now.</span></div>
+        }
+      </div>
+    </aside>
+  </section>
 </div>

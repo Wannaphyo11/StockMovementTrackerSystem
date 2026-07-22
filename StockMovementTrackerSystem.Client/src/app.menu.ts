@@ -20,19 +20,19 @@ export const NAVIGATION_MENU: Readonly<any[]> = [
         roles: ALL_ROLES,
         items: [
             {
-                label: 'MENU.MASTER.PRODUCT_STOCK',
+                label: 'MENU.PRODUCT_STOCK',
                 icon: 'pi pi-box',
                 routerLink: ['/master/product-stock'],
                 roles: ADMIN
             },
             {
-                label: 'MENU.MASTER.STOCK_MOVEMENT',
+                label: 'MENU.STOCK_MOVEMENT',
                 icon: 'pi pi-arrow-right-arrow-left',
                 routerLink: ['/process/stock-movement'],
                 roles: ALL_ROLES
             },
             {
-                label: 'MENU.MASTER.USER_INFO',
+                label: 'MENU.USER_INFO',
                 icon: 'pi pi-list-check',
                 routerLink: ['/user/user-manage'],
                 roles: ADMIN
