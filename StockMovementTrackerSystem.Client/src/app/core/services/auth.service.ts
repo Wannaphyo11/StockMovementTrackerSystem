@@ -52,6 +52,27 @@ export class AuthService {
     return this.http.post<RootModel>(url, JSON.stringify(body));
   }
 
+  forgotPassword(email: string): Observable<RootModel> {
+    const url = `${environment.auth_url}/forgot-password`;
+    return this.http.post<RootModel>(url, JSON.stringify({ email }));
+  }
+
+  verifyResetCode(email: string, code: string): Observable<RootModel> {
+    const url = `${environment.auth_url}/verify-reset-code`;
+    return this.http.post<RootModel>(url, JSON.stringify({ email, code }));
+  }
+
+  resetPassword(
+    email: string,
+    resetToken: string,
+    newPassword: string,
+    confirmPassword: string,
+  ): Observable<RootModel> {
+    const url = `${environment.auth_url}/reset-password`;
+    const body = { email, resetToken, newPassword, confirmPassword };
+    return this.http.post<RootModel>(url, JSON.stringify(body));
+  }
+
   refreshToken(): Observable<RootModel> {
     let url: string = `${environment.auth_url}/refresh-token`;
     const body = {
