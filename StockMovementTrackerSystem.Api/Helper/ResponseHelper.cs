@@ -70,6 +70,20 @@ public class ResponseHelper
         });
     }
 
+    public static ObjectResult ServiceUnavailable_Request(dynamic? data, DefaultResponseMessageModel? model)
+    {
+        return new ObjectResult(new DefaultResponseModel
+        {
+            Success = false,
+            Code = StatusCodes.Status503ServiceUnavailable,
+            Message = model,
+            Data = data,
+        })
+        {
+            StatusCode = StatusCodes.Status503ServiceUnavailable
+        };
+    }
+
     public static IResult OK_Result_Endpoint(dynamic? data, DefaultResponseMessageModel? model)
     {
         return Results.Ok(new DefaultResponseModel
