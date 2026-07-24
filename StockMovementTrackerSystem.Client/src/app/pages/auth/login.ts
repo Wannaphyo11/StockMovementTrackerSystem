@@ -128,9 +128,10 @@ import { MessageService } from 'primeng/api';
                   {{ 'REMEMBER_ME' | translate }}
                 </label>
               </div>
-             <span
-                  class="font-medium no-underline ml-2 text-right cursor-pointer text-primary"
-                  >{{ 'FORGOT_PASSWORD' | translate }}</span>
+              <a
+                routerLink="/auth/forgot-password"
+                class="ml-2 cursor-pointer text-right text-xs font-semibold text-primary no-underline hover:underline"
+              >{{ 'FORGOT_PASSWORD' | translate }}</a>
             </div>
 
             <p-button
