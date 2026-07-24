@@ -8,6 +8,7 @@ using StockMovementTrackerSystem.Application.Models;
 using StockMovementTrackerSystem.Domain.Entities;
 using StockMovementTrackerSystem.Infrastructure.Persistence;
 using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace StockMovementTrackerSystem.Api.Controllers.Auth;
 
@@ -18,15 +19,22 @@ public class AuthController(
     UserManager<IdentityUser> userManager,
     ILogger<AuthController> logger,
     ITokenBuilder tokenBuilder,
-    StockMovementTrackerSystemDbContext context
+    StockMovementTrackerSystemDbContext context,
+    IEmailService emailService
     ) : ControllerBase
 {
+    private const string PasswordResetLoginProvider = "PasswordReset";
+    private const string PasswordResetTokenName = "EmailOtp";
+    private const int PasswordResetCodeLifetimeSeconds = 180;
+    private const int PasswordResetSessionLifetimeSeconds = 5 * 60;
+    private const int MaximumCodeAttempts = 5;
+
     [AllowAnonymous]
     [HttpPost("login")]
     [EndpointSummary("Access Token")]
     [EndpointDescription("""Generates an access token for the requested user. ... """)]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(LoginModel),StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(LoginModel), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status404NotFound)]
@@ -48,16 +56,16 @@ public class AuthController(
                 return ResponseHelper.NotFound_Request(null, new DefaultResponseMessageModel("Invalid username or invalid email. User not found.", ""));
             }
 
-            if(await userManager.CheckPasswordAsync(user, model.Password))
+            if (await userManager.CheckPasswordAsync(user, model.Password))
             {
-                if(user.UserName?.ToLower() != "")
+                if (user.UserName?.ToLower() != "")
                 {
                     var userInfo = await context.UserInformations.FindAsync(user.Id);
-                    if(userInfo !=null && userInfo.TerminateDate != null)
+                    if (userInfo != null && userInfo.TerminateDate != null)
                     {
                         logger.LogWarning("Login failed: User account is terminated. [UserId:{Id}]", user.Id);
                         return ResponseHelper.Unauthorized_Request(null,
-                            new DefaultResponseMessageModel("Your account has been terminated. Please contact admin.",""));
+                            new DefaultResponseMessageModel("Your account has been terminated. Please contact admin.", ""));
                     }
                 }
 
@@ -70,7 +78,7 @@ public class AuthController(
                 string refreshToken = tokenBuilder.GenerateRefreshToken();
 
                 var tokenClaim = await context.TokenClaims.FindAsync(user.Id);
-                if(tokenClaim != null)
+                if (tokenClaim != null)
                 {
                     tokenClaim.AccessToken = accessToken;
                     tokenClaim.RefreshToken = refreshToken;
@@ -107,7 +115,7 @@ public class AuthController(
             logger.LogInformation("Unauthorized request [UserId:{id}] [UserName:{username}]", user.Id, user.UserName);
             return ResponseHelper.Unauthorized_Request(null, new DefaultResponseMessageModel("The username or password is invalid. Please try again.", ""));
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             var innerMessage = ex.InnerException != null ? ex.InnerException.Message : "No inner exception";
             logger.LogError("Error: {message} | InnerError: {inner}", ex.Message, innerMessage);
@@ -198,6 +206,250 @@ public class AuthController(
     }
 
     [AllowAnonymous]
+    [HttpPost("forgot-password")]
+    [EndpointSummary("Forgot Password")]
+    [EndpointDescription("Sends a time-limited six-digit password reset code to the supplied email address.")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> ForgotPassword(
+        [FromBody] ForgotPasswordModel model,
+        CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid)
+        {
+            return ResponseHelper.Bad_Request(null,
+                new DefaultResponseMessageModel("Please enter a valid email address.", ""));
+        }
+
+        string email = model.Email.Trim();
+        if (!emailService.IsConfigured)
+        {
+            logger.LogError("Password reset email requested, but EmailSettings are incomplete.");
+            return ResponseHelper.ServiceUnavailable_Request(null,
+                new DefaultResponseMessageModel(
+                    "Email delivery is not configured. Please contact the system administrator.",
+                    ""));
+        }
+
+        IdentityUser? user = await userManager.FindByEmailAsync(email);
+
+        if (user != null && !string.IsNullOrWhiteSpace(user.Email))
+        {
+            try
+            {
+                string code = RandomNumberGenerator.GetInt32(0, 1_000_000).ToString("D6");
+                string codeHash = userManager.PasswordHasher.HashPassword(user, code);
+                long expiresAt = DateTimeOffset.UtcNow
+                    .AddSeconds(PasswordResetCodeLifetimeSeconds)
+                    .ToUnixTimeSeconds();
+                string storedCode = $"{expiresAt}|0|{codeHash}";
+
+                IdentityResult storeResult = await userManager.SetAuthenticationTokenAsync(
+                    user,
+                    PasswordResetLoginProvider,
+                    PasswordResetTokenName,
+                    storedCode);
+                if (!storeResult.Succeeded)
+                {
+                    throw new InvalidOperationException("Unable to store the password reset code.");
+                }
+
+                await emailService.SendPasswordResetCodeAsync(
+                    user.Email,
+                    user.UserName ?? "User",
+                    code,
+                    cancellationToken);
+
+                logger.LogInformation("Password reset code sent. [UserId:{Id}]", user.Id);
+            }
+            catch (Exception ex)
+            {
+                await userManager.RemoveAuthenticationTokenAsync(
+                    user,
+                    PasswordResetLoginProvider,
+                    PasswordResetTokenName);
+                logger.LogError(ex, "Unable to send password reset code. [UserId:{Id}]", user.Id);
+                return ResponseHelper.ServiceUnavailable_Request(null,
+                    new DefaultResponseMessageModel(
+                        "The verification code could not be sent. Please check the email configuration and try again.",
+                        ""));
+            }
+        }
+
+        return ResponseHelper.Ok_Result(
+    new
+    {
+        expires_in_seconds =
+            PasswordResetCodeLifetimeSeconds
+    },
+    new DefaultResponseMessageModel(
+        "If an account exists for that email, a 6-digit verification code has been sent.",
+        ""));
+    }
+
+    [AllowAnonymous]
+    [HttpPost("verify-reset-code")]
+    [EndpointSummary("Verify Password Reset Code")]
+    [EndpointDescription("Verifies the emailed code and returns a short-lived password reset token.")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> VerifyResetCode([FromBody] VerifyResetCodeModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return ResponseHelper.Bad_Request(null,
+                new DefaultResponseMessageModel(
+                    "Enter a valid email and 6-digit verification code.",
+                    ""));
+        }
+
+        IdentityUser? user = await userManager.FindByEmailAsync(model.Email.Trim());
+        if (user == null)
+        {
+            return ResponseHelper.Bad_Request(null,
+                new DefaultResponseMessageModel(
+                    "This verification code is invalid or has expired.",
+                    ""));
+        }
+
+        string? storedCode = await userManager.GetAuthenticationTokenAsync(
+            user,
+            PasswordResetLoginProvider,
+            PasswordResetTokenName);
+        string[] codeParts = storedCode?.Split('|', 3) ?? [];
+        if (codeParts.Length != 3 ||
+            !long.TryParse(codeParts[0], out long expiresAt) ||
+            !int.TryParse(codeParts[1], out int failedAttempts) ||
+            DateTimeOffset.UtcNow.ToUnixTimeSeconds() > expiresAt)
+        {
+            await userManager.RemoveAuthenticationTokenAsync(
+                user,
+                PasswordResetLoginProvider,
+                PasswordResetTokenName);
+            return ResponseHelper.Bad_Request(null,
+                new DefaultResponseMessageModel(
+                    "This verification code is invalid or has expired.",
+                    ""));
+        }
+
+        PasswordVerificationResult verificationResult = userManager.PasswordHasher
+            .VerifyHashedPassword(user, codeParts[2], model.Code);
+        if (verificationResult == PasswordVerificationResult.Failed)
+        {
+            failedAttempts++;
+            if (failedAttempts >= MaximumCodeAttempts)
+            {
+                await userManager.RemoveAuthenticationTokenAsync(
+                    user,
+                    PasswordResetLoginProvider,
+                    PasswordResetTokenName);
+            }
+            else
+            {
+                await userManager.SetAuthenticationTokenAsync(
+                    user,
+                    PasswordResetLoginProvider,
+                    PasswordResetTokenName,
+                    $"{expiresAt}|{failedAttempts}|{codeParts[2]}");
+            }
+
+            return ResponseHelper.Bad_Request(null,
+                new DefaultResponseMessageModel(
+                    "This verification code is invalid or has expired.",
+                    ""));
+        }
+
+        await userManager.RemoveAuthenticationTokenAsync(
+            user,
+            PasswordResetLoginProvider,
+            PasswordResetTokenName);
+        string resetToken = await userManager.GeneratePasswordResetTokenAsync(user);
+        long sessionExpiresAt = DateTimeOffset.UtcNow
+            .AddSeconds(PasswordResetSessionLifetimeSeconds)
+            .ToUnixTimeSeconds();
+
+        logger.LogInformation("Password reset code verified. [UserId:{Id}]", user.Id);
+
+        return ResponseHelper.Ok_Result(
+            new
+            {
+                reset_token = resetToken,
+                expires_at_unix = sessionExpiresAt,
+                expires_in_seconds = PasswordResetSessionLifetimeSeconds
+            },
+            new DefaultResponseMessageModel(
+                "Verification code confirmed. You can now create a new password.",
+                ""));
+    }
+
+    [AllowAnonymous]
+    [HttpPost("reset-password")]
+    [EndpointSummary("Reset Forgotten Password")]
+    [EndpointDescription("Resets a password using the short-lived token issued after code verification.")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(DefaultResponseModel), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> ResetPassword(
+        [FromBody] ResetPasswordModel model,
+        CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid)
+        {
+            return ResponseHelper.Bad_Request(null,
+                new DefaultResponseMessageModel("The password reset request is incomplete.", ""));
+        }
+
+        if (!string.Equals(model.NewPassword, model.ConfirmPassword, StringComparison.Ordinal))
+        {
+            return ResponseHelper.Bad_Request(null,
+                new DefaultResponseMessageModel("New password and confirm password do not match.", ""));
+        }
+
+        IdentityUser? user = await userManager.FindByEmailAsync(model.Email.Trim());
+        if (user == null)
+        {
+            return ResponseHelper.Bad_Request(null,
+                new DefaultResponseMessageModel("This verification code is invalid or has expired.", ""));
+        }
+
+        IdentityResult result = await userManager.ResetPasswordAsync(
+            user,
+            model.ResetToken,
+            model.NewPassword);
+
+        if (!result.Succeeded)
+        {
+            logger.LogWarning("Password reset failed. [UserId:{Id}] [Errors:{Errors}]",
+                user.Id,
+                string.Join(", ", result.Errors.Select(error => error.Code)));
+
+            string message = string.Join(" ", result.Errors.Select(error => error.Description));
+
+            return ResponseHelper.Bad_Request(null,
+                new DefaultResponseMessageModel(message, ""));
+        }
+
+        TokenClaim? tokenClaim = await context.TokenClaims
+            .FirstOrDefaultAsync(item => item.UserId == user.Id, cancellationToken);
+        if (tokenClaim != null)
+        {
+            tokenClaim.AccessToken = null;
+            tokenClaim.RefreshToken = null;
+            tokenClaim.TokenExpiry = null;
+            await context.SaveChangesAsync(cancellationToken);
+        }
+
+        logger.LogInformation("Password reset successfully. [UserId:{Id}]", user.Id);
+
+        return ResponseHelper.Ok_Result(null,
+            new DefaultResponseMessageModel(
+                "Password reset successfully. You can now sign in with your new password.",
+                ""));
+    }
+
+    [AllowAnonymous]
     [HttpPost("refresh-token")]
     [EndpointSummary("Refresh Token")]
     [EndpointDescription("""
@@ -226,7 +478,7 @@ public class AuthController(
             }
 
             var tokenClaim = await context.TokenClaims.FirstOrDefaultAsync(x => x.RefreshToken == refreshToken);
-            if(tokenClaim == null || tokenClaim.RefreshToken !=refreshToken || tokenClaim.TokenExpiry <= DateTime.Now)
+            if (tokenClaim == null || tokenClaim.RefreshToken != refreshToken || tokenClaim.TokenExpiry <= DateTime.Now)
             {
                 logger.LogDebug("Unauthorized Refresh Token [Token:{Token}]", refreshToken);
                 return ResponseHelper.Unauthorized_Request(null,
