@@ -3,12 +3,15 @@ using Scalar.AspNetCore;
 using StockMovementTrackerSystem.Api.Extensions;
 using StockMovementTrackerSystem.Api.Middlewares;
 using StockMovementTrackerSystem.Application.Interfaces;
+using StockMovementTrackerSystem.Application.Models;
 using StockMovementTrackerSystem.Infrastructure.Persistence;
 using StockMovementTrackerSystem.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
 // Db Config
 builder.Services.AddDbAndIdentityConfig(builder.Configuration);
 
@@ -20,6 +23,8 @@ builder.Services.AddMiscConfig();
 
 // Core
 builder.Services.AddCoreScopedConfig();
+builder.Services.Configure<EmailSettings>(
+    builder.Configuration.GetSection(EmailSettings.SectionName));
 
 // Add services to the container.
 builder.Services.AddControllers();
