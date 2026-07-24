@@ -44,13 +44,11 @@ public static class ServiceCollectionExtension
 
         _ = services.AddIdentity<IdentityUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("Admin");
+            .AddDefaultTokenProviders();
 
-        services.Configure<IdentityOptions>(options =>
+        services.Configure<DataProtectionTokenProviderOptions>(options =>
         {
-            options.Tokens.ProviderMap.Add("Default", new TokenProviderDescriptor(
-                typeof(DataProtectorTokenProvider<IdentityUser>)));
-            options.Tokens.EmailConfirmationTokenProvider = "Default";
+            options.TokenLifespan = TimeSpan.FromMinutes(5);
         });
 
         return services;
@@ -137,6 +135,7 @@ public static class ServiceCollectionExtension
     {
         _ = services.AddScoped<ITokenBuilder, TokenBuilder>();
         _ = services.AddScoped<IRandomizer, Randomizer>();
+        _ = services.AddScoped<IEmailService, EmailService>();
         _ = services.AddSingleton<IEncryptionService, EncryptionService>();
         //_ = services.AddScoped<IIdGenerateService, IdGenerateService>();
         // _ = services.AddScoped<IFirebaseNotification, FirebaseNotification>();
