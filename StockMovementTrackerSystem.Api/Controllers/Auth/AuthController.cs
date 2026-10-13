@@ -530,6 +530,7 @@ public class AuthController(
                 new DefaultResponseMessageModel("Error: " + exp.Message, ""));
         }
     }
+
     [HttpPost("revoke-token/{username}")]
     [EndpointSummary("Revoke Token")]
     [EndpointDescription("Revoking token for the specified user. This will log out the user from the current device.")]
@@ -542,7 +543,7 @@ public class AuthController(
         try
         {
             IdentityUser? user = await userManager.FindByNameAsync(username);
-            if (user == null)
+            if (user == null)   
             {
                 return ResponseHelper.NotFound_Request(null, new DefaultResponseMessageModel("User not found.", ""));
             }

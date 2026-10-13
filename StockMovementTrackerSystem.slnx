@@ -4,5 +4,7 @@
     <Project Path="StockMovementTrackerSystem.Application/StockMovementTrackerSystem.Application.csproj" />
     <Project Path="StockMovementTrackerSystem.Domain/StockMovementTrackerSystem.Domain.csproj" />
     <Project Path="StockMovementTrackerSystem.Infrastructure/StockMovementTrackerSystem.Infrastructure.csproj" />
+    <Project Path="StockMovementTrackerSystem.McpServer.Host/StockMovementTrackerSystem.McpServer.Host.csproj" Id="d7bdb077-108d-4ee7-8d7d-6b28abfc7a34" />
+    <Project Path="StockMovementTrackerSystem.McpServer/StockMovementTrackerSystem.McpServer.csproj" Id="9a63fa5b-918e-41c9-96c4-302e2427f16f" />
   </Folder>
 </Solution>

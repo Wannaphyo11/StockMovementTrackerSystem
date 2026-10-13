@@ -7,10 +7,16 @@ internal class GLOBAL
         Uri uri = new(origin);
         _ = System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "n/a";
 
-        bool isAllowed = uri.Host.Equals("lab.esoftmm.com", StringComparison.OrdinalIgnoreCase)
-                         || uri.Host.Equals("lab.esoftmm.com", StringComparison.OrdinalIgnoreCase)
-                         || uri.Host.Equals("192.168.1.1", StringComparison.OrdinalIgnoreCase)
-                        ;
+        //bool isAllowed = uri.Host.Equals("lab.esoftmm.com", StringComparison.OrdinalIgnoreCase)
+        //                 || uri.Host.Equals("lab.esoftmm.com", StringComparison.OrdinalIgnoreCase)
+        //                 || uri.Host.Equals("192.168.1.1", StringComparison.OrdinalIgnoreCase)
+        //                ;
+
+        bool isAllowed =
+    uri.Host.Equals("lab.esoftmm.com", StringComparison.OrdinalIgnoreCase)
+    || uri.Host.Equals("192.168.100.23", StringComparison.OrdinalIgnoreCase)
+    || uri.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase);
+
         //if (!isAllowed && env.Contains("DEV", StringComparison.OrdinalIgnoreCase))
         //    isAllowed = uri.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase);
 
@@ -34,7 +40,7 @@ internal class GLOBAL
         ];
         return excludeUrl;
     }
-
+        
     public static List<string> GetHttpLoggingExcludeUrLs()
     {
         List<string> excludeUrl =
