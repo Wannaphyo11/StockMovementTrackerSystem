@@ -99,14 +99,14 @@ export class AuthService {
   }
 
   logout(): void {
-    this.cookieService.delete('authorized_status', '');
+    this.cookieService.delete('authorized_status', '/');
   }
 
   logoutForce(): void {
-    this.cookieService.delete('authorized_status', '');
-    this.cookieService.delete('username');
-    this.cookieService.delete('userrole');
-    this.cookieService.delete('userId');
+    this.cookieService.delete('authorized_status', '/');
+    this.cookieService.delete('username', '/');
+    this.cookieService.delete('userrole', '/');
+    this.cookieService.delete('userId', '/');
 
     window.localStorage.removeItem('access_token');
     window.localStorage.removeItem('refresh_token');
