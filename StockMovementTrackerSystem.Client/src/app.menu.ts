@@ -13,6 +13,12 @@ export const NAVIGATION_MENU: Readonly<any[]> = [
                 routerLink: ['/dashboard'],
                 roles: ALL_ROLES
             },
+            {
+                label: 'MENU.AI_CHAT',
+                icon: 'pi pi-fw pi-sparkles',
+                routerLink: ['/chat'],
+                roles: ALL_ROLES
+            },
         ],
     },
     {
