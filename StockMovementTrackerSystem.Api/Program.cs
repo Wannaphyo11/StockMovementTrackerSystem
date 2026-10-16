@@ -14,13 +14,15 @@ using System.ClientModel;
 var builder = WebApplication.CreateBuilder(args);
 
 var aiApiKey = builder.Configuration["AI:ApiKey"]
-    ?? throw new InvalidOperationException("AI:ApiKey is missing.");
+    ?? builder.Configuration["OpenRouter:ApiKey"]
+    ?? "placeholder-api-key";
 
 var aiBaseUrl = builder.Configuration["AI:BaseUrl"]
-    ?? throw new InvalidOperationException("AI:BaseUrl is missing.");
+    ?? "https://openrouter.ai/api/v1";
 
 var aiModel = builder.Configuration["AI:Model"]
-    ?? throw new InvalidOperationException("AI:Model is missing.");
+    ?? builder.Configuration["OpenRouter:Model"]
+    ?? "google/gemini-2.0-flash-exp:free";
 
 builder.Services.AddSingleton<IChatClient>(_ =>
 {
@@ -62,7 +64,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IEncryptionService, EncryptionService>();
 builder.Services.AddScoped<IIdGenerationService, IdGenerationService>();
-builder.Services.AddScoped<StockMovementTrackerSystem.McpServer.Tools.StockTool>();
+StockMovementTrackerSystem.McpServer.Extensions.McpServerServiceExtensions.AddStockMovementMcpTools(builder.Services);
 
 // AI Chat Services (matching SocialMediaApp architecture)
 builder.Services.AddScoped<StockMovementTrackerSystem.Application.Interfaces.Services.ICurrentUserService, StockMovementTrackerSystem.Infrastructure.Services.CurrentUserService>();
