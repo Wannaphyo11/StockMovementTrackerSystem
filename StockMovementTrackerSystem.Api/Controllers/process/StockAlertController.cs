@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StockMovementTrackerSystem.Api.Helper;
@@ -25,7 +25,7 @@ public class StockAlertController(StockMovementTrackerSystemDbContext context,
             alert.AlertId = idGenerationService.GetJounerId();
             alert.AlertMessage = "current stock is less than 5";
             alert.IsResolved= true;
-            alert.CreatedDate = DateTime.Now;
+            alert.CreatedDate = DateTime.UtcNow;
         }
         context.StockAlerts.Add(alert);
         await context.SaveChangesAsync();
