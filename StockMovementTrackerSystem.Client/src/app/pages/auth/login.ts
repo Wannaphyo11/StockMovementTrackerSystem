@@ -214,17 +214,22 @@ export class Login implements OnInit {
     window.localStorage.setItem('access_token', res.data.access_token);
     window.localStorage.setItem('refresh_token', res.data.refresh_token);
 
-    const path = environment.production ? '/' : '/uat';
+    const path = '/';
 
+    const expirationDays = typeof res.data.expiration === 'number' ? res.data.expiration : 30;
     const expirationDate = new Date();
-    expirationDate.setDate(expirationDate + res.data.expiration);
+    expirationDate.setDate(expirationDate.getDate() + expirationDays);
 
-    this.cookieService.set('userId', res.data.user.id, { expires: expirationDate, path: path });
-    this.cookieService.set('username', res.data.user.userName, {
+    const userId = res.data.user?.id || res.data.user?.Id || '';
+    const username = res.data.user?.userName || res.data.user?.UserName || '';
+    const userRole = res.data.user?.user_role || res.data.user?.userRole || 'admin';
+
+    this.cookieService.set('userId', userId, { expires: expirationDate, path: path });
+    this.cookieService.set('username', username, {
       expires: expirationDate,
       path: path,
     });
-    this.cookieService.set('userrole', res.data.user.user_role, {
+    this.cookieService.set('userrole', userRole, {
       expires: expirationDate,
       path: path,
     });
