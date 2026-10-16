@@ -31,6 +31,11 @@ export const routes: Routes = [
         loadChildren: () => import('./app/pages/usermanage/usermanage.routes'),
         canActivate: [AuthGuardService],
       },
+      {
+        path: 'chat',
+        loadComponent: () => import('./app/pages/chat/chat').then((m) => m.Chat),
+        canActivate: [AuthGuardService],
+      },
     ],
   },
 ];
