@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StockMovementTrackerSystem.Api.Helper;
@@ -41,13 +41,13 @@ public class ProductStocksController(StockMovementTrackerSystemDbContext context
             ProductName = model.ProductName,
             CurrentStock = model.CurrentStock,
             TotalTransactionsCount = model.TotalTransactionsCount,
-            CreatedDate = DateTime.Now,
-            LastUpdatedDate = DateTime.Now
+            CreatedDate = DateTime.UtcNow,
+            LastUpdatedDate = DateTime.UtcNow
         };
 
         context.ProductStocks.Add(productStock);
         return await context.SaveChangesAsync() > 0
-            ? ResponseHelper.Ok_Result(productStock, new DefaultResponseMessageModel("ProductStock created successfully.", null))
+            ? ResponseHelper.Ok_Result(productStock, new DefaultResponseMessageModel("ProductStock created successfully.", ""))
         : ResponseHelper.Bad_Request(null, new DefaultResponseMessageModel("Failed to create product stock.", ""));
 
     }
@@ -66,7 +66,7 @@ public class ProductStocksController(StockMovementTrackerSystemDbContext context
         productStock.ProductName = model.ProductName;
         productStock.CurrentStock = model.CurrentStock;
         productStock.TotalTransactionsCount = model.TotalTransactionsCount;
-        productStock.LastUpdatedDate = DateTime.Now;
+        productStock.LastUpdatedDate = DateTime.UtcNow;
 
         context.ProductStocks.Update(productStock);
         return await context.SaveChangesAsync() > 0
