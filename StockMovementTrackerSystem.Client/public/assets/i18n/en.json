@@ -37,6 +37,7 @@
   "MENU": {
     "HOME": "Home",
     "DASHBOARD": "Dashboard",
+    "AI_CHAT": "AI Assistant",
     "MASTER": "Master",
     "PRODUCT_STOCK": "Product Stock",
     "STOCK_MOVEMENT": "Stock Movement",
