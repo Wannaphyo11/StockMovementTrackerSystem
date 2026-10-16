@@ -1,4 +1,4 @@
-﻿
+
 using Microsoft.Extensions.Configuration;
 using StockMovementTrackerSystem.Application.Models.AI_Model;
 using System.Net.Http.Headers;
@@ -27,19 +27,13 @@ public sealed class OpenRouterChatService
         string message,
         CancellationToken cancellationToken = default)
     {
-        var apiKey = _configuration["AI:ApiKey"];
-        var model = _configuration["AI:Model"];
+        var apiKey = _configuration["AI:ApiKey"] ?? _configuration["OpenRouter:ApiKey"];
+        var model = _configuration["AI:Model"] ?? _configuration["OpenRouter:Model"] ?? "google/gemini-2.0-flash-exp:free";
 
         if (string.IsNullOrWhiteSpace(apiKey))
         {
             throw new InvalidOperationException(
                 "AI API key is not configured.");
-        }
-
-        if (string.IsNullOrWhiteSpace(model))
-        {
-            throw new InvalidOperationException(
-                "AI model is not configured.");
         }
 
         using var request = new HttpRequestMessage(
